@@ -1,0 +1,269 @@
+body {
+  padding-top: 100px;
+  padding-bottom: 40px;
+  background-color: #eee;
+  text-align:center;
+}
+
+.form-signin {
+  max-width: 330px;
+  padding: 15px;
+  margin: 0 auto;
+}
+.form-signin .form-control {
+  position: relative;
+  height: auto;
+  -webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+          box-sizing: border-box;
+  padding: 10px;
+  font-size: 16px;
+}
+.form-signin .form-control:focus {
+  z-index: 2;
+}
+
+.form-group {
+    margin-bottom:6px;
+}
+.form-group .error {
+    font-style:italic;
+    color:red;
+    font-size:11px;
+    padding-top:8px;
+    text-align:left;    
+}
+.form-signin .btn {
+    margin-top:20px;
+}
+.form-control[readonly] {
+    cursor: default;
+    background-color: #FFF;
+}
+h5 {
+    line-height: 20px;
+    margin-top:12px;
+}
+h5 span {
+    color:#006dcc;
+}
+.flash-message{
+    padding:15px 0;
+    border: 1px solid #E9E2C0;
+    border-radius: 4px;
+    margin-bottom:25px;
+}
+.col-lg-offset-4 p {
+    margin-bottom:3px;
+}
+.nav > li.inline {
+    display: inline-flex;
+    background-color: #666!important;
+}
+.nav > li.inline a {
+    color: #fff;
+}
+.nav > li.inline a:hover {
+ color: #666;   
+    
+}
+.left.boxes.block {
+    float: left;
+    display: inline-block;
+    margin-top:20px;
+}
+
+.left li.block {
+
+    width: 120px;
+    height: 60px;
+    vertical-align: baseline;
+    border: 1px solid;
+    margin-bottom: 10px;
+    display: block;
+    padding: 20px 20px 65px;
+
+}
+.left.boxes.block {
+    float: left;
+    display: inline-block;
+    min-width: 120px;
+    text-align: center;
+    list-style: none;
+}
+.left li.block {
+    width: 100%;
+    height: 60px;
+    vertical-align: baseline;
+    border: 1px solid;
+    margin-bottom: 10px;
+    display: block;
+    padding: 20px;
+}
+.right.content_box {
+
+    display: inline-block;
+    border: 1px solid;
+    width: 75%;
+    margin-left: 20px;
+    min-height: 500px;
+    margin-top: 20px;
+    clear: right;
+    float: right;
+
+}
+p {
+
+    margin: 0 0 10px;
+    display: block;
+    float: none;
+    clear: both;
+
+}
+.inline.dropdown {
+    position: relative;
+}
+.dropdown-menu {
+    background-color: #666;
+    padding: 5px;
+}
+.dropdown-item {
+    padding: 10px 5px;
+    line-height: 20px;
+    margin-top: 0px;
+    display: block;
+    border-bottom: 1px solid;
+}
+.inline.dropdown.open a {
+    background-color: #666 !important;
+}
+.form-control[type="text"] {
+   
+    font-size: 19px !important;
+    line-height: 25px !important;
+    padding: 10px 5px 5px !important;
+}
+.dropdown p {
+    color: #fff;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 10px;
+    margin-bottom: -5px;
+    border-bottom: 1px solid #fff !important;
+    display: block;
+    width: 100%;
+    padding: 5px 5px 2px;
+    background-color: #ededed;
+    color: #666;
+}
+.inline.dropdown.open a:hover {
+    color: #fff;
+}
+#content_box .col-lg-4.col-lg-offset-4 {
+    width: 100%;
+    margin-left: 0px;
+}
+#registration_form {
+    width: 100%;
+}
+.form-group label {
+    float: left;
+    clear: none;
+    width: 25%;
+    text-align: left;
+    display: inline-block;
+    max-width: unset;
+    height: 35px;
+    font-size: 18px;
+    vertical-align: bottom;
+    line-height: 24px;
+    margin-top: 0px;
+    padding-top: 10px;
+}
+
+#content_box .hundred {
+    width: 100%;
+    list-style: none;
+    text-align: left;
+    padding: 5px;
+    background-color: #666;
+    margin: 0px;
+    height: 100%;
+    display: block;
+    min-height: 100%;
+}
+.row.even {
+    background-color: #eeeeee;
+}
+.row {
+    margin-right: 0px;
+    margin-left: 0px;
+    padding: 10px 5px;
+        padding-top: 10px;
+        padding-right: 5px;
+        padding-bottom: 10px;
+        padding-left: 5px;
+        vertical-align:top;
+}
+.row span {
+    vertical-align: top;
+}
+.row.odd {
+    background-color: #c2c2c2c2;
+}
+.name.inline {
+    width: 165px;
+    display: inline-block;
+    word-wrap: break-word;
+    font-weight: bold;
+}
+.name.email {
+    width: 150px;
+    display: inline-block;
+    word-wrap: break-word;
+}
+.inline.status {
+    width: 100px;
+    display: inline-block;
+    margin-left: 30px;
+}
+.inline.buttons .fa {
+    color: #ededed;
+    font-size: 23px;
+    margin-right: 5px;
+    background-color: #666;
+    width: 26px;
+    text-align: center;
+    padding: 4px;
+    width: 32px;
+    border-radius: 4px;
+    border: 1px solid #ededed;
+    box-shadow: 2px 2px 2px #666;
+    cursor: pointer;
+}
+select.form-control {
+    float: right;
+    clear: right;
+    width: 70%;
+    display: table;
+}
+.form-group {
+    margin-bottom: 11px;
+    display: block !important;
+    clear: both;
+    height: 50px;
+}
+input[type="file"] {
+
+    height: 30px;
+    *margin-top: 4px;
+    line-height: 30px;
+    float: right;
+
+}
+.form-group label span {
+    color: red;
+    font-size: 10px;
+    float: right;
+    margin-right: 10px;
+}
