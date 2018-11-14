@@ -136,13 +136,24 @@ class Main extends CI_Controller {
         $this->load->library('recaptcha');
             $this->form_validation->set_rules('email', 'Email', 'required|valid_email');    
             $this->form_validation->set_rules('password', 'Password', 'required'); 
-            
+         
             if($this->form_validation->run() == FALSE) {
                 $this->load->view('header');
                 $this->load->view('login');
                 $this->load->view('footer');
+              
             }else{
-                
+                   $recaptcha = $this->input->post('g-recaptcha-response');
+            $response = $this->recaptcha->verifyResponse($recaptcha);
+
+            if (!isset($response['success']) | $response['success'] != true){
+            
+                $this->load->view('header');
+                $this->load->view('login');
+                $this->load->view('footer');
+            
+             exit;
+            }
                 $post = $this->input->post();  
                 $clean = $this->security->xss_clean($post);
                 

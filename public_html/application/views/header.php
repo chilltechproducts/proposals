@@ -26,7 +26,7 @@
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
         <link rel="stylesheet" href="/public/css/main.css">
         
-        <script src='https://www.google.com/recaptcha/api.js?render=6LfspXoUAAAAAKoDFWvcDApf5yp-F1xdPgAbbwGA'></script>
+       <script src='https://www.google.com/recaptcha/api.js'></script>
     </head>
     <body>
     <!--[if lt IE 8]>

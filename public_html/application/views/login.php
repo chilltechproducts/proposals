@@ -22,15 +22,7 @@
       <?php echo form_error('password') ?>
     </div>
 
-    <script>
-    grecaptcha.ready(function() {
-  
-    grecaptcha.execute('6LfspXoUAAAAAKoDFWvcDApf5yp-F1xdPgAbbwGA', {action: 'action_name'})
-    .then(function(token) {
-     
-    });
-    });
-    </script>
+    <div class="g-recaptcha" data-sitekey="6LeVonoUAAAAAFB13KjOGRJHOOaQdWoi75CpS99m"></div>
    
     <?php echo form_submit(array('value'=>'Let me in!', 'class'=>'btn btn-lg btn-primary btn-block')); ?>
     <?php echo form_close(); ?>
