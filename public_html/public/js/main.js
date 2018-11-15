@@ -60,9 +60,36 @@ function sales_staff(){
     
 }
 function lookup_part_data(lid){
-    
-    
-}    
+    $.ajax({
+           url: '/ajax/add_part/' + lid ,
+           type: 'post',
+           dataType: 'json',
+           data: {json: 1 },
+           success: function(){
+                $.each(response.data.part_data, function(i,item){
+                    $('#' + i).val(item);
+                    
+                })
+                $.each(response.data.warranty_data, function(i,item){
+                    $('#' + i).val(item);
+                    
+                })
+           }
+    });     
+}
+function part_submit(){
+    $.ajax({
+        url: '/ajax/part_submit',
+       
+        type: 'post',
+         dataType: 'json',
+        cache: false,
+        success: function(response){
+            $('#content_box').html(response)
+            
+        }
+    })
+}
 function add_part(serial_no){
     
     $.ajax({

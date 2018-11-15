@@ -1,14 +1,31 @@
 
  
-    <h2>Add / Edit Part</h2>
+    
     <span class="alert-success"></span>
        <?php $array = $data['part_data']; ?>
        <div class="col-lg-4 col-lg-offset-4">
+        <h2>Add / Edit Part</h2>
         <form id="registration_form" name="registration_form" action="javascript: part_submit();" >
                 <div class="form-group">
                         <label>Part / Serial Number<span>req.</span></label>
                         <?php echo form_input(array('name'=>'part_serial_number', 'id'=> 'part_serial_number', 'placeholder'=>'Part / Serial Number', 'class'=>'form-control number', 'value'=> set_value('part_serial_number', $array['part_serial_number']))); ?>
+                        <?php if (!empty($this->uri->segment(3))){ ?><img src="http://chilltech.ddns.net/QRCodeCreator/create/<?php echo $this->uri->segment(3); ?>" class="right inline qrcode" /> <?php } ?>
                         <?php echo form_error('part_serial_number');?>
+                </div>
+                <div class="form-group">
+                        <label>Model Number<span>req.</span></label>
+                        <?php echo form_input(array('name'=>'model_number', 'id'=> 'model_number', 'placeholder'=>'Model Number', 'class'=>'form-control number', 'value'=> set_value('model_number', $array['model_number']))); ?>
+                        <?php echo form_error('model_number');?>
+                </div>
+                <div class="form-group">
+                        <label>SKU Number<span>opt.</span></label>
+                        <?php echo form_input(array('name'=>'sku_number', 'id'=> 'sku_number', 'placeholder'=>'SKU Number', 'class'=>'form-control number', 'value'=> set_value('sku_number', $array['sku_number']))); ?>
+                        <?php echo form_error('sku_number');?>
+                </div>
+                <div class="form-group">
+                        <label>UPC Number<span>opt.</span></label>
+                        <?php echo form_input(array('name'=>'upc_number', 'id'=> 'upc_number', 'placeholder'=>'UPC Number', 'class'=>'form-control number', 'value'=> set_value('upc_number', $array['upc_number']))); ?>
+                        <?php echo form_error('upc_number');?>
                 </div>
                 <div class="form-group">
                         <label>Model Number<span>req.</span></label>

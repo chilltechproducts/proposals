@@ -418,3 +418,10 @@ input[type="submit"].btn-block, input[type="reset"].btn-block, input[type="butto
     margin-left: 15px;
 
 }
+#part_warranty_text {
+
+    width: 70%;
+    float: right;
+    margin-bottom: 20px;
+
+}

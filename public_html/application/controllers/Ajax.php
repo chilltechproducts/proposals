@@ -28,11 +28,24 @@ class Ajax extends CI_Controller {
            
            if(!empty($this->uri->segment(3))){
              $this->load->model('Parts');
-             //$data['part_data'] = $this->Parts->getPart($this->url->segment(3));
+              $data['part_data'] = $this->Parts->getPart($this->url->segment(3));
+              $this->this->load->model('Part_Warranty'); 
+                if(!empty($this->Part_Warranty->Model($this->uri->segment(3)))){
+                    $data['warranty_data'] = $this->Part_Warranty->Model($data['part_data']['part_id'], $this->uri->segment(3));
+                }
            }
+          
            
-           $this->load->view('parts/add_part', array('me' => $me, 'data' => $data));
-           $this->load->view('parts/part_warranty', array('me' => $me, 'data' => $data));
+           if(empty($this->input->post('json'))){
+           
+                $this->load->view('parts/add_part', array('me' => $me, 'data' => $data));
+                $this->load->view('parts/part_warranty', array('me' => $me, 'data' => $data));
+           
+           }else{
+              header("content-type: application/json");
+              echo json_encode(array('data' => $data));
+           
+           }
         }
         public function product_lookup(){
           if(empty($this->uri->segment(2))){
