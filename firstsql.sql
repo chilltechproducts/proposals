@@ -116,6 +116,12 @@ alter table part_data add column pub_status int(1) not null;
 
 //9PM
 alter table part_data add column model_number varchar(300);
+//9:34PM
+create table column_to_table_reference(id int(99) not null auto_increment, column_name varchar(100), table_name varchar(100), reference_column varchar(100), primary key(id));
+insert into column_to_table_reference (id, column_name, table_name, reference_column) values(null, 'company_name', 'users', 'dealer_id');
+
+//added this to make program more dynamic...so it can eventually incorporate AI, but for now so if a column or tableis added, rather than writing superflouus code for stuff loike autocompletes and such....I can reference text data back to an ID number and vice versa, this is the first time I have tried this, but I think it makes sense if we add more functionality in the future
+
 //created and inserted from 6:38PM - 9PM Tuesday November 13th 2018
 
 

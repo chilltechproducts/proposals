@@ -59,6 +59,10 @@ function sales_staff(){
     
     
 }
+function lookup_part_data(lid){
+    
+    
+}    
 function add_part(serial_no){
     
     $.ajax({
@@ -69,6 +73,50 @@ function add_part(serial_no){
         cache: false,
         success: function(response){
           $('#content_box').html(response);
+          $('input.name, input.number').each(function(i, item){
+            var id=$(this).attr('id');
+              $(this).keydown(function(){
+                  $('#' + id.replace(/[_name]$/ig, '_id') ).remove();
+              })
+            
+            
+            
+           
+            
+
+         
+                                                $('#' + id).autocomplete({
+                                                            minLength: 1,
+                                                            source: '/ajax/product_lookup/' + id + '/',
+                                                            focus: function( event, ui ) {
+                                                            
+                                                            return false;
+                                                            },
+                                                            select: function( event, ui ) {
+                                                                 patt = new RegExp(/[_name]$/ig);
+                                                                    if(id.match(patt)){
+                                                                        if($('#' + id.replace(/[_name]$/ig, '_id') ).length>0){
+                                                                            $('#' + id.replace(/[_name]$/ig, '_id') ).remove();
+                                                                        }   
+                                                                        $(this).after('<input type="hidden" id="' + id.replace(/[_name]$/ig, '_id') + '" name="' + id.replace(/[_name]$/ig, '_id') + '" value="" />');   
+                                                                    }
+                                                                    $('#' + id).val(ui.item.value);
+                                                                    $('#' + id.replace(/[_name]$/ig, '_id') ).val(ui.item.id);  
+                                                                    if(id == 'location_name'){
+                                                                      lookup_part_data(ui.item.id)   
+                                                                        
+                                                                    }    
+                                                            return false;
+                                                            }
+                                                            })
+                                                            .autocomplete( "instance" )._renderItem = function( ul, item ) {
+                                                            return $( "<li>" )
+                                                            .append( "<a>" + item.description + "</a>" )
+                                                            .appendTo( ul );
+                                                            };
+                                            });
+            		
+
          }
       });
     

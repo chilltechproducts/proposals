@@ -34,6 +34,38 @@ class Ajax extends CI_Controller {
            $this->load->view('parts/add_part', array('me' => $me, 'data' => $data));
            $this->load->view('parts/part_warranty', array('me' => $me, 'data' => $data));
         }
+        public function product_lookup(){
+          if(empty($this->uri->segment(2))){
+            return;
+          }
+          $columns_data = $this->db->query("show columns from part_data")->result_array();
+          
+          $columns = array();
+          foreach($columns_data as $col){
+            $columns[] = $col['Field'];
+          }
+       //   print_r($columns);
+            $column = str_replace('_name', '_id', $this->uri->segment(3));
+       //echo $column;
+        
+          if(in_array($column, $columns)){
+      //    echo "select * from column_to_table_reference where reference_column='" .  $column . "' order by id desc limit 1";
+            $meta = $this->db->query("select * from column_to_table_reference where reference_column='" .  $column . "' order by id desc limit 1")->result_object();
+            
+         //  print_r($meta);
+            if(count($meta)==0){
+              return;
+            }
+         //  echo "select " . $meta[0]->column_name . " from " . $meta[0]->table_name . " where " . $meta[0]->where_name . " like '" . $this->input->get('term') . "%' order by " . $meta[0]->order_by_name . " asc limit 10";
+           // exit;
+            $data = $this->db->query("select distinct " . $meta[0]->column_name . " from " . $meta[0]->table_name . " where " . $meta[0]->where_name . " like '" . $this->input->get('term') . "%' order by " . $meta[0]->order_by_name . " asc limit 10")->result_array();
+          
+          }else{
+            return;
+          }
+          header("content-type: applcation/json");
+          echo json_encode($data);
+        } 
         public function register()
         {
              

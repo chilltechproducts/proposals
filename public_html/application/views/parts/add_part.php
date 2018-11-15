@@ -1,8 +1,9 @@
-<div class="col-lg-4 col-lg-offset-4">
+
  
     <h2>Add / Edit Part</h2>
     <span class="alert-success"></span>
        <?php $array = $data['part_data']; ?>
+       <div class="col-lg-4 col-lg-offset-4">
         <form id="registration_form" name="registration_form" action="javascript: part_submit();" >
                 <div class="form-group">
                         <label>Part / Serial Number<span>req.</span></label>
@@ -15,24 +16,25 @@
                         <?php echo form_error('model_number');?>
                 </div>
                 <div class="form-group">
-                        <label>Location Name<span>req.</span></label>
-                        <?php echo form_input(array('name'=>'location_name', 'id'=> 'last_name', 'placeholder'=>'Location Name', 'class'=>'form-control name', 'value'=> set_value('location_name', $array['location_name']))); ?>
-                        <?php echo form_error('location_name');?>
-                </div>
-                <div class="form-group">
-                        <label>Manufacturer Name<span><?php if($_SERVER['SERVER_NAME'] == 'chilltech.ddns.net'){?>req.<?php }else{?>opt.<?php }?></span></label>
-                        <?php echo form_input(array('name'=>'installer_name', 'id'=> 'installer_name', 'placeholder'=>'Installer Name', 'class'=>'form-control name', 'value'=> set_value('installer_name', $array['installer_name']))); ?>
-                        <?php echo form_error('installer_name');?>
-                </div>
-                <div class="form-group">
-                        <label>Dealer Name<span><?php if($_SERVER['SERVER_NAME'] == 'chilltech.ddns.net'){?>req.<?php }else{?>opt.<?php }?></span></label>
+                        <label>Manufacturer Name<span>req.</span></label>
                         <?php echo form_input(array('name'=>'manufacturer_name', 'id'=> 'manufacturer_name', 'placeholder'=>'Manufacturer Name', 'class'=>'form-control name', 'value'=> set_value('manufacturer_name', $array['manufacturer_name']))); ?>
                         <?php echo form_error('manufacturer_name');?>
                 </div>
                 <div class="form-group">
+                        <label>Location Name<span>req.</span></label>
+                        <?php echo form_input(array('name'=>'location_name', 'id'=> 'location_name', 'placeholder'=>'Location Name', 'class'=>'form-control name', 'value'=> set_value('location_name', $array['location_name']))); ?>
+                        <?php echo form_error('location_name');?>
+                </div>
+                
+                <div class="form-group">
+                        <label>Dealer Name<span><?php if($_SERVER['SERVER_NAME'] == 'chilltech.ddns.net'){?>req.<?php }else{?>opt.<?php }?></span></label>
+                        <?php echo form_input(array('name'=>'dealer_name', 'id'=> 'dealer_name', 'placeholder'=>'Dealer Name', 'class'=>'form-control name', 'value'=> set_value('dealer_name', $array['dealer_name']))); ?>
+                        <?php echo form_error('dealer_name');?>
+                </div>
+                <div class="form-group">
                         <label>End User Name<span><?php if($_SERVER['SERVER_NAME'] == 'chilltech.ddns.net'){?>req.<?php }else{?>opt.<?php }?></span></label>
-                        <?php echo form_input(array('name'=>'client_name', 'id'=> 'client_name', 'placeholder'=>'End User Name', 'class'=>'form-control name', 'value'=> set_value('client_name', $array['client_name']))); ?>
-                        <?php echo form_error('client_name');?>
+                        <?php echo form_input(array('name'=>'customer_name', 'id'=> 'customer_name', 'placeholder'=>'End User Name', 'class'=>'form-control name', 'value'=> set_value('customer_name', $array['customer_name']))); ?>
+                        <?php echo form_error('customer_name');?>
                 </div>
                 <div class="form-group">
                         <label>Salesman Name<span>opt.</span></label>
@@ -46,13 +48,23 @@
                 </div>
                 <div class="form-group">
                         <label>Install Date<span><?php if($_SERVER['SERVER_NAME'] == 'chilltech.ddns.net'){?>req.<?php }else{?>opt.<?php }?></span></label>
-                        <?php echo form_input(array('name'=>'install_date', 'id'=> 'install_date', 'placeholder'=>'Install Date', 'class'=>'form-control date', 'value'=> set_value('install_date', $array['install_date']))); ?>
+                        <?php echo form_input(array('name'=>'install_date', 'id'=> 'install_date', 'placeholder'=>'Install Date', 'class'=>'form-control date', 'value'=> set_value('install_date', $array['install_date']?$array['install_date']:date('Y-m-d H:i')))); ?>
                         <?php echo form_error('install_date');?>
                 </div>
                 <div class="form-group">
                         <label>Last Service Date<span>opt.</span></label>
-                        <?php echo form_input(array('name'=>'last_service_date', 'id'=> 'last_service_date', 'placeholder'=>'Last Service Date', 'class'=>'form-control date', 'value'=> set_value('last_service_date', $array['last_service_date']))); ?>
+                        <?php echo form_input(array('name'=>'last_service_date', 'id'=> 'last_service_date', 'placeholder'=>'Last Service Date', 'class'=>'form-control date', 'value'=> set_value('last_service_date', $array['last_service_date']?$array['last_service_date']:date('Y-m-d H:i')))); ?>
                         <?php echo form_error('last_service_date');?>
                 </div>
-        </form>
-</div>        
+      
+            </div>     
+<script>
+$('.date').datetimepicker({
+formatDate:'Y/m/d H:i',
+ minDate:'-1970/01/02',//yesterday is minimum date(for today use 0 or -1970/01/01)
+ maxDate:'+1970/01/02',//tomorrow is maximum date calendar
+ mask:true
+ 
+ });
+ </script>
+					
