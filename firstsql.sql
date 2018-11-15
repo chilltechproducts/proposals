@@ -100,7 +100,23 @@ CREATE TABLE `zipcodes` (
 //created and inserted 6:38PM Tuesday November 13th 2018
 
 
+//created and inserted 6:38PM Wednesday November 14th 2018
+alter table users add column logo varchar(300);
+alter table users add column avatar varchar(300);
+alter table part_warranty add column serial_number varchar(200);
+//6:51PM
+ create table service_dates (id int(100), service_date datetime, location_id int(99), tech_id int(99), service_performed longtext,  primary key(id));
+ alter table users add column company_name varchar(300);
+ alter table part_data add column description longtext;
+ alter table part_data add column part_name text;
+create table part_photos (id int(99) not null auto_increment, path text, serial_number varchar(200), primary key(id));
+alter table part_data add column creator_id int(99) not null;
+alter table part_data add column pub_status int(1) not null;
 
+
+//9PM
+alter table part_data add column model_number varchar(300);
+//created and inserted from 6:38PM - 9PM Tuesday November 13th 2018
 
 
 //Qr Code Domain mysquaretracker.com hosted on Godaddy

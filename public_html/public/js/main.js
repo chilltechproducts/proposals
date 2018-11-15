@@ -59,3 +59,17 @@ function sales_staff(){
     
     
 }
+function add_part(serial_no){
+    
+    $.ajax({
+        url: '/ajax/add_part',
+        
+        type: 'get',
+         dataType: 'html',
+        cache: false,
+        success: function(response){
+          $('#content_box').html(response);
+         }
+      });
+    
+}

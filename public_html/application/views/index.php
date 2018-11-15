@@ -1,27 +1,48 @@
 
 <h3>Chill Tech Order Proposal System</h3>
-<p>Welcome, <?php echo $data['user']['first_name']  . '  ' .  $data['user']['last_name']; ?></p>
+<p class="avatar_box"><?php if(!empty($data['user']['avatar'])){ ?><img src="<?php echo $data['user']['avatar']; ?>" /><?php } ?>Welcome, <?php echo $data['user']['first_name']  . '  ' .  $data['user']['last_name']; ?></p>
+<img src="/public/images/ch1ll-tech-logo-blank-background_2.png" class="inline right" />
+
 <ul id="navigation" class="nav">
+   <li class="inline">
+      <a href="">About</a>
+   </li>
+   <li class="inline">
+      <a href="">Contact</a>
+   </li>
    <li class="inline">
       <a href="">Presentation</a>
    </li>
    <li class="inline">
       <a href="">LCA Portal</a>
    </li>
-   <li class="inline">
+   <!--<li class="inline">
       <a href="">Warrenties</a>
-   </li>
+   </li>-->
+ 
    <li class="inline">
-      <a href="">Product Ordering</a>
+      <a href="">Products <!--Ordering--></a>
+      <button class="btn btn-secondary dropdown-toggle" type="button"  id="dropdownMenuButton2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="sr-only">Toggle Dropright</span></button>
+        <div class="dropdown-menu"  aria-labelledby="dropdownMenuButton2">
+            <a class="dropdown-item" href="">Order Part</a>
+            <a class="dropdown-item" href="">Information</a>
+            <a class="dropdown-item" href="">Warranties</a>
+            <a class="dropdown-item" href="">Lookup QRCode</a>
+            <a class="dropdown-item" href="">My Parts</a>
+            <?php if($data['user']['level_id']  <= 5){ ?>
+                <a class="dropdown-item" href="javascript:;" onclick="add_part();">Add Part</a>
+            <?php } ?>
+        </div>
+        
    </li>
-   <li class="inline">
+   <!--<li class="inline">
       <a href="">Product Information</a>
-   </li>   
+   </li>   -->
    <li class="inline">
       <a href="">Rebates</a>
    </li>  
    <li class="inline dropdown">
-      <a href="">My Profile</a>
+      <a href="#">My Profile</a>
       <button class="btn btn-secondary dropdown-toggle" type="button"  id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="sr-only">Toggle Dropright</span></button>
         <div class="dropdown-menu"  aria-labelledby="dropdownMenuButton">
           <?php if($data['user']['level_id'] == 1){ ?>
@@ -66,6 +87,24 @@
    </li>   
 </ul>
 <?php } ?> 
-<div class="right content_box" id="content_box">Content will load dynamocally over here</div>
+<div class="right content_box" id="content_box"></div>
+<script>
+$(document).ready(function(){
+   $.ajax({
+          url: 'welcome',
+          success: function(response){
+           $('#content_box').html(response); 
+           $('#carousel').slick({
+                dots: true,
+                infinite: true,
+                speed: 300,
+                slidesToShow: 1,
+                adaptiveHeight: true
+                });
+                    
+          }
+    });      
+});
+</script>
 <br />
 <p>Changed this slightly to have drop down menus instead in order to make navigation simpler</p>

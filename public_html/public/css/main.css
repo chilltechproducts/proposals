@@ -1,10 +1,17 @@
 body {
-  padding-top: 100px;
+  padding-top: 40px;
   padding-bottom: 40px;
   background-color: #eee;
   text-align:center;
+  overflow-x:hidden;
 }
-
+img.inline.right {
+    float: right;
+    display: inline-block;
+    width: 170px;
+    margin-top: -65px;
+    margin-bottom: -30px;
+}
 .form-signin {
   max-width: 330px;
   padding: 15px;
@@ -85,11 +92,46 @@ h5 span {
 
 }
 .left.boxes.block {
+
     float: left;
     display: inline-block;
     min-width: 120px;
     text-align: center;
     list-style: none;
+    margin-left: 110px;
+    margin-top: 65px;
+
+}
+.container2 {
+    width: 80%;
+    margin: 0 auto;
+}
+img[src="//chilltechproducts.com/uploads/1/2/2/7/122787378/02_1_orig.png"] {
+    margin-bottom: -130px;
+}
+img[src="//chilltechproducts.com/uploads/1/2/2/7/122787378/published/system-icon.png?1541069607"] {
+
+    display: none;
+
+}
+.avatar_box {
+    float: right;
+    position: relative;
+    left: 15px;
+    top: -48px;
+    width: 100px;
+    height: 100px;
+    font-size: 11px;
+    overflow-y: hidden;
+}
+.avatar_box img {
+
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    float: right;
+    border: 1px solid #666;
+
 }
 .left li.block {
     width: 100%;
@@ -107,7 +149,7 @@ h5 span {
     width: 75%;
     margin-left: 20px;
     min-height: 500px;
-    margin-top: 20px;
+    margin-top: -47px;
     clear: right;
     float: right;
 
@@ -266,4 +308,106 @@ input[type="file"] {
     font-size: 10px;
     float: right;
     margin-right: 10px;
+}
+#content_box .form-control[type="text"] {
+    font-size: 19px !important;
+    line-height: 25px !important;
+    padding: 10px 5px 5px !important;
+    height: 33px;
+    width: 70%;
+}
+.ui-autocomplete {
+
+    text-align: left;
+
+}
+.ui-autocomplete li {
+    font-size: 16px;
+    border-bottom: 1px solid #666;
+    font-weight: bold;
+    padding: 5px 0px;
+    text-indent: 20px;
+}
+input[type="submit"].btn-block, input[type="reset"].btn-block, input[type="button"].btn-block {
+
+    width: 100%;
+    height: 41px;
+
+}
+#logo-uploader {
+
+    width: 150px;
+    float: right;
+    
+    font-size: 9px !important;
+
+}
+.qq-upload-drop-area span {
+
+    display: block;
+    position: absolute;
+    top: 50%;
+    width: 100%;
+    margin-top: -8px;
+    font-size: 12px;
+    color: #fff;
+
+}
+.qq-upload-drop-area, .qq-upload-extra-drop-area {
+
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    min-height: 30px;
+    z-index: 2;
+    background: #666;
+    text-align: center;
+    border-radius: 5px;
+    border: 2px solid #fff;
+    box-shadow: 2px 2px 2px #666;
+
+}
+#avatar-uploader {
+
+    width: 150px;
+    float: right;
+
+}
+#preview-avatar img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    border: 1px solid #666;
+    padding: 5px;
+    float: right;
+    position: relative;
+    top: -35px;
+}
+#preview-logo img {
+
+    width: 120px;
+    height: auto;
+    float: right;
+    border: 1px solid #666;
+    padding: 5px;
+    margin-left: -20px;
+
+}
+.nav {
+
+    padding-left: 0;
+    margin-bottom: 0;
+    list-style: none;
+    float: right;
+    margin-top: 20px;
+
+}
+#content_box h2 {
+
+    background-color: #666;
+    color: #fff;
+    padding-top: 10px;
+
 }

@@ -11,6 +11,7 @@ class Ajax extends CI_Controller {
             $this->load->model('User_model', 'user_model', TRUE);
             $this->load->library('form_validation');    
             $this->load->library('session');
+            $this->load->helper('url');
             $this->form_validation->set_error_delimiters('<div class="error">', '</div>');
             $this->status = $this->config->item('status'); 
             $this->roles = $this->config->item('roles');
@@ -21,8 +22,18 @@ class Ajax extends CI_Controller {
         protected function _islocal(){
             return strpos($_SERVER['HTTP_HOST'], 'local');
         }
-        
-      
+        public function add_part(){
+           $me = $this->user_model->getUserInfo($this->session->userdata['user_id']);
+           $data = array('part_data' => array(), 'warranty_data' => array(), 'photos' => array());
+           
+           if(!empty($this->uri->segment(3))){
+             $this->load->model('Parts');
+             //$data['part_data'] = $this->Parts->getPart($this->url->segment(3));
+           }
+           
+           $this->load->view('parts/add_part', array('me' => $me, 'data' => $data));
+           $this->load->view('parts/part_warranty', array('me' => $me, 'data' => $data));
+        }
         public function register()
         {
              
@@ -110,6 +121,16 @@ class Ajax extends CI_Controller {
         echo json_encode(array('data' => $users));
      
      }
+     public function cities(){
+        $data = $this->db->query("select distinct( concat(city, ', ', state, ' ', country, ' ', zipcode) )as description, city, state, zipcode, country from zipcodes where concat (city, ', ', state) like '" . $this->input->get('term') . "%' and concat(city, ', ', state, ' ', country, ' ', zipcode) != 'null' and concat(city, ', ', state, ' ', country, ' ', zipcode) != '' order by city asc limit 10")->result_array();
+        header("content-type: application/json");
+        echo json_encode($data);
+     }
+     public function zipcodes(){
+        $data = $this->db->query("select distinct( concat(city, ', ', state, ' ', country, ' ', zipcode) )as description, city, state, zipcode, country from zipcodes where zipcode like '" . $this->input->get('term') . "%' and concat(city, ', ', state, ' ', country, ' ', zipcode) != 'null' and concat(city, ', ', state, ' ', country, ' ', zipcode) != ''  order by zipcode asc limit 10")->result_array();
+        header("content-type: application/json");
+        echo json_encode($data);
+     }
      public function myprofile()
         {
           $me = $this->user_model->getUserInfo($this->session->userdata['user_id']);
@@ -140,7 +161,7 @@ class Ajax extends CI_Controller {
           $states_out = array();
           foreach($states as $k => $arr){
             if(!in_array($arr['state'], $states_out)){
-              $states_out[$arr['id']] = $arr['state'];
+              $states_out[$arr['state']] = $arr['state'];
             }
           }
          // $this->load->view('header');
