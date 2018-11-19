@@ -18,3 +18,6 @@
           
             <?php echo form_submit(array('value'=>$submit_label, 'class'=>'btn btn-lg btn-primary btn-block', 'id' => 'id_submit_form')); ?>
 </div>
+<script>
+CKEDITOR.replace( 'part_warranty_text' ) 
+</script>

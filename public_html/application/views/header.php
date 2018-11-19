@@ -11,7 +11,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="apple-touch-icon" href="apple-touch-icon.png">
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-        <script src="/public/js/main.js"></script>
+        
         <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
         
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-ui-bootstrap/0.5pre/assets/css/bootstrap.min.css" />
@@ -33,7 +33,7 @@
          
         <link rel="stylesheet" href="/public/css/main.css">
         
-       <script src='https://www.google.com/recaptcha/api.js'></script>
+       
          <link rel="stylesheet" href="/public/css/masked.css">
          <script src="/public/js/jquery.masked-input.js"></script>
          
@@ -41,7 +41,13 @@
 
 
         <script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
-				
+		
+		
+		<script src="https://cdn.ckeditor.com/4.11.1/standard/ckeditor.js"></script>
+		<script>
+
+</script>
+        <script src="/public/js/main.js"></script>
 
     </head>
     <body>

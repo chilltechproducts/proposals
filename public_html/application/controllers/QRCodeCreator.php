@@ -45,7 +45,7 @@ class QRCodeCreator extends CI_Controller {
          }  
       
       }
-      echo $sql;
+    //  echo $sql;
       $datain = $this->db->query($sql . " order by part_data.serial_number desc limit 1")->result_array();
       if(count($datain)==0){
         echo 'part not found';
@@ -80,14 +80,15 @@ class QRCodeCreator extends CI_Controller {
            }  
         } 
       }
-      echo $data;
+      //echo $data;
         $params['data'] = $data;
         $params['level'] = 'H';
         $params['size'] = 10;
-        $params['savename'] = '/home/chilltech/public_html/public/qr_codes/tes.png';
+        header("content-type: image/png");
+       // $params['savename'] = '/home/chilltech/public_html/public/qr_codes/tes.png';
         $this->ciqrcode->generate($params);
 
-        echo '<img src="'.base_url().'/public/qr_codes/tes.png" />';
+        
 		
 	}
 }

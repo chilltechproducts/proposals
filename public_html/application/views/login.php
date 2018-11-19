@@ -1,7 +1,7 @@
 <div class="col-lg-4 col-lg-offset-4">
-
+<script src='https://www.google.com/recaptcha/api.js'></script>
     <h2>Please login</h2>
-    <?php $fattr = array('class' => 'form-signin');
+    <?php $fattr = array('class' => 'form-signin', 'id' => 'email_form');
          echo form_open(site_url().'main/login', $fattr); ?>
     <div class="form-group">
       <?php echo form_input(array(

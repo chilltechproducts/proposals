@@ -20,15 +20,15 @@ class Main extends CI_Controller {
 	{   
 	
             if(empty($this->session->userdata['email'])){
-               redirect(site_url().'/main/login');
+             //  redirect(site_url().'/main/login');
             }            
             /*front page*/
             
             
               $data = array();
-            
+            if(!empty($this->session->userdata['user_id'])){
                 $data['user'] = $this->user_model->getUserInfo($this->session->userdata['user_id']);
-            
+            }
 	    
             $this->load->view('header');            
             $this->load->view('index', array('data' => $data));
@@ -44,9 +44,9 @@ class Main extends CI_Controller {
             $this->form_validation->set_rules('email', 'Email', 'required|valid_email');    
                        
             if ($this->form_validation->run() == FALSE) {   
-                $this->load->view('header');
+               
                 $this->load->view('register');
-                $this->load->view('footer');
+              
             }else{                
                 if($this->user_model->isDuplicate($this->input->post('email'))){
                     $this->session->set_flashdata('flash_message', 'User email already exists');
@@ -100,9 +100,9 @@ class Main extends CI_Controller {
             $this->form_validation->set_rules('passconf', 'Password Confirmation', 'required|matches[password]');              
             
             if ($this->form_validation->run() == FALSE) {   
-                $this->load->view('header');
+             
                 $this->load->view('complete', $data);
-                $this->load->view('footer');
+                
             }else{
                 
                 $this->load->library('password');                 
@@ -136,21 +136,26 @@ class Main extends CI_Controller {
         $this->load->library('recaptcha');
             $this->form_validation->set_rules('email', 'Email', 'required|valid_email');    
             $this->form_validation->set_rules('password', 'Password', 'required'); 
-         
+        
             if($this->form_validation->run() == FALSE) {
-                $this->load->view('header');
+            
+               if(empty($this->input->get('ajax'))){
+                    $this->load->view('header');
+               }
                 $this->load->view('login');
-                $this->load->view('footer');
+              
               
             }else{
                    $recaptcha = $this->input->post('g-recaptcha-response');
             $response = $this->recaptcha->verifyResponse($recaptcha);
 
             if (!isset($response['success']) | $response['success'] != true){
-            
-                $this->load->view('header');
+          
+               if(empty($this->input->get('ajax'))){
+                    $this->load->view('header');
+               }
                 $this->load->view('login');
-                $this->load->view('footer');
+               
             
              exit;
             }
@@ -174,7 +179,7 @@ class Main extends CI_Controller {
                     
                 $this->session->set_userdata($data);
                 
-                redirect(site_url().'main');
+                redirect(site_url());
             }
             
         }
@@ -182,7 +187,7 @@ class Main extends CI_Controller {
         public function logout()
         {
             $this->session->sess_destroy();
-            redirect(site_url().'main/login/');
+            redirect(site_url());
         }
         
         public function forgot()
@@ -191,9 +196,9 @@ class Main extends CI_Controller {
             $this->form_validation->set_rules('email', 'Email', 'required|valid_email'); 
             
             if($this->form_validation->run() == FALSE) {
-                $this->load->view('header');
+       
                 $this->load->view('forgot');
-                $this->load->view('footer');
+               
             }else{
                 $email = $this->input->post('email');  
                 $clean = $this->security->xss_clean($email);
@@ -249,9 +254,9 @@ class Main extends CI_Controller {
             $this->form_validation->set_rules('passconf', 'Password Confirmation', 'required|matches[password]');              
             
             if ($this->form_validation->run() == FALSE) {   
-                $this->load->view('header');
+         
                 $this->load->view('reset_password', $data);
-                $this->load->view('footer');
+           
             }else{
                                 
                 $this->load->library('password');                 

@@ -22,16 +22,134 @@ class Ajax extends CI_Controller {
         protected function _islocal(){
             return strpos($_SERVER['HTTP_HOST'], 'local');
         }
+       /* public function createUnits(){
+        
+          $units = json_decode(file_get_contents($_SERVER['DOCUMENT_ROOT']  . '/public/units-of-measure_json.json'), TRUE);
+          foreach($units as $array){
+          echo "insert into units values(null, '" . $array['CommonCode'] . "', '" . $array['Description'] . "',  '" . $array['LevelAndCategory'] . "', '" . $array['Name'] . "', '" . $array['Quantity'] . "', '" . $array['Sector'] . "'";
+            $this->db->query("insert into units values(null, '" . $array['CommonCode'] . "', '" . $array['Description'] . "',  '" . $array['LevelAndCategory'] . "', '" . $array['Name'] . "', '" . $array['Quantity'] . "', '" . $array['Sector'] . "')");
+          }
+        
+        }*/
+        public function save_diagnotics(){
+          $data=array();
+           foreach($this->input->post('key') as $k => $value){
+             if(!empty($value) & !empty($this->input->post('value[' . $k . ']')) & !empty($this->input->post('unit[' . $k . ']'))){
+               $data[$value] = $this->input->post('value[' . $k . ']') . $this->input->post('unit[' . $k . ']');
+             
+             }
+           
+           }
+           $json = json_encode($data);
+         
+           $this->db->query("update service_dates set json='" . $json . "' where id=" . $this->uri->segment(4) . " and location_id=" . $this->uri->segment(3));
+           redirect('/ajax/show_diagnostic_data/' . $this->uri->segment(3) . '/' . $this->uri->segment(4));
+        }
+        public function add_record(){
+          $units = $this->db->query("select * from units order by Name asc")->result_array();
+          $this->load->view('parts/add_record', array('units' => $units));
+        }
+         public function show_diagnostic_data(){
+         if(empty($this->session->userdata['user_id'])){
+           redirect('/main/login?ajax=1');
+           return;
+          }
+          $filter = '';
+          if(!empty($this->uri->segment(4))){
+            $filter = " and id=" . $this->uri->segment(4);
+          }
+          $data = $this->db->query("select json from service_dates where location_id=" . $this->uri->segment(3) . $filter)->result_object();
+          
+       
+          $units = $this->db->query("select * from units order by Name asc")->result_array();
+          
+        
+          $this->load->view('parts/diagnostics_form_values', array('data' => $data, 'units' => $units));
+        }
+        public function add_service_entry(){
+         if(empty($this->session->userdata['user_id'])){
+           redirect('/main/login?ajax=1');
+           return;
+          }
+          $filter = '';
+          if(!empty($this->uri->segment(4))){
+            $filter = " and id=" . $this->uri->segment(4);
+          }
+          $data = $this->db->query("select * from service_dates where location_id=" . $this->uri->segment(3))->result_object();
+          $this->load->view('parts/diagnostics_form', array('data' => $data));
+        }
+        public function service_history(){
+        if(empty($this->session->userdata['user_id'])){
+           redirect('/main/login?ajax=1');
+           return;
+          }
+          
+          $data = $this->db->query("select *, (select user_id from users where dealer_id=service_dates.tech_id or pd.service_tech_id=service_dates.tech_id or dealer_id=pd.dealer_id or user_id=pd.service_tech_id or pd.maintanence_id=user_id or pd.customer_id=user_id order by level_id asc limit 1) as uid from service_dates left join part_data pd on pd.location_id=service_dates.location_id where service_dates.location_id=" . $this->input->get('lid'))->result_array();
+        
+          header('content-type: application/json');
+           // if(empty($data[0]['user_id'])){
+            
+            //echo json_encode(array('error' => 'You don\'t have permission to view this part.'));
+            
+           // }else{
+            echo json_encode(array('data' => $data));
+           
+          //  }
+        }
+        public function my_parts(){
+          if(empty($this->session->userdata['user_id'])){
+           redirect('/main/login?ajax=1');
+           return;
+          }
+          $uid = $this->input->get('uid')?$this->input->get('uid'):$this->session->userdata['user_id'] ;
+          $this->load->view('parts/search_parts');
+          $this->load->view('parts/parts_list', array('uid' => $uid));
+        }  
+        public function get_parts(){
+          if(empty($this->session->userdata['user_id'])){
+           redirect('/main/login?ajax=1');
+           return;
+          }
+          
+          $s=$this->input->get('s')?$this->input->get('s'):0;
+          $l = 25;
+          $o = $this->input->get('o')?$this->input->get('o'):'install_date';
+          
+          
+          $me = $this->user_model->getUserInfo($this->session->userdata['user_id']);
+          
+          $sql = $me['level_info']['part_sql'];
+      
+          
+          $replaces = array('customer_id', 'dealer_id', 'salesman_id', 'technician_id', 'maintanence_id', 'uid');
+          foreach($replaces as $replace){
+            $sql = str_replace("[[" . $replace . "]]", $this->session->userdata['user_id'], $sql);
+            
+          }
+          $sql = str_replace("[[start]]", $s, $sql);
+          $sql = str_replace("[[limit]]", $l, $sql);
+          $sql = str_replace("[[order_by]]", $o, $sql);
+          
+          header("content-type: application/json");
+           $data = array();
+           $data['part_data'] = $this->db->query($sql)->result_array();
+           echo json_encode($data);
+        }
         public function add_part(){
+        if(empty($this->session->userdata['user_id'])){
+           redirect('/main/login?ajax=1');
+           return;
+          }
            $me = $this->user_model->getUserInfo($this->session->userdata['user_id']);
            $data = array('part_data' => array(), 'warranty_data' => array(), 'photos' => array());
            
            if(!empty($this->uri->segment(3))){
              $this->load->model('Parts');
-              $data['part_data'] = $this->Parts->getPart($this->url->segment(3));
-              $this->this->load->model('Part_Warranty'); 
-                if(!empty($this->Part_Warranty->Model($this->uri->segment(3)))){
-                    $data['warranty_data'] = $this->Part_Warranty->Model($data['part_data']['part_id'], $this->uri->segment(3));
+              $data['part_data'] = $this->Parts->getPart($this->uri->segment(3));
+             // print_r($data['part_data']);
+              $this->load->model('Part_Warranty'); 
+                if(!empty($this->Part_Warranty->getByModel($data['part_data']['model_number'], $this->uri->segment(3)))){
+                    $data['warranty_data'] = $this->Part_Warranty->getByModel($data['part_data']['model_number'], $this->uri->segment(3));
                 }
            }
           

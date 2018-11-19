@@ -128,3 +128,13 @@ insert into column_to_table_reference (id, column_name, table_name, reference_co
 //Qr Code Domain mysquaretracker.com hosted on Godaddy
 //Need to add clients_dealer table also add column to tables for which product is being used
 //Need to add list of columns that can be selected by user_levels table
+
+//created and inserted 11:12AM Wednesday November 15th 2018
+ alter table part_data add column sku_number varchar(200);
+ alter table part_data add column upc_number int(100);
+ 
+ //1:07pm
+ alter table user_levels add column part_sql text;
+ alter table user_levels add column my_part_sql text;
+
+

@@ -8,9 +8,15 @@
         <form id="registration_form" name="registration_form" action="javascript: part_submit();" >
                 <div class="form-group">
                         <label>Part / Serial Number<span>req.</span></label>
-                        <?php echo form_input(array('name'=>'part_serial_number', 'id'=> 'part_serial_number', 'placeholder'=>'Part / Serial Number', 'class'=>'form-control number', 'value'=> set_value('part_serial_number', $array['part_serial_number']))); ?>
+                        <?php echo form_input(array('name'=>'serial_number', 'id'=> 'serial_number', 'placeholder'=>'Part / Serial Number', 'class'=>'form-control number', 'value'=> set_value('serial_number', $array['serial_number']))); ?>
                         <?php if (!empty($this->uri->segment(3))){ ?><img src="http://chilltech.ddns.net/QRCodeCreator/create/<?php echo $this->uri->segment(3); ?>" class="right inline qrcode" /> <?php } ?>
-                        <?php echo form_error('part_serial_number');?>
+                        <?php echo form_error('serial_number');?>
+                </div>
+                <div class="form-group">
+                        <label>Maufacturer's Part Name<span>req.</span></label>
+                        <?php echo form_input(array('name'=>'part_name', 'id'=> 'part_name', 'placeholder'=>'Maufacturer\'s Part Name', 'class'=>'form-control number', 'value'=> set_value('part_name', $array['part_name']))); ?>
+                        <?php if (!empty($this->uri->segment(3))){ ?><img src="http://chilltech.ddns.net/QRCodeCreator/create/<?php echo $this->uri->segment(3); ?>" class="right inline qrcode" /> <?php } ?>
+                        <?php echo form_error('part_name');?>
                 </div>
                 <div class="form-group">
                         <label>Model Number<span>req.</span></label>
@@ -27,11 +33,7 @@
                         <?php echo form_input(array('name'=>'upc_number', 'id'=> 'upc_number', 'placeholder'=>'UPC Number', 'class'=>'form-control number', 'value'=> set_value('upc_number', $array['upc_number']))); ?>
                         <?php echo form_error('upc_number');?>
                 </div>
-                <div class="form-group">
-                        <label>Model Number<span>req.</span></label>
-                        <?php echo form_input(array('name'=>'model_number', 'id'=> 'model_number', 'placeholder'=>'Model Number', 'class'=>'form-control number', 'value'=> set_value('model_number', $array['model_number']))); ?>
-                        <?php echo form_error('model_number');?>
-                </div>
+                
                 <div class="form-group">
                         <label>Manufacturer Name<span>req.</span></label>
                         <?php echo form_input(array('name'=>'manufacturer_name', 'id'=> 'manufacturer_name', 'placeholder'=>'Manufacturer Name', 'class'=>'form-control name', 'value'=> set_value('manufacturer_name', $array['manufacturer_name']))); ?>
@@ -62,6 +64,16 @@
                         <label>Installer Name<span><?php if($_SERVER['SERVER_NAME'] == 'chilltech.ddns.net'){?>req.<?php }else{?>opt.<?php }?></span></label>
                         <?php echo form_input(array('name'=>'installer_name', 'id'=> 'installer_name', 'placeholder'=>'Installer Name', 'class'=>'form-control name', 'value'=> set_value('installer_name', $array['installer_name']))); ?>
                         <?php echo form_error('installer_name');?>
+                </div>
+                <div class="form-group">
+                        <label>Latitude<span><?php if($_SERVER['SERVER_NAME'] == 'chilltech.ddns.net'){?>req.<?php }else{?>opt.<?php }?></span></label>
+                        <?php echo form_input(array('name'=>'latitude', 'id'=> 'latitude', 'placeholder'=>'Latitude', 'class'=>'form-control name', 'value'=> set_value('latitude', $array['latitude']))); ?>
+                        <?php echo form_error('latitude');?>
+                </div>
+                <div class="form-group">
+                        <label>Longitude<span><?php if($_SERVER['SERVER_NAME'] == 'chilltech.ddns.net'){?>req.<?php }else{?>opt.<?php }?></span></label>
+                        <?php echo form_input(array('name'=>'longitude', 'id'=> 'longitude', 'placeholder'=>'Longitude', 'class'=>'form-control name', 'value'=> set_value('longitude', $array['longitude']))); ?>
+                        <?php echo form_error('longitude');?>
                 </div>
                 <div class="form-group">
                         <label>Install Date<span><?php if($_SERVER['SERVER_NAME'] == 'chilltech.ddns.net'){?>req.<?php }else{?>opt.<?php }?></span></label>
