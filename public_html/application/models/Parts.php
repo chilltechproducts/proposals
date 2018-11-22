@@ -19,6 +19,9 @@ class Parts extends CI_Model {
            return $data;
        }
         public function getPart($part_id){
+        if(empty($part_id) | $part_id == 'undefined'){
+        return array();
+        }
          return $this->db->query("select part_data.*, 
                                         (select company_name from users where user_id=part_data.dealer_id order by user_id desc limit 1) as dealer_name,
                                         (select concat(first_name, ' ', last_name) from users where user_id=part_data.salesman_id order by user_id desc limit 1) as salesman_name,

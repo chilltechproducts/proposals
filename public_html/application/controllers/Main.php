@@ -50,7 +50,7 @@ class Main extends CI_Controller {
             }else{                
                 if($this->user_model->isDuplicate($this->input->post('email'))){
                     $this->session->set_flashdata('flash_message', 'User email already exists');
-                    redirect(site_url().'main/login');
+                    redirect(site_url().'main/login?ajax_set=' . $_REQUEST['ajax_set']);
                 }else{
                     
                     $clean = $this->security->xss_clean($this->input->post(NULL, TRUE));
@@ -87,7 +87,7 @@ class Main extends CI_Controller {
           
             if(!$user_info){
                 $this->session->set_flashdata('flash_message', 'Token is invalid or expired');
-                redirect(site_url().'main/login');
+                redirect(site_url().'main/login?ajax_set=' . $_REQUEST['ajax_set']);
             }            
             $data = array(
                 'firstName'=> $user_info['first_name'], 
@@ -117,7 +117,7 @@ class Main extends CI_Controller {
                 
                 if(!$userInfo){
                     $this->session->set_flashdata('flash_message', 'There was a problem updating your record');
-                    redirect(site_url().'main/login');
+                    redirect(site_url().'main/login?ajax_set=' . $_REQUEST['ajax_set']);
                 }
                 
                 unset($userInfo->password);
@@ -136,37 +136,43 @@ class Main extends CI_Controller {
         $this->load->library('recaptcha');
             $this->form_validation->set_rules('email', 'Email', 'required|valid_email');    
             $this->form_validation->set_rules('password', 'Password', 'required'); 
-        
-            if($this->form_validation->run() == FALSE) {
+      
+            if($this->form_validation->run() == FALSE | empty($this->input->post())) {
             
-               if(empty($this->input->get('ajax'))){
+               if(empty($_REQUEST['ajax_set'])){
                     $this->load->view('header');
                }
                 $this->load->view('login');
-              
+                
               
             }else{
-                   $recaptcha = $this->input->post('g-recaptcha-response');
-            $response = $this->recaptcha->verifyResponse($recaptcha);
-
-            if (!isset($response['success']) | $response['success'] != true){
-          
-               if(empty($this->input->get('ajax'))){
-                    $this->load->view('header');
-               }
-                $this->load->view('login');
-               
+              
             
-             exit;
-            }
                 $post = $this->input->post();  
+         
                 $clean = $this->security->xss_clean($post);
-                
+        
                 $userInfo = $this->user_model->checkLogin($clean);
-                
+               
+                     $recaptcha = $this->input->post('g-recaptcha-response');
+                    $response = $this->recaptcha->verifyResponse($recaptcha);
+
+                    if (!isset($response['success']) | $response['success'] != true){
+                   
+                    $this->session->set_flashdata('flash_message', 'The login was unsucessful ' . $response['error-codes'][0] . ' Captcha Code');
+             
+                        redirect(site_url() . '/main/login/?ajax_set=' . $_REQUEST['ajax_set']);
+                        
+                        
+                        exit;
+                    }
+          
                 if(!$userInfo){
                     $this->session->set_flashdata('flash_message', 'The login was unsucessful');
-                    redirect(site_url().'main/login');
+                     if(empty($_REQUEST['ajax_set'])){
+                            $this->load->view('header');
+                    }
+                    $this->load->view('login');
                 }                
                 $data = array(
                             'user_id'  => $userInfo->user_id,
@@ -192,39 +198,44 @@ class Main extends CI_Controller {
         
         public function forgot()
         {
-            
+         
             $this->form_validation->set_rules('email', 'Email', 'required|valid_email'); 
+         
+            if($this->form_validation->run() === FALSE | empty($this->input->post())) {
             
-            if($this->form_validation->run() == FALSE) {
-       
+               if(empty($_REQUEST['ajax_set'])){
+                  $this->load->view('header');
+                  }
                 $this->load->view('forgot');
                
             }else{
                 $email = $this->input->post('email');  
                 $clean = $this->security->xss_clean($email);
                 $userInfo = $this->user_model->getUserInfoByEmail($clean);
-                
+               
                 if(!$userInfo){
                     $this->session->set_flashdata('flash_message', 'We cant find your email address');
-                    redirect(site_url().'main/login');
+                    redirect(site_url().'main/login/?ajax_set=' . $_REQUEST['ajax_set']);
                 }   
                 
-                if($userInfo->status != $this->status[1]){ //if status is not approved
+                if($userInfo->status < 1){ //if status is not approved
                     $this->session->set_flashdata('flash_message', 'Your account is not in approved status');
-                    redirect(site_url().'main/login');
+                    redirect(site_url().'main/login/?ajax_set=' . $_REQUEST['ajax_set']);
                 }
                 
                 //build token 
 				
-                $token = $this->user_model->insertToken($userInfo->id);                        
+                $token = $this->user_model->insertToken($userInfo->user_id);                        
                 $qstring = $this->base64url_encode($token);                  
-                $url = site_url() . 'main/reset_password/token/' . $qstring;
+                $url = site_url() . '?redirect=' . base64_encode('/main/reset_password/token/' . $qstring . '?ajax_set=' . $_REQUEST['ajax_set']);
                 $link = '<a href="' . $url . '">' . $url . '</a>'; 
                 
                 $message = '';                     
                 $message .= '<strong>A password reset has been requested for this email account</strong><br>';
-                $message .= '<strong>Please click:</strong> ' . $link;             
-
+                $message .= '<strong>Please click:</strong> ';             
+                $this->load->model('Emailer');
+                
+                $this->Emailer->send('jon@' . $_SERVER['SERVER_NAME'], $email, 'Recover Password', $message);
                 echo $message; //send this through mail
                 exit;
                 
@@ -234,27 +245,30 @@ class Main extends CI_Controller {
         
         public function reset_password()
         {
+   
             $token = $this->base64url_decode($this->uri->segment(4));                  
             $cleanToken = $this->security->xss_clean($token);
             
             $user_info = $this->user_model->isTokenValid($cleanToken); //either false or array();               
-            
+           
             if(!$user_info){
                 $this->session->set_flashdata('flash_message', 'Token is invalid or expired');
                 redirect(site_url().'main/login');
             }            
             $data = array(
-                'firstName'=> $user_info->first_name, 
-                'email'=>$user_info->email, 
-//                'user_id'=>$user_info->id, 
+                'firstName'=> $user_info['first_name'], 
+                'email'=>$user_info['email'], 
+                'user_id'=>$user_info['user_id'], 
                 'token'=>$this->base64url_encode($token)
             );
            
             $this->form_validation->set_rules('password', 'Password', 'required|min_length[5]');
             $this->form_validation->set_rules('passconf', 'Password Confirmation', 'required|matches[password]');              
             
-            if ($this->form_validation->run() == FALSE) {   
-         
+            if ($this->form_validation->run() === FALSE | empty($this->input->post())) {   
+                if(empty($_REQUEST['ajax_set'])){
+                  $this->load->view('header');
+                  }
                 $this->load->view('reset_password', $data);
            
             }else{
@@ -264,14 +278,14 @@ class Main extends CI_Controller {
                 $cleanPost = $this->security->xss_clean($post);                
                 $hashed = $this->password->create_hash($cleanPost['password']);                
                 $cleanPost['password'] = $hashed;
-                $cleanPost['user_id'] = $user_info->id;
+                $cleanPost['user_id'] = $user_info['user_id'];
                 unset($cleanPost['passconf']);                
                 if(!$this->user_model->updatePassword($cleanPost)){
                     $this->session->set_flashdata('flash_message', 'There was a problem updating your password');
                 }else{
                     $this->session->set_flashdata('flash_message', 'Your password has been updated. You may now login');
                 }
-                redirect(site_url().'main/login');                
+                redirect(site_url().'main/' . $_REQUEST['ajax_set']);                
             }
         }
         

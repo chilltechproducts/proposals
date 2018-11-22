@@ -39,7 +39,7 @@ function createCustomAlert(txt,noFade, alert_title) {
 //parseScript(txt);
     alertObj.style.display = "block";
     if(noFade ==0){
-        setTimeout(function(){ removeCustomAlert(); }, 5000);
+    //    setTimeout(function(){ removeCustomAlert(); }, 5000);
     } 
     
 }
@@ -63,6 +63,47 @@ if(document.getElementById) {
     
 }
 }
+function submit_diagnostics2(lid, sid){
+    if(!sid){
+        url = '/ajax/service_entry_date/' + lid; // + '/' + sid
+    }else{
+        url = '/ajax/service_entry_date/' + lid + '/' + sid;
+        
+    }
+    $.ajax({
+           url: url,
+           data: $('#diagnostics_form').serialize(),
+           type:'post',
+           cache: false,
+     
+           success: function(response){
+               service_history(lid);
+               show_diagnostic_data(lid, response.sid);
+                $([document.documentElement, document.body]).animate({
+                    scrollTop: $("#show_diagnostic_data_" + response.sid).offset().top
+                }, 2000);
+           }
+    })      
+    
+}
+function submit_diagnostics(lid, sid){
+    if(!sid){
+        sid='';
+    }
+    $.ajax({
+           url: '/ajax/add_service_entry/' + lid + '/' + sid,
+           data: $('#diagnostics_form').serialize(),
+           type:'post',
+           dataType: 'json',
+           cache: false,
+           success: function(response){
+               if(response.success==true){
+                   //add_service_entry(lid);
+               }
+           }
+    })      
+    
+}
 function load_profile(user_id){
     if(!user_id){
       user_id = 0;   
@@ -79,7 +120,7 @@ function load_profile(user_id){
 function get_form_data_and_submit(){
   var data = $('#registration_form').serialize();
   $.ajax({
-        url: '/ajax/register',
+        url: '/ajax/myprofile',
         data: data,
         type: 'post',
          dataType: 'json',
@@ -89,10 +130,12 @@ function get_form_data_and_submit(){
                     $('#alert-error').show();
                  //   $('#alert-error').html(response.error):
                     $('#alert-success').hide();
+                    alert(response.error);
              }else if(response.success == true){
                     $('#alert-error').hide();
                    // $('#alert-success').html(    response.error  ):
                     $('#alert-success').show();
+                    alert('Profile Submitted Successfully!');
              
              }
          }
@@ -162,14 +205,37 @@ function show_diagnostic_data(lid, sid){
     })
     
 }
-function add_service_entry(lid){
+function add_service_entry(lid, sid){
+    if(!sid){
+        sid = '';
+    }
         $.ajax({
-           url: '/ajax/add_service_entry/' + lid ,
-           type: 'post',
+           url: '/ajax/add_service_entry/' + lid + '/' + sid,
+           type: 'get',
            dataType: 'html',
-           data: {json: 1 },
+           
            success: function(response){
                 $('#service_entry_box').html(response)
+                $('#technician_name').autocomplete({
+                                                            minLength: 1,
+                                                            source: '/ajax/user_lookup/',
+                                                            focus: function( event, ui ) {
+                                                            
+                                                            return false;
+                                                            },
+                                                            select: function( event, ui ) {
+                                                                 $('#technician_id').val(ui.item.user_id);
+                                                                 $('#technician_name').val(ui.item.user_name);
+                                                            return false;
+                                                            }
+                                                            })
+                                                            .autocomplete( "instance" )._renderItem = function( ul, item ) {
+                                                            return $( "<li>" )
+                                                            .append( "<a><img src=\"" + item.avatar + "\" class=\"left avatar\" /> " + item.user_name + "<br />" + (item.company_name?item.company_name:'') + "</a>" )
+                                                            .appendTo( ul );
+                                                            };
+
+           
            }
     });     
 
@@ -210,18 +276,34 @@ function service_history(lid){
          success: function(response){
              if(!response.error){
                  $.each(response.data, function(i, item){
+                    
                      html = '<li class="service_entry block hunderd"><span class="fifty">date: <i>' + item.service_date + '</i><br />description: <i>' + item.service_performed + '</i><br />technician" <i>' + item.company_name + '</span><span class="hundred block show_diagnostic_data" id="show_diagnostic_data_' + item.id + '">';
                  
                       html += '<i class="fa fa-eye" onclick="show_diagnostic_data(' + lid + ', ' + item.id + ');"></i>';
                     html += '</span></li>';
-                    $('#part_data_' + lid + ' .ajax ul').append(html);
+                    $('#part_data_' + lid + ' .ajax ul').append(html );
                  });
-                 $('#part_data_' + lid + ' .ajax').append('<div id="service_entry_box"></div><a class="button" onclick="add_service_entry(' + lid + ');">Add Service Entry</a></span>');
+                 $('#part_data_' + lid + ' .ajax ul').append('<li id="service_entry_box"></li>');
+                 $('#part_data_' + lid + ' .ajax').append('<span><a class="button" onclick="add_service_entry(' + lid + ');">Add Service Entry</a></span>');
              }else{
                alert(response.error);   
              }
          }
     });   
+    
+}
+function nav_diagnostics(){
+    alt= parseInt($('.chart-holder-box:visible').attr('alt'));
+    next = alt + 1;
+    if(next >= $('.chart-holder-box').length){
+       next = 0;   
+    }    
+    $('.chart-holder-box').hide();
+    $('.chart-holder-box[alt="' + next + '"]').show();
+}
+function show_data_sheet(lid){
+    
+    
     
 }
 function get_parts(uid){
@@ -237,8 +319,140 @@ function get_parts(uid){
                 }else{
                     odd_even='odd';
                 }
-                html = '<li class="block row ' + odd_even + '"><span class="name inline" id="part_data_' + item.location_id + '">' + item.location_name + '<br />' + item.part_name + '<br />company: <i>' + item.company_name + '</i><br />client name: <i>' + item.first_name + ' ' + item.last_name + '</i><br />install date: <i>' + item.install_date + '</i><br />last service date: <i>' + item.last_service_date + '</i><br /><span class="inline buttons"><i class="fa fa-close"></i><i class="fa fa-pencil" onclick="add_part();lookup_part_data(' + item.location_id + ')"></i><i class="fa fa-eye"></i><i class="fa fa-cog" onclick="service_history(' + item.location_id + ');"></i></span><span class="ajax"></span></span><span class="qrcode inline"><img src="/QRCodeCreator/create/"' + item.location_id + '" /></span></li>';
+                html = '<li class="block row ' + odd_even + '"><span class="name inline" id="part_data_' + item.location_id + '">' + item.location_name + '<br />' + item.part_name + '<br />company: <i>' + item.company_name + '</i><br />client name: <i>' + item.customer_name + '</i><br />manufacturer: <i>' + item.manufacturer_name + '</i><br />part: <i>' + item.part_name + '</i><br />serial #: <i>' + item.serial_number + '</i><br />model #: <i>' + item.model_number + '</i><br />install date: <i>' + item.install_date + '</i><br />last service date: <i>' + item.last_service_date + '</i><br /><span class="inline buttons"><i class="fa fa-close"></i><i class="fa fa-pencil" onclick="add_part(' + item.location_id + ');lookup_part_data(' + item.location_id + ')"></i><i class="fa fa-eye" onclick="show_data_sheet(' + item.location_id + ');"></i><i class="fa fa-cog" onclick="service_history(' + item.location_id + ');"></i></span><div id="chartContainer_' + item.location_id + '" class="right line-chart"></div><span class="ajax"></span></span><span class="qrcode inline"><img src="/QRCodeCreator/create/' + item.location_id + '" /><i class="fa fa-print" onclick="print_qrcode(' + item.location_id + ');"></i></span></li>';
                 $('#content_box > ul.parts').append(html); 
+/*var jsdata = {};
+$.each(item.json, function(j, js){
+    [{
+		type: "line",
+		showInLegend: true,
+		name: "Projected Sales",
+		markerType: "square",
+		xValueFormatString: "DD MMM, YYYY",
+		color: "#F08080",
+		yValueFormatString: "#,##0K",
+		dataPoints: [
+			{ x: new Date(2017, 10, 1), y: 63 },
+			{ x: new Date(2017, 10, 2), y: 69 },
+			{ x: new Date(2017, 10, 3), y: 65 },
+			{ x: new Date(2017, 10, 4), y: 70 },
+			{ x: new Date(2017, 10, 5), y: 71 },
+			{ x: new Date(2017, 10, 6), y: 65 },
+			{ x: new Date(2017, 10, 7), y: 73 },
+			{ x: new Date(2017, 10, 8), y: 96 },
+			{ x: new Date(2017, 10, 9), y: 84 },
+			{ x: new Date(2017, 10, 10), y: 85 },
+			{ x: new Date(2017, 10, 11), y: 86 },
+			{ x: new Date(2017, 10, 12), y: 94 },
+			{ x: new Date(2017, 10, 13), y: 97 },
+			{ x: new Date(2017, 10, 14), y: 86 },
+			{ x: new Date(2017, 10, 15), y: 89 }
+		]
+	},
+	{
+		type: "line",
+		showInLegend: true,
+		name: "Actual Sales",
+		lineDashType: "dash",
+		yValueFormatString: "#,##0K",
+		dataPoints: [
+			{ x: new Date(2017, 10, 1), y: 60 },
+			{ x: new Date(2017, 10, 2), y: 57 },
+			{ x: new Date(2017, 10, 3), y: 51 },
+			{ x: new Date(2017, 10, 4), y: 56 },
+			{ x: new Date(2017, 10, 5), y: 54 },
+			{ x: new Date(2017, 10, 6), y: 55 },
+			{ x: new Date(2017, 10, 7), y: 54 },
+			{ x: new Date(2017, 10, 8), y: 69 },
+			{ x: new Date(2017, 10, 9), y: 65 },
+			{ x: new Date(2017, 10, 10), y: 66 },
+			{ x: new Date(2017, 10, 11), y: 63 },
+			{ x: new Date(2017, 10, 12), y: 67 },
+			{ x: new Date(2017, 10, 13), y: 66 },
+			{ x: new Date(2017, 10, 14), y: 56 },
+			{ x: new Date(2017, 10, 15), y: 64 }
+		]
+	}]
+    
+});    */
+
+                    $.ajax({
+                        url: '/ajax/diag_json/' + item.location_id,
+                        dataType:'json',
+                        success: function(jsdata){
+                            t=0;
+                            var patt = new RegExp(/[a-z]+[0-9]+?$/i);
+                            $.each(jsdata.services, function(j, js){
+                               
+                               var dataPoints = []
+                               var title;
+                                   $.each(js, function(o, row){
+                                       
+                                       dataPoints[o] = {}
+                                       $.each(row, function(o2, row2){
+                                            if(row2){
+                                                dates = o2.split(' ')[0].split('-')
+                                                dataPoints[o].x = new Date(dates[0], dates[1], dates[2], o2.split(' ')[1].split(':')[0], o2.split(' ')[1].split(':')[1]);
+                                                    var val = Number(row2.toString().replace(/[a-z]+([0-9]+)?$/i, ''));
+                                                    var title = row2.toString().replace(/^[0-9]+/i, '')
+                                                    console.log(title)
+                                                    dataPoints[o].y = val;
+                                            }
+                                       });
+                                   });  
+                                  console.log(JSON.stringify(dataPoints))
+                                 
+                                var options = {
+                                    animationEnabled: true,
+                                    theme: "light2",
+                                    title:{
+                                        text: j
+                                    },
+                                    axisX:{
+                                        valueFormatString: "DD MMM YYYY"
+                                    },
+                                    axisY: {
+                                        title: title,
+                                        suffix: ""
+                                    },
+                                     
+                                    legend:{
+                                        cursor:"pointer",
+                                        verticalAlign: "bottom",
+                                        horizontalAlign: "left",
+                                        dockInsidePlotArea: true,
+                                        itemclick: toogleDataSeries
+                                    },
+                                   data: [{
+                                            type: "line",
+                                            showInLegend: true,
+                                            name: j,
+                                            markerType: "circle",
+                                            xValueFormatString: "DD MMM, YYYY HH:MM",
+                                            color: "#F08080",
+                                            yValueFormatString: "#,##0K",
+                                            dataPoints: dataPoints
+                                   }]
+                                
+                                };
+                                $("#chartContainer_" + item.location_id ).append('<div id="chart-' + t + '" alt="' + t + '" class="chart-holder-box"></div>')
+                                
+                                $("#chartContainer_" + item.location_id + ' #chart-' + t ).CanvasJSChart(options);
+                               t++;
+                            });
+                            $("#chartContainer_" + item.location_id ).append('<i class="fa fa-arrow-right" onclick="nav_diagnostics();"></i>');
+                        }
+                    });  
+                    function toogleDataSeries(e){
+                        if (typeof(e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
+                            e.dataSeries.visible = false;
+                        } else{
+                            e.dataSeries.visible = true;
+                        }
+                        e.chart.render();
+                    }
+
+
                  
              });    
          }
@@ -258,9 +472,122 @@ $('#content_box').html('')
                   return;
              }
              get_parts($('#user_id').val());
+              $('.search_parts input.name, .search_parts input.number').click(function(){
+                            $('.search_parts input.name, .search_parts input.number').each(function(i, item){
+                                var id=$(this).attr('id');
+                            
+                                if(id=='serial_number'){
+                                    return;
+                                }   
+                                $(this).keydown(function(){
+                                    $('#' + id.replace(/name$/ig, 'id') ).remove();
+                                })
+                                
+                                
+                                
+                            
+                                
+
+                            
+                                                                    $('#' + id).autocomplete({
+                                                                                minLength: 1,
+                                                                                source: '/ajax/product_lookup/' + id + '/',
+                                                                                focus: function( event, ui ) {
+                                                                                
+                                                                                return false;
+                                                                                },
+                                                                                select: function( event, ui ) {
+                                                                                    patt = new RegExp(/(name)$/ig);
+                                                                                        if(id.match(patt)){
+                                                                                            if($('#' + id.replace(/name$/ig, 'id') ).length>0){
+                                                                                                $('#' + id.replace(/name$/ig, 'id') ).remove();
+                                                                                            }   
+                                                                                        //  $(this).after('<input type="hidden" id="' + id.replace(/(name)$/ig, 'id') + '" name="' + id.replace(/(name)$/ig, 'id') + '" value="" class="hidden" />');   
+                                                                                        }
+                                                                                        $('#' + id).val(ui.item.value);
+                                                                                        $('#' + id.replace(/name$/ig, 'id') ).val(ui.item.id);  
+                                                                                        if(id == 'location_name'){
+                                                                                        lookup_part_data(ui.item.id)   
+                                                                                            
+                                                                                        }    
+                                                                                return false;
+                                                                                }
+                                                                                })
+                                                                                .autocomplete( "instance" )._renderItem = function( ul, item ) {
+                                                                                return $( "<li>" )
+                                                                                .append( "<a>" + item.description + "</a>" )
+                                                                                .appendTo( ul );
+                                                                                };
+                                                                });
+                })     
          }
   });      
-}   
+}  
+function delete_image(iid, confirmed){
+    if(!confirmed){
+        $.ajax({
+              url :'/ajax/delete_image/' + iid,
+               success: function (response){
+                   alert(response);
+                   $('#closeBtn').attr('href', 'javascript:;');
+                   $('#closeBtn').attr('onclick', 'delete_image(' + iid + ',' + 1 + ');')
+               }
+        });
+    }else{
+         $.ajax({
+              url :'/ajax/delete_image/' + iid + '/1',
+               success: function (response){
+                   $('.thumbnail[alt="' + iid + '"]').remove();
+                   $('#modalContainer').remove();
+               }
+        });
+        
+    }
+}    
+                   
+    
+function createUploaderProduct(elem, type, model_number, lid){            
+            var ajaxuploader = new qq.FineUploader({
+                element: document.getElementById(elem),
+                template: 'qq-template-gallery',
+                multiple: false,
+              //  ios: true,
+             //   allowXdr: true,
+             //   sendCredentials: true,
+                
+                request: {
+                    forceMultipart: true,
+                    params: {  which: type, table: 'part_photos', 'model_number':  model_number},
+                    endpoint: "/Uploader/upload_product"
+                },
+                thumbnails: {
+                    placeholders: {
+                        waitingPath: '/public/js/placeholders/waiting-generic.png',
+                        notAvailablePath: '/public/js/placeholders/not_available-generic.png'
+                    }
+                },
+                validation: {
+                    allowedExtensions: ['jpeg', 'jpg', 'gif', 'png', 'avi', 'pdf']
+                },
+                onComplete: function(response){
+                    alert(lid)
+                  $.ajax({
+                          url: '/ajax/product_photos/' + lid,
+                          cache: false,
+                          dataType: 'json',
+                          success: function(response){
+                            $('#image_uploader').replace(response);
+                          }
+                      });    
+                }, 
+                onError: function(response){
+                
+                
+                }
+
+            });           
+        }
+       
 function part_submit(){
     $.ajax({
         url: '/ajax/part_submit',
@@ -280,8 +607,9 @@ function part_submit(){
         alert('Location not found');
       }
 function login_form(){
+   
       $.ajax({
-        url: '/main/login?ajax=1',
+        url: '/main/login?ajax_set=1',
         
         type: 'get',
          dataType: 'html',
@@ -294,10 +622,10 @@ function login_form(){
       });  
     
 }
-function add_part(serial_no){
-    
-    $.ajax({
-        url: '/ajax/add_part',
+
+function ajax_register(){
+      $.ajax({
+        url: '/main/register?ajax_set=1',
         
         type: 'get',
          dataType: 'html',
@@ -306,16 +634,39 @@ function add_part(serial_no){
             //alert(1)
           $('#content_box').html(response);
           
-          // Try HTML5 geolocation.
+        }
+      });  
+    
+}
+function ajax_recover(){
+      $.ajax({
+        url: '/main/forgot?ajax_set=1',
+        
+        type: 'post',
+        data: $('#recover').serialize(),
+         dataType: 'html',
+        cache: false,
+        success: function(response){
+            //alert(1)
+          $('#content_box').html(response);
+          
+        }
+      });  
+    
+}
+function lookup_geo_location(){
+      // Try HTML5 geolocation.
         if (navigator.geolocation) {
           navigator.geolocation.getCurrentPosition(function(position) {
             var pos = {
               lat: position.coords.latitude,
               lng: position.coords.longitude
             };
-
-           $('#latitude').val(pos.lat);
-           $('#longitude').val(pos.lng);
+            //alert(pos.lat)
+            if($('#latitude').val() == '' & $('#longitude').val() == ''){
+                $('#latitude').val(pos.lat);
+                $('#longitude').val(pos.lng);
+            }
           }, function() {
             handleLocationError();
           });
@@ -324,11 +675,30 @@ function add_part(serial_no){
           handleLocationError();
         }
       
+}      
+function add_part(serial_no){
+    
+    $.ajax({
+        url: '/ajax/add_part/' + serial_no,
+        
+        type: 'get',
+         dataType: 'html',
+        cache: false,
+        success: function(response){
+            //alert(1)
+          $('#content_box').html(response);
+          if($('#image-uploader').length >0 ){
+            createUploaderProduct('image-uploader', 'product', $('#model_number').val(), $('#location_id').val());
+          }
+        lookup_geo_location();
 
     
 
           $('input.name, input.number').each(function(i, item){
             var id=$(this).attr('id');
+            if(id=='serial_number'){
+                return;
+            }   
               $(this).keydown(function(){
                   $('#' + id.replace(/[_name]$/ig, '_id') ).remove();
               })

@@ -9,13 +9,14 @@
                 <div class="form-group">
                         <label>Part / Serial Number<span>req.</span></label>
                         <?php echo form_input(array('name'=>'serial_number', 'id'=> 'serial_number', 'placeholder'=>'Part / Serial Number', 'class'=>'form-control number', 'value'=> set_value('serial_number', $array['serial_number']))); ?>
-                        <?php if (!empty($this->uri->segment(3))){ ?><img src="http://chilltech.ddns.net/QRCodeCreator/create/<?php echo $this->uri->segment(3); ?>" class="right inline qrcode" /> <?php } ?>
+                         <?php if (!empty($this->uri->segment(3))){ ?><img src="http://chilltech.ddns.net/QRCodeCreator/create/<?php echo $this->uri->segment(3); ?>" class="right inline qrcode" /> <?php } ?>
+                       
                         <?php echo form_error('serial_number');?>
                 </div>
                 <div class="form-group">
                         <label>Maufacturer's Part Name<span>req.</span></label>
                         <?php echo form_input(array('name'=>'part_name', 'id'=> 'part_name', 'placeholder'=>'Maufacturer\'s Part Name', 'class'=>'form-control number', 'value'=> set_value('part_name', $array['part_name']))); ?>
-                        <?php if (!empty($this->uri->segment(3))){ ?><img src="http://chilltech.ddns.net/QRCodeCreator/create/<?php echo $this->uri->segment(3); ?>" class="right inline qrcode" /> <?php } ?>
+                       
                         <?php echo form_error('part_name');?>
                 </div>
                 <div class="form-group">

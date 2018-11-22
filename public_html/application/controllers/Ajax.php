@@ -31,6 +31,43 @@ class Ajax extends CI_Controller {
           }
         
         }*/
+        public function user_lookup(){
+                $data = $this->db->query("select user_id, concat(first_name, ' ', last_name) as user_name, company_name, avatar, logo from users where company_name  like '" . $this->input->get('term') . "%' or  concat(first_name, ' ', last_name) like '" . $this->input->get('term') . "%'")->result_array();
+                header('content-type: application/json');
+                echo json_encode($data);
+        
+        }
+         public function service_entry_date(){
+          
+               
+                if(empty($this->session->userdata['user_id'])){
+                    return;
+                }
+               
+                if(!empty($this->input->post('service_date'))){
+              
+                        $service_date = $this->input->post('service_date') . ':00';
+                        
+
+                            
+                        if(is_numeric($this->uri->segment(4))){
+                            $data = array('tech_id' => $this->input->post('technician_id'), 'service_date' => $service_date, 'service_performed' => $this->input->post('service_performed'), 'location_id' => $this->uri->segment(3));
+                            
+                            $where = "location_id = " . $this->uri->segment(3) . " AND id = " . $this->uri->segment(4); 
+                            $sql = $this->db->update_string("service_dates", $data, $where);
+                        }else{
+                            $data = array('tech_id' => $this->input->post('technician_id'), 'service_date' => $service_date, 'service_performed' => $this->input->post('service_performed'), 'location_id' => $this->uri->segment(3));
+                            $sql = $this->db->insert_string('service_dates', $data);
+                        
+                        }
+                        
+                        header('content-type: application/json');
+                        $this->db->query($sql);
+                        echo json_encode(array('success' => 1, 'sid' => $this->db->insert_id()));
+                        exit;
+                }
+                return;
+        }   
         public function save_diagnotics(){
           $data=array();
            foreach($this->input->post('key') as $k => $value){
@@ -49,9 +86,9 @@ class Ajax extends CI_Controller {
           $units = $this->db->query("select * from units order by Name asc")->result_array();
           $this->load->view('parts/add_record', array('units' => $units));
         }
-         public function show_diagnostic_data(){
+        public function show_diagnostic_data(){
          if(empty($this->session->userdata['user_id'])){
-           redirect('/main/login?ajax=1');
+           redirect('/main/login?ajax_set=1');
            return;
           }
           $filter = '';
@@ -66,21 +103,44 @@ class Ajax extends CI_Controller {
         
           $this->load->view('parts/diagnostics_form_values', array('data' => $data, 'units' => $units));
         }
+             
         public function add_service_entry(){
-         if(empty($this->session->userdata['user_id'])){
-           redirect('/main/login?ajax=1');
-           return;
-          }
-          $filter = '';
-          if(!empty($this->uri->segment(4))){
-            $filter = " and id=" . $this->uri->segment(4);
-          }
-          $data = $this->db->query("select * from service_dates where location_id=" . $this->uri->segment(3))->result_object();
-          $this->load->view('parts/diagnostics_form', array('data' => $data));
+                if(empty($this->session->userdata['user_id'])){
+                    redirect('/main/login?ajax_set=1');
+                    return;
+                }
+                ;
+                if(!empty($this->input->post('service_date'))){
+              
+                        $service_date = $this->input->post('service_date') . ':00';
+                        
+
+                            
+                        if(is_numeric($this->uri->segment(4))){
+                            $data = array('tech_id' => $this->input->post('tech_id'), 'service_date' => $service_date, 'service_performed' => $this->input->post('service_performed'), 'location_id' => $this->uri->segment(3));
+                            
+                            $where = "location_id = " . $this->uri->segment(3) . " AND id = " . $this->uri->segment(4); 
+                            $sql = $this->db->update_string("service_dates", $data, $where);
+                        }else{
+                            $data = array('tech_id' => $this->input->post('tech_id'), 'service_date' => $service_date, 'service_performed' => $this->input->post('service_performed'), 'location_id' => $this->uri->segment(3));
+                            $sql = $this->db->insert_string('service_dates', $data);
+                        
+                        }
+                        header('content-type: application/json');
+                        $this->db->query($sql);
+                        echo json_encode(array('success' => 1));
+                        exit;
+                }
+                $filter = '';
+                if(!empty($this->uri->segment(4))){
+                    $filter = " and id=" . $this->uri->segment(4);
+                }
+                $data = $this->db->query("select * from service_dates where location_id=" . $this->uri->segment(3))->result_object();
+                $this->load->view('parts/diagnostics_form', array('data' => $data));
         }
         public function service_history(){
         if(empty($this->session->userdata['user_id'])){
-           redirect('/main/login?ajax=1');
+           redirect('/main/login?ajax_set=1');
            return;
           }
           
@@ -98,16 +158,47 @@ class Ajax extends CI_Controller {
         }
         public function my_parts(){
           if(empty($this->session->userdata['user_id'])){
-           redirect('/main/login?ajax=1');
+           redirect('/main/login?ajax_set=1');
            return;
           }
           $uid = $this->input->get('uid')?$this->input->get('uid'):$this->session->userdata['user_id'] ;
           $this->load->view('parts/search_parts');
           $this->load->view('parts/parts_list', array('uid' => $uid));
         }  
+        public function diag_json(){
+        
+           $data = array();
+           
+           
+             $jsons = $this->db->query("select service_date, json from service_dates where location_id=" . $this->uri->segment(3) . " and json is not null")->result_array();
+           
+           $data['dates'] = array();
+           $data['services'] = array();
+           foreach($jsons as $j => $json){
+           
+              $arr = json_decode($json['json'], true);
+              
+              
+              $key = $json['service_date'];
+              $data['dates'][] = $key;
+              
+              $data[$key] = array();
+              
+              foreach($arr as $a => $v){
+               if(!array_key_exists($a, $data[$key])){
+                  $data[$key][$a] =$v;
+                  $data['services'][$a][] = array($key => $v);
+               }
+              
+              }
+           
+           }
+           header("content-type: application/json");
+           echo json_encode($data);
+        }
         public function get_parts(){
           if(empty($this->session->userdata['user_id'])){
-           redirect('/main/login?ajax=1');
+           redirect('/main/login?ajax_set=1');
            return;
           }
           
@@ -121,9 +212,9 @@ class Ajax extends CI_Controller {
           $sql = $me['level_info']['part_sql'];
       
           
-          $replaces = array('customer_id', 'dealer_id', 'salesman_id', 'technician_id', 'maintanence_id', 'uid');
-          foreach($replaces as $replace){
-            $sql = str_replace("[[" . $replace . "]]", $this->session->userdata['user_id'], $sql);
+          $replaces = array($uid => 'customer_id', $uid => 'dealer_id', $this->input->post('sid') => 'salesman_id', $this->input->post('tid') => 'technician_id', $this->input->post('mid') => 'maintanence_id', $this->session->userdata['user_id'] => 'uid');
+          foreach($replaces as $r => $replace){
+            $sql = str_replace("[[" . $replace . "]]", $r, $sql);
             
           }
           $sql = str_replace("[[start]]", $s, $sql);
@@ -133,32 +224,55 @@ class Ajax extends CI_Controller {
           header("content-type: application/json");
            $data = array();
            $data['part_data'] = $this->db->query($sql)->result_array();
+           
+           //$data['part_data'][$k]['json']
+           //exit;
            echo json_encode($data);
+        }
+        public function delete_image(){
+           if(empty($this->uri->segment(4))){
+             echo "Please Confirm you want to delete this Photo!<br /><a href=\"javascript:;\" onclick=\"$('#modalContainer').remove();\">Cancel</a>";
+           }else{
+           
+             $this->db->query("delete from part_photos where id=" . $this->uri->segment(3));
+             
+           }
+        
+        }
+        public function product_photos(){
+          $this->load->model('Parts');
+                $data['part_data'] = $this->Parts->getPart($this->uri->segment(3));
+               
+                $data['photos'] = $this->db->query("select * from part_photos where model_number='" . $data['part_data']['model_number'] . "'")->result_array();
+          $this->load->view('parts/photos', array('me' => $me, 'data' => $data));
         }
         public function add_part(){
         if(empty($this->session->userdata['user_id'])){
-           redirect('/main/login?ajax=1');
+           redirect('/main/login?ajax_set=1');
            return;
           }
            $me = $this->user_model->getUserInfo($this->session->userdata['user_id']);
            $data = array('part_data' => array(), 'warranty_data' => array(), 'photos' => array());
            
            if(!empty($this->uri->segment(3))){
-             $this->load->model('Parts');
-              $data['part_data'] = $this->Parts->getPart($this->uri->segment(3));
+                $this->load->model('Parts');
+                $data['part_data'] = $this->Parts->getPart($this->uri->segment(3));
+               
+                $data['photos'] = $this->db->query("select * from part_photos where model_number='" . $data['part_data']['model_number'] . "'")->result_array();
              // print_r($data['part_data']);
-              $this->load->model('Part_Warranty'); 
+                $this->load->model('Part_Warranty'); 
                 if(!empty($this->Part_Warranty->getByModel($data['part_data']['model_number'], $this->uri->segment(3)))){
                     $data['warranty_data'] = $this->Part_Warranty->getByModel($data['part_data']['model_number'], $this->uri->segment(3));
                 }
+                
            }
           
            
            if(empty($this->input->post('json'))){
-           
+                 $this->load->view('parts/photos', array('me' => $me, 'data' => $data));
                 $this->load->view('parts/add_part', array('me' => $me, 'data' => $data));
                 $this->load->view('parts/part_warranty', array('me' => $me, 'data' => $data));
-           
+               
            }else{
               header("content-type: application/json");
               echo json_encode(array('data' => $data));
@@ -177,24 +291,24 @@ class Ajax extends CI_Controller {
           }
        //   print_r($columns);
             $column = str_replace('_name', '_id', $this->uri->segment(3));
-       //echo $column;
-        
+       
+     
           if(in_array($column, $columns)){
-      //    echo "select * from column_to_table_reference where reference_column='" .  $column . "' order by id desc limit 1";
+        //  echo "select * from column_to_table_reference where reference_column='" .  $column . "' order by id desc limit 1";
             $meta = $this->db->query("select * from column_to_table_reference where reference_column='" .  $column . "' order by id desc limit 1")->result_object();
             
-         //  print_r($meta);
+           
             if(count($meta)==0){
               return;
             }
-         //  echo "select " . $meta[0]->column_name . " from " . $meta[0]->table_name . " where " . $meta[0]->where_name . " like '" . $this->input->get('term') . "%' order by " . $meta[0]->order_by_name . " asc limit 10";
+          // echo "select " . $meta[0]->column_name . " from " . $meta[0]->table_name . " " . $meta[0]->joins . " where " . $meta[0]->where_name . " like '" . $this->input->get('term') . "%' order by " . $meta[0]->order_by_name . " asc limit 10";
            // exit;
-            $data = $this->db->query("select distinct " . $meta[0]->column_name . " from " . $meta[0]->table_name . " where " . $meta[0]->where_name . " like '" . $this->input->get('term') . "%' order by " . $meta[0]->order_by_name . " asc limit 10")->result_array();
+            $data = $this->db->query("select distinct " . $meta[0]->column_name . " from " . $meta[0]->table_name  . " " . $meta[0]->joins . " where " . $meta[0]->where_name . " like '" . $this->input->get('term') . "%' order by " . $meta[0]->order_by_name . " asc limit 10")->result_array();
           
           }else{
             return;
           }
-          header("content-type: applcation/json");
+          header("content-type: application/json");
           echo json_encode($data);
         } 
         public function register()
@@ -234,7 +348,7 @@ class Ajax extends CI_Controller {
             }else{                
                 if($this->user_model->isDuplicate($this->input->post('email'))){
                     $this->session->set_flashdata('flash_message', 'User email already exists');
-                    redirect(site_url().'main/login');
+                    redirect(site_url().'main/login?ajax_set=1');
                 }else{
                    // echo $this->user_model->user_level(        $this->input->post('level_id')        );
                    // exit;
@@ -303,6 +417,11 @@ class Ajax extends CI_Controller {
                     $this->load->view('login');
                 //    $this->load->view('footer');
                 exit;
+          }
+          if(!empty($this->input->post('user_id'))){
+             $post = $this->security->xss_clean($this->input->post(NULL, TRUE));
+            $this->user_model->updateUserInfo($post);
+          
           }
           if($me['level_id'] <=2 & $this->input->get('user_id') >0){ //edit existing user as admin or dealer
             $data = $this->user_model->getUserInfo($this->input->get('user_id'));

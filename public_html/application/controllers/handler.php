@@ -185,7 +185,7 @@ class UploadHandler {
             $target = $targetFolder.'/'.$partIndex;
             $success = move_uploaded_file($_FILES[$this->inputName]['tmp_name'], $target);
 
-            return array("success" => true, "uuid" => $uuid);
+            return array("success" => true, "uuid" => $uuid, 'ext' => $ext);
 
         }
         else {

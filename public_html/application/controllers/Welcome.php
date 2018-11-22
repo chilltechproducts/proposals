@@ -30,7 +30,32 @@ class Welcome extends CI_Controller {
     
 	public function index()
 	{
-	  
-		$this->load->view('welcome_message');
+	    $this->load->view('welcome_header');
+		$this->load->view('index');
+	}
+	public function contact()
+	{
+	    $this->load->view('welcome_header');
+		$this->load->view('contact');
+	}
+	public function next()
+	{
+	    $this->load->view('welcome_header');
+		$this->load->view('next');
+	}
+	public function news()
+	{
+	    $this->load->view('welcome_header');
+		$this->load->view('news');
+	}
+	public function products()
+	{
+	    $this->load->view('welcome_header');
+		$this->load->view('products');
+	}
+	public function proposal_system()
+	{
+	    $this->load->view('header');
+		$this->load->view('proposal_system');
 	}
 }

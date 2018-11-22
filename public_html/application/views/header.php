@@ -41,16 +41,19 @@
 
 
         <script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
-		
+        
+        
+        <script type="text/javascript" src="/public/js/canvasjs.min.js"></script>
+		<script type="text/javascript" src="/public/js/jquery.canvasjs.min.js"></script>
 		
 		<script src="https://cdn.ckeditor.com/4.11.1/standard/ckeditor.js"></script>
 		<script>
 
 </script>
-        <script src="/public/js/main.js"></script>
-
+       <script src="/public/js/main.js"></script>
+   
     </head>
-    <body>
+  
     <!--[if lt IE 8]>
     <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
@@ -63,9 +66,5 @@
                 echo $html;
             }
         ?>
-    <div class="container">
-        <div class="row">
-        
-        
-         
+  
         

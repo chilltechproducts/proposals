@@ -57,11 +57,11 @@ class User_model extends CI_Model {
     {
        $tkn = substr($token,0,30);
        $uid = substr($token,30);      
-       
+     
         $q = $this->db->get_where('tokens', array(
             'tokens.token' => $tkn, 
             'tokens.user_id' => $uid), 1);                         
-               
+              
         if($this->db->affected_rows() > 0){
             $row = $q->row();             
             
@@ -73,8 +73,9 @@ class User_model extends CI_Model {
             if($createdTS != $todayTS){
                 return false;
             }
-            
+           
             $user_info = $this->getUserInfo($row->user_id);
+           
             return $user_info;
             
         }else{
@@ -127,12 +128,29 @@ class User_model extends CI_Model {
         $data = array(
                'password' => $post['password'],
                'last_login' => date('Y-m-d h:i:s A'), 
+               'first_name' => $post['first_name'],
+               'last_name' => $post['last_name'],
+               'street_address' => $post['street_address'],
+               'street_address2' => $post['street_address2'],
+               'city' => $post['city'],
+               'state' => $post['state'],
+               'postal_code' => $post['postal_code'],
+               'business_phone' => $post['business_phone'],
+               'service_phone' => $post['service_phone'],
+               'sales_phone' => $post['sales_phone'],
+               'emergency_phone' => $post['emergency_phone'],
+               'fax_phone' => $post['fax_phone'],
+               'employer_identication_number' => $post['employer_identication_number'],
+               'webhook_url' => $post['webhook_url'],
+               'user_facebook' => $post['user_facebook'],
+               'user_website' => $post['user_website'],
                'status' => 1
             );
-        $this->db->where('user_id', $post['user_id']);
+          
+        $this->db->where(array('user_id=' => $post['user_id']) );
         $this->db->update('users', $data); 
         $success = $this->db->affected_rows(); 
-      
+      print_r($success);
         if(!$success){
             error_log('Unable to updateUserInfo('.$post['user_id'].')');
             return false;
@@ -144,13 +162,13 @@ class User_model extends CI_Model {
     
     public function checkLogin($post)
     {
-    
+  
         $this->load->library('password');       
         $this->db->select('*');
         $this->db->where('email', $post['email']);
         $query = $this->db->get('users');
         $userInfo = $query->row();
-        
+    
         if(!$this->password->validate_password($post['password'], $userInfo->password)){
             error_log('Unsuccessful login attempt('.$post['email'].')');
             return false; 
@@ -174,6 +192,7 @@ class User_model extends CI_Model {
         $q = $this->db->get_where('users', array('email' => $email), 1);  
         if($this->db->affected_rows() > 0){
             $row = $q->row();
+           
             return $row;
         }else{
             error_log('no user found getUserInfo('.$email.')');

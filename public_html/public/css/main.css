@@ -618,3 +618,354 @@ cursor:pointer;
     height: 120px;
 
 }
+#diagnostics_form {
+    margin: 10px 10px 10px 35px;
+        margin-left: 35px;
+    border: 4px solid #666;
+    padding: 10px;
+    height: auto;
+    display: block;
+    min-height: 314px;
+    background-color: #fff;
+    width: 100%;
+    margin-left: 0px;
+}
+#service_performed {
+    height: 90px;
+}
+#diagnostics_form input[type="submit"] {
+    display: block;
+    position: relative;
+    top: 75px;
+    margin-bottom: 50px;
+    float: right;
+}
+.slick-prev.slick-arrow {
+    top: 25%;
+    position: absolute;
+    z-index: 100;
+    left: 0px;
+    background-color: burlywood;
+    border: 1px solid #fff;
+    color: #fff;
+    border-radius: 5px;
+    padding: 5px 10px;
+}
+.slick-next.slick-arrow {
+    position: absolute;
+    right: 0px;
+    top: 25%;
+    background-color: burlywood;
+    border: 1px solid #fff;
+    color: #fff;
+    border-radius: 5px;
+    padding: 5px 10px;
+    width: 80px;
+}
+.ui-menu .left.avatar {
+    float: left;
+    width: 45px;
+    height: auto;
+    border-radius: 50%;
+}
+.ui-menu .left.avatar {
+    float: left;
+    width: 45px;
+    height: auto;
+    border-radius: 50%;
+    margin-left: 10px;
+}
+.slick-dots {
+    float: right;
+    list-style: none;
+    position: absolute;
+    top: 72%;
+    right: 0px;
+}
+.slick-dots li {
+    display: inline-flex;
+    margin-right: 2px;
+    background-color: cadetblue;
+}
+.slick-dots li button {
+    background-color: burlywood;
+    border: 1px solid #fff;
+    color: #fff;
+    border-radius: 5px;
+    padding: 5px 10px;
+}
+#modalContainer {
+    background-color:rgba(0, 0, 0, 0.3);
+    position:absolute;
+    width:100%;
+    height:100%;
+    top:0px;
+    left:0px;
+    z-index:10000;
+   
+}
+#alertBox {
+  background-color: #fff;
+  background-position: 20px 30px;
+  background-repeat: no-repeat;
+  border: 1px solid #666;
+  margin-top: 50px;
+  min-height: 100px;
+  position: relative;
+  width: 300px;
+  height: auto;
+}
+#modalContainer > #alertBox {
+  position: fixed;
+  top: 10%;
+  border-radius: 6px;
+}
+
+#alertBox h1 {
+    background-color: #9d1830;
+    background: rgba(0, 0, 0, 0) linear-gradient(180deg, #9d1830 35%, rgba(124, 16, 36, 0.9) 65%, #9d1830 100%) repeat scroll 0 0 !important;
+    border-bottom: 1px solid #000;
+    color: #fff;
+    font: bold 1.2em verdana,arial;
+        line-height: normal;
+    height: 30px;
+    padding: 16px 0 2px 5px;
+    text-align: center;
+    vertical-align: top;
+    margin-top: 0px;
+    border-radius: 5px 5px 0px 0px;
+    line-height: 0px;
+}
+
+.right.line-chart {
+    max-width: 200px !important;
+    float: right;
+}
+.right.line-chart .canvasjs-chart-container > .canvasjs-chart-canvas {
+    width: 265px;
+    position: relative !important;
+   
+    
+    display: table;
+    border: 1px solid #666;
+}
+.right.line-chart .canvasjs-chart-container > .canvasjs-chart-canvas:nth-child(2) {
+    display: none;
+}
+.right.line-chart > div {
+
+    display: none;
+    position: relative;
+    top: -200px;
+    left: -65px;
+    margin-bottom: -170px;
+
+}
+.right.line-chart > div:first-child {
+    display: block;
+}
+.right.line-chart .fa.fa-arrow-right {
+
+    float: right;
+    position: relative;
+    font-size: 30px;
+    margin-bottom: -59px;
+    margin-top: -30px;
+
+}
+.qrcode .fa.fa-print {
+
+    font-size: 25px;
+    float: right;
+    position: relative;
+    top: -85px;
+    color: #fff;
+    margin-right: 25px;
+    background-color: #666;
+    padding: 5px;
+    border-radius: 5px;
+    border: 1px solid #fff;
+    box-shadow: 2px 2px 2px #666;
+    cursor: pointer;
+
+}
+#serial_number, #part_name {
+
+    max-width: 50% !important;
+    float: left;
+
+}
+.right.inline.qrcode {
+
+    margin-bottom: 20px;
+    left: -10px;
+    position: relative;
+
+}
+#image_uploader {
+
+    display: block;
+    height: auto;
+    min-height: 100px;
+
+}
+#part_photos {
+
+    min-height: 100px;
+    width: 100%;
+    display: table;
+    list-style: none;
+
+}
+.thumb {
+
+    width: 100px;
+    height: 100px;
+    display: inline-block;
+
+}
+#image-uploader {
+
+    display: ;
+
+}
+#part_photos .thumbnail {
+
+    display: inline-block;
+    padding: 4px;
+    margin-bottom: 20px;
+    line-height: 1.42857143;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    -webkit-transition: border .2s ease-in-out;
+    -o-transition: border .2s ease-in-out;
+    transition: border .2s ease-in-out;
+    width: 135px;
+    float: left;
+    height: auto;
+    min-height: 123px;
+    vertical-align: middle;
+
+}
+.thumbnail.button {
+
+    background-color: transparent !important;
+    border: 0px none !important;
+    transition: unset !important;
+
+}
+.thumbnail .fa.fa-close {
+
+    float: right;
+    color: #fff;
+    background-color: #666;
+    padding: 5px;
+    border-radius: 5px;
+    border: 1px solid #fff;
+    box-shadow: 2px 2px 2px #666;
+    z-index: 10;
+    position: relative;
+    margin-bottom: -15px;
+
+}
+.canvasjs-chart-credit {
+    display: none;
+    top: 0px !important;
+}
+#alertBox p {
+  font: 1.0em verdana,arial;
+  min-height: 50px;
+  height: auto;
+  margin-left: auto;
+  padding-left: 5px;
+  margin-right: auto!important;
+  text-align: center;
+  margin-bottom:30px;
+  font-weight: bold;
+}
+
+#alertBox #closeBtn {
+  background-color: #9d1830;
+  background: rgba(0, 0, 0, 0) linear-gradient(180deg, #9d1830 35%, rgba(124, 16, 36, 0.9) 65%, #9d1830 100%) repeat scroll 0 0 !important;
+  border: 0 none;
+  border-radius: 3px;
+  color: #fff;
+  display: block;
+  float: right;
+  font: 1.0em verdana,arial;
+  margin: 5px 10px 5px auto;
+  padding: 7px;
+  position: relative;
+  text-align: center;
+  text-decoration: none;
+  text-transform: uppercase;
+  width: 70px;
+}
+img.inline.right.qrcode {
+
+    float: right;
+    display: inline-block;
+    width: 170px;
+    margin-top: -17px;
+    margin-bottom: -58px !important;
+
+}
+#id_submit_form {
+
+    margin-bottom: 50px;
+    top: 20px;
+    position: relative;
+
+}
+.error {
+    position: relative;
+    top: -15px;
+}
+#registration_form.search_parts {
+    margin-left: 5px;
+}
+#registration_form.search_parts {
+
+    margin-left: 5px;
+    background-color: #c2c2c2;
+    border: 5px solid #666 !important;
+
+}
+#registration_form.search_parts .form-group {
+
+    display: inline-block !important;
+    width: 30%;
+    margin-left: 10px;
+
+}
+#registration_form.search_parts .form-group label {
+
+    display: block;
+    clear: both;
+    float: none;
+    width: 100%;
+    font-size: 12px;
+    margin-bottom: -7px;
+
+}
+#registration_form.search_parts .form-group input {
+    width: 100% !important;
+    display: block;
+    float: none;
+    clear: both;
+    max-width: unset !important;
+    font-size: 13px !important;
+    height: 25px;
+}
+#registration_form.search_parts .form-group input.btn.btn-lg.btn-primary.btn-block {
+
+    font-size: 20px !important;
+    height: 42px;
+
+}
+#location_id, #part_id, #dealer_id, #customer_id, #manufacturer_id {
+
+    display: none !important;
+
+}

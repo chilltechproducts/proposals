@@ -66,7 +66,7 @@
 switch (ENVIRONMENT)
 {
 	case 'development':
-		error_reporting(E_ALL & ~E_NOTICE & ~E_STRICT & ~E_USER_NOTICE & ~E_WARNING);
+		error_reporting(E_ALL  & ~E_NOTICE);
 		ini_set('display_errors', 1);
 	break;
 
@@ -88,7 +88,9 @@ switch (ENVIRONMENT)
 		echo 'The application environment is not set correctly.';
 		exit(1); // EXIT_ERROR
 }
-
+if(!empty($_POST)){
+//exit;
+}
 /*
  *---------------------------------------------------------------
  * SYSTEM FOLDER NAME

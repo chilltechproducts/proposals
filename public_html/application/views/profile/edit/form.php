@@ -159,7 +159,7 @@
            
                 }  
             ?>
-          <?php echo form_input(array('type' => 'hidden', 'name' => 'user_id', 'id' => 'user_id')); ?>
+          <?php echo form_input(array('type' => 'hidden', 'name' => 'user_id', 'id' => 'user_id', 'value' => $this->input->get('user_id'))); ?>
         
     <?php if(!empty($array['user_id'])){ if($array['user_id'] == $this->session->userdata['user_id']){ $submit_label = 'Edit My Account'; }else{ $submit_label = 'Edit User Account'; } }else{ $submit_label='Add User Access!'; } ?>
     <?php echo form_submit(array('value'=>$submit_label, 'class'=>'btn btn-lg btn-primary btn-block', 'id' => 'id_submit_form')); ?>
