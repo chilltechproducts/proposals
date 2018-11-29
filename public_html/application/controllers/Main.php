@@ -30,13 +30,51 @@ class Main extends CI_Controller {
                 $data['user'] = $this->user_model->getUserInfo($this->session->userdata['user_id']);
             }
 	    
-            $this->load->view('header');            
+            $this->load->view('welcome_header');            
             $this->load->view('index', array('data' => $data));
             $this->load->view('footer');
 	}
+	public function presentation(){
+        if(empty($this->input->get('ajax_set'))){
+            $this->load->view('header');
+        }
+        
+        $data = array();
+        $me = $this->db->query("select users.*, (select distinct zipcodes.state as state from zipcodes where zipcodes.zipcode=users.postal_code order by id desc limit 1) as state from users where user_id=" . $this->session->userdata['user_id'])->result_array();
         
         
-        public function register()
+        
+        $data[1]['text'] = '<div id="dealer_info"><div><b>Company Name:</b> ' . $me[0]['company_name'] . '<br />' ;
+        $data[1]['text'] .= '<b>Address:</b> ' . $me[0]['street_address'] . $me[0]['street_address2'] . '<br />' ;
+        $data[1]['text'] .= '<b>City:</b> ' . $me[0]['city'] . ', '. $me[0]['state'] . ' ' . $me[0]['postal_code'] . '<br />' ;
+        $data[1]['text'] .= '<b>Phone:</b> ' . $me[0]['business_phone'] . '<br />' ;
+        if(!empty($me[0]['user_website'] )){
+            $data[1]['text'] .= '<b>Website:</b> ' . $me[0]['user_website'] . '<br />' ;
+        }
+        if(!empty($me[0]['user_facebook'] )){
+            $data[1]['text'] .= '<b>Website:</b> ' . $me[0]['user_facebook'] . '<br />' ;
+        }
+        if(!empty($me[0]['email'] )){
+            $data[1]['text'] .= '<b>Email:</b> ' . $me[0]['email'] . '<br />' ;
+        }
+        $data[1]['text'] .= '</div>';
+        if(!empty($me[0]['logo'])){
+          $data[1]['text'] .= '<img src="' . $me[0]['logo'] . '" class="logo" />';
+        }
+        if(!empty($me[0]['avatar'])){
+          $data[1]['text'] .= '<img class="avatar" src="' . $me[0]['avatar'] . '" />';
+        }
+        $data[1]['text'] .= '</div>';
+        
+        $this->load->view('presentation', array('data' => $data, 'me' => $me[0]));
+	}
+    public function schedule()
+	{
+	    $this->load->view('welcome_header');
+		$this->load->view('schedule');
+	}
+        
+    public function register()
         {
              
             $this->form_validation->set_rules('firstname', 'First Name', 'required');
@@ -126,7 +164,7 @@ class Main extends CI_Controller {
                 $this->session->set_userdata('first_name', $userInfo['first_name']);
                 $this->session->set_userdata('last_name', $userInfo['last_name']);
                 
-                redirect(site_url().'main');
+                redirect(site_url().'/proposals');
                 
             }
         }
@@ -142,7 +180,7 @@ class Main extends CI_Controller {
                if(empty($_REQUEST['ajax_set'])){
                     $this->load->view('header');
                }
-                $this->load->view('login');
+               return $this->load->view('login');
                 
               
             }else{
@@ -152,40 +190,48 @@ class Main extends CI_Controller {
          
                 $clean = $this->security->xss_clean($post);
         
-                $userInfo = $this->user_model->checkLogin($clean);
-               
+                
+                
                      $recaptcha = $this->input->post('g-recaptcha-response');
                     $response = $this->recaptcha->verifyResponse($recaptcha);
 
                     if (!isset($response['success']) | $response['success'] != true){
                    
-                    $this->session->set_flashdata('flash_message', 'The login was unsucessful ' . $response['error-codes'][0] . ' Captcha Code');
+                            $this->session->set_flashdata('flash_message', 'The login was unsucessful ' . $response['error-codes'][0] . ' Captcha Code');
              
-                        redirect(site_url() . '/main/login/?ajax_set=' . $_REQUEST['ajax_set']);
-                        
-                        
-                        exit;
+                        if(empty($_REQUEST['ajax_set'])){
+                            $this->load->view('header');
+                            }
+                          return  $this->load->view('login');
+                          
                     }
-          
+                   
+                $userInfo = $this->user_model->checkLogin($clean);
+                        print_r($userInfo);
+               
                 if(!$userInfo){
+           
                     $this->session->set_flashdata('flash_message', 'The login was unsucessful');
                      if(empty($_REQUEST['ajax_set'])){
                             $this->load->view('header');
                     }
-                    $this->load->view('login');
-                }                
+                    return $this->load->view('login');
+                    exit;
+                }     
+        
                 $data = array(
                             'user_id'  => $userInfo->user_id,
                             'email'     => $userInfo->email,
                             'first_name' => $userInfo->first_name,
                             'last_name' => $userInfo->last_name,
                             'dealer_id' => $userInfo->dealer_id,
+                            'avatar' => $userInfo->avatar,
                             'logged_in' => TRUE
                     );
                     
                 $this->session->set_userdata($data);
                 
-                redirect(site_url());
+                redirect(site_url() . '/proposals');
             }
             
         }
@@ -227,22 +273,209 @@ class Main extends CI_Controller {
 				
                 $token = $this->user_model->insertToken($userInfo->user_id);                        
                 $qstring = $this->base64url_encode($token);                  
-                $url = site_url() . '?redirect=' . base64_encode('/main/reset_password/token/' . $qstring . '?ajax_set=' . $_REQUEST['ajax_set']);
+                $url = site_url() . '/proposals?redirect=' . base64_encode('/main/reset_password/token/' . $qstring . '?ajax_set=' . $_REQUEST['ajax_set']);
                 $link = '<a href="' . $url . '">' . $url . '</a>'; 
                 
                 $message = '';                     
                 $message .= '<strong>A password reset has been requested for this email account</strong><br>';
-                $message .= '<strong>Please click:</strong> ';             
+                $link = '<strong>Please click:</strong> ' . $link;             
                 $this->load->model('Emailer');
                 
-                $this->Emailer->send('jon@' . $_SERVER['SERVER_NAME'], $email, 'Recover Password', $message);
+                $this->Emailer->send('jon@' . $_SERVER['SERVER_NAME'], $email, 'Recover Password', $message . $link);
                 echo $message; //send this through mail
                 exit;
                 
             }
             
         }
+        public function client_listings(){
         
+           $data = $this->db->query("select email, first_name, last_name, business_phone, company_name, street_address, street_address2, city, state, postal_code, user_id from users where level_id=5 and dealer_id=" . $this->session->userdata['user_id'] . " and (company_name like '" . $this->input->post('company_name') . "%' or concat(first_name, ' ', last_name) like '" . $this->input->post('company_name') . "%' or email like '" . $this->input->post('company_name') . "%')")->result_array();
+           
+           foreach($data as $c => $client){
+             $data[$c]['proposals'] = $this->db->query("select * from proposals where dealer_id=" . $this->session->userdata['user_id'] . " and customer_id=" . $client['user_id'])->result_array();
+           
+           }
+         
+           $this->load->view('build_proposal/search_clients');
+           $this->load->view('user_list', array('data' => $data));
+        }
+        public function create_proposal(){
+          $this->load->model('ProposalsModel');
+            if(empty($this->uri->segment(3))){
+                $step = 1;
+             }else{
+                $step = $this->uri->segment(3);
+            }    
+           $states = $this->user_model->states();
+               if($step == 3){
+                          $clean = $this->input->post(NULL, TRUE);
+                        
+                          if(!empty($clean['warranty'])){
+                                                $data = array(
+                                                    
+                                                    'warranty' => addslashes($clean['warranty'])
+                                                 );  
+                                               
+                                                 $this->db->query("update proposals set warranty='" . $data['warranty'] . "' where proposal_id=" . $this->uri->segment(5) . " and dealer_id=" .  $this->session->userdata['user_id']); 
+                                                 if($this->db->query("select * from labor_warranty where dealer_id=" . $this->session->userdata['user_id'])->num_rows()==0){
+                                                     $data['dealer_id'] = $this->session->userdata['user_id'];
+                                                     
+                                                     
+                                                        $this->db->query("insert into labor_warranty values(null, " . $this->session->userdata['user_id'] . ", '" . $data['warranty'] . "', NOW(), NOW(), 1);");
+                                                 }
+                          }                       
+                  return $this->ProposalsModel->AddPartsAndServices($this->uri->segment(4), $this->uri->segment(5));
+               }
+               if($step ==2){
+               
+                if(count($this->input->post())>0 & isset($_POST['proposal_name'])){
+                     $this->form_validation->set_rules('street_address', 'Street Address', 'required');
+                     $this->form_validation->set_rules('proposal_name', 'Proposal Name', 'required');
+                        $this->form_validation->set_rules('city', 'City', 'required');    
+                        $this->form_validation->set_rules('state', 'State', 'required');    
+                        $this->form_validation->set_rules('postal_code', 'Zip Code', 'required');
+                        $this->form_validation->set_rules('utility_company', 'Utility Company', 'required');
+                        $this->form_validation->set_rules('utility_kwH_rate', 'Existing kwH', 'required');
+                        
+                        if ($this->form_validation->run() == FALSE) {  
+                            
+                            if(is_numeric($this->uri->segment(4))){ 
+                                    $client = $this->user_model->getUserInfo($this->uri->segment(4));
+                            }else{
+                                    $clent = array();
+                            }
+                          // $this->load->view('header');
+                           $proposals = array();
+                            if(!empty($this->uri->segment(5))){
+                                $proposal = $this->db->query("select * from proposals where proposal_id=" . $this->uri->segment(5))->result_array();
+                            }
+                                $this->load->view('build_proposal/step' . $step, array('client' => $client, 'proposal' => $proposal, 'msg' => 'Error creating Proposal please check your inputs'));
+                                return;
+                        }else{ 
+                            $clean = $this->security->xss_clean($this->input->post(NULL, TRUE));
+                            if(empty($clean['proposal_id'])){
+                                    $data = array(
+                                                    'proposal_id' => null,
+                                                    'customer_id' => $clean['client_id'],
+                                                    'dealer_id' => $this->session->userdata['user_id'],
+                                                    'street_address' => $clean['street_address'],
+                                                    'street_address2' => $clean['street_address2'],
+                                                    'city' => $clean['city'],
+                                                    'state' => $clean['state'],
+                                                    'postal_code' => $clean['postal_code'],
+                                                    'utility_company' => $clean['utility_company'],
+                                                    'utility_kwH_rate' => $clean['utility_kwH_rate'],
+                                                    'proposal_name' => $clean['proposal_name'],
+                                                    'proposal_date' => 'NOW()'
+                                                 );   
+                                    $this->db->query($this->db->insert_string('proposals', $data));
+                                    $id = $this->db->insert_id();
+                            }else{
+                               $id = $clean['proposal_id'];
+                                   $data = array(
+                                                    
+                                                    'client_id' => $clean['client_id'],
+                                                    'customer_id' => $this->session->userdata['user_id'],
+                                                    'street_address' => $clean['street_address'],
+                                                    'street_address2' => $clean['street_address2'],
+                                                    'city' => $clean['city'],
+                                                    'state' => $clean['state'],
+                                                    'postal_code' => $clean['postal_code'],
+                                                    'utility_company' => $clean['utility_company'],
+                                                    'utility_kwH_rate' => $clean['utility_kwH_rate'],
+                                                    'proposal_name' => $clean['proposal_name'],
+                                                    'proposal_date' => 'NOW()'
+                                                 );  
+                                                 $this->db->where(array('proposal_id' => $id) );
+                                                 $this->db->update('proposals', $data); 
+                            } 
+                            redirect('/main/create_proposal/3/'  . $client['user_id'] . '/' . $id);
+                            return;
+                        }
+               
+                 }else{
+                         $client = $this->user_model->getUserInfo($this->uri->segment(4));
+                         $proposals = array();
+                         if(!empty($this->uri->segment(5))){
+                            $proposal = $this->db->query("select * from proposals where proposal_id=" . $this->uri->segment(5))->result_array();
+                         }
+                           // $this->load->view('header');
+                            $this->load->view('build_proposal/step' . $step, array('client' => $client, 'states' => $states, 'proposal' => $proposal));
+                       
+                 }
+                 return;
+               }else
+            
+                if(count($this->input->post())>1 & $step ==1){
+               
+                        $this->form_validation->set_rules('first_name', 'First Name', 'required');
+                        $this->form_validation->set_rules('last_name', 'Last Name', 'required');    
+                        $this->form_validation->set_rules('email', 'Email', 'required|valid_email');    
+                        if($me['level_id'] <= 2){
+                            /* 'sales_tax' => $post['sales_tax'],
+                                'labor_rate' => $post['labor_rate'],
+                                'travel_distance' => $post['travel_distance'],
+                                'travel_cost' => $post['travel_cost'],
+                                'vehicle_charge' => $post['vehicle_charge'] */
+                            $this->form_validation->set_rules('sales_tax', 'Sales Tax', 'required'); 
+                            $this->form_validation->set_rules('labor_rate', 'Labor Rate', 'required'); 
+                            $this->form_validation->set_rules('travel_distance', 'Travel Distance', 'required'); 
+                            $this->form_validation->set_rules('travel_cost', 'Travel Cost', 'required'); 
+                            $this->form_validation->set_rules('vehicle_charge', 'Vehicle Charge', 'required'); 
+                            //$this->form_validation->set_rules('last_name', 'Last Name', 'required'); 
+                            //$this->form_validation->set_rules('last_name', 'Last Name', 'required'); 
+                            
+                        }
+                        if ($this->form_validation->run() == FALSE) {  
+                       
+                        if(is_numeric($this->uri->segment(4))){ 
+                                    $client = $this->user_model->getUserInfo($this->uri->segment(4));
+                            }else{
+                                    $clent = array();
+                            }
+                          //  $this->load->view('header');
+                            $this->load->view('build_proposal/step' . $step, array('client' => $client, 'msg' => 'Error creating Client please check your inputs', 'states' => $states));
+                            return;
+                        }else{                
+                            
+                                
+                                $clean = $this->security->xss_clean($this->input->post(NULL, TRUE));
+                               
+                                $id = $this->user_model->insertUser($clean); 
+                                $post['user_id'] = $id;
+                                $this->user_model->updateUserInfo($post);
+                                
+                                $token = $this->user_model->insertToken($id);                                        
+                                
+                                $qstring = $this->base64url_encode($token);                    
+                                $url = site_url() . 'main/complete/token/' . $qstring;
+                                $link = '<a href="' . $url . '">' . $url . '</a>'; 
+                                        
+                                $message = '';                     
+                                $message .= '<strong>You have been signed up with our website</strong><br>';
+                                $message .= '<strong>Please click:</strong> ' . $link;                          
+
+                                echo $message; //send this in email
+                                redirect('/main/create_proposal/2/' . $id);
+                                exit;
+                                
+                                
+                                        
+                        }
+                
+                }
+           
+           if(is_numeric($this->uri->segment(4))){ 
+                $client = $this->user_model->getUserInfo($this->uri->segment(4));
+           }else{
+                $client = array();
+           }
+            
+                $this->load->view('build_proposal/step' . $step, array('client' => $client, 'states' => $states));
+            
+            return;
+        }
         public function reset_password()
         {
    
@@ -285,7 +518,7 @@ class Main extends CI_Controller {
                 }else{
                     $this->session->set_flashdata('flash_message', 'Your password has been updated. You may now login');
                 }
-                redirect(site_url().'main/' . $_REQUEST['ajax_set']);                
+                redirect(site_url().'/proposals/?ajax_set=' . $_REQUEST['ajax_set']);                
             }
         }
         

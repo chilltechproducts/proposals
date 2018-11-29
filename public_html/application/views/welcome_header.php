@@ -4,16 +4,16 @@
 		<title>CHILL TECH PRODUCTS - Chill Tech Products</title><meta property="og:site_name" content="CHILL TECH PRODUCTS" />
 <meta property="og:title" content="Chill Tech Products" />
 <meta property="og:description" content="We help companies utilize systematic selling and proven processes to bring energy efficient products to their customers." />
-<meta property="og:image" content="http://www.chilltechproducts.com/uploads/1/2/2/7/122787378/editor/ch1ll-tech-logo-blank-background_2.png?1541034018" />
+<meta property="og:image" content="http://www.chilltechproducts.com/uploads/1/2/2/7/122787378/editor/ch1ll-tech-logo-blank-background_2.png" />
 <meta property="og:image" content="http://www.chilltechproducts.com/uploads/1/2/2/7/122787378/01_1_orig.png" />
 <meta property="og:image" content="http://www.chilltechproducts.com/uploads/1/2/2/7/122787378/02_1_orig.png" />
-<meta property="og:image" content="http://www.chilltechproducts.com/uploads/1/2/2/7/122787378/published/system-icon.png?1541069607" />
+<meta property="og:image" content="http://www.chilltechproducts.com/uploads/1/2/2/7/122787378/published/system-icon.png" />
 <meta property="og:image" content="http://www.chilltechproducts.com/uploads/1/2/2/7/122787378/selling-256807_orig.png" />
-<meta property="og:image" content="http://www.chilltechproducts.com/uploads/1/2/2/7/122787378/editor/ch1ll-tech-authorized-dealer-white-back.png?1541086255" />
-<meta property="og:image" content="http://www.chilltechproducts.com/uploads/1/2/2/7/122787378/published/fridgewizelargelogofloat2-1024x355.jpg?1541106836" />
-<meta property="og:image" content="http://www.chilltechproducts.com/uploads/1/2/2/7/122787378/published/ec-motor.png?1541086798" />
+<meta property="og:image" content="http://www.chilltechproducts.com/uploads/1/2/2/7/122787378/editor/ch1ll-tech-authorized-dealer-white-back.png" />
+<meta property="og:image" content="http://www.chilltechproducts.com/uploads/1/2/2/7/122787378/published/fridgewizelargelogofloat2-1024x355.jpg" />
+<meta property="og:image" content="http://www.chilltechproducts.com/uploads/1/2/2/7/122787378/published/ec-motor.png" />
 <meta property="og:image" content="http://www.chilltechproducts.com/uploads/1/2/2/7/122787378/mt-antisweat-heat-controller_orig.png" />
-<meta property="og:image" content="http://www.chilltechproducts.com/uploads/1/2/2/7/122787378/published/qblade-3awards-970x1024.png?1541086802" />
+<meta property="og:image" content="http://www.chilltechproducts.com/uploads/1/2/2/7/122787378/published/qblade-3awards-970x1024.png" />
 <meta property="og:url" content="http://www.chilltechproducts.com/" />
 
 <meta name="description" content="We help companies utilize systematic selling and proven processes to bring energy efficient products to their customers." />
@@ -138,20 +138,7 @@ var STYLE_PREFIX = 'wsite';
 <script src='https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js'></script>
 
 <script type="text/javascript" src="//cdn2.editmysite.com/js/lang/en/stl.js?buildTime=1541101562&"></script>
-<script src="//cdn2.editmysite.com/js/site/main.js?buildTime=1541447432"></script><script type="text/javascript">
-		function initCustomerAccountsModels() {
-					(function(){_W.setup_rpc({"url":"\/ajax\/api\/JsonRPC\/CustomerAccounts\/","actions":{"CustomerAccounts":[{"name":"login","len":2,"multiple":false,"standalone":false},{"name":"logout","len":0,"multiple":false,"standalone":false},{"name":"getSessionDetails","len":0,"multiple":false,"standalone":false},{"name":"getAccountDetails","len":0,"multiple":false,"standalone":false},{"name":"getOrders","len":0,"multiple":false,"standalone":false},{"name":"register","len":4,"multiple":false,"standalone":false},{"name":"emailExists","len":1,"multiple":false,"standalone":false},{"name":"passwordReset","len":1,"multiple":false,"standalone":false},{"name":"passwordUpdate","len":3,"multiple":false,"standalone":false},{"name":"validateSession","len":1,"multiple":false,"standalone":false}]},"namespace":"_W.CustomerAccounts.RPC"});
-_W.setup_model_rpc({"rpc_namespace":"_W.CustomerAccounts.RPC","model_namespace":"_W.CustomerAccounts.BackboneModelData","collection_namespace":"_W.CustomerAccounts.BackboneCollectionData","bootstrap_namespace":"_W.CustomerAccounts.BackboneBootstrap","models":{"CustomerAccounts":{"_class":"CustomerAccounts.Model.CustomerAccounts","defaults":null,"validation":null,"types":null,"idAttribute":null,"keydefs":null}},"collections":{"CustomerAccounts":{"_class":"CustomerAccounts.Collection.CustomerAccounts"}},"bootstrap":[]});
-})();
-		}
-		if(document.createEvent && document.addEventListener) {
-			var initEvt = document.createEvent('Event');
-			initEvt.initEvent('customerAccountsModelsInitialized', true, false);
-			document.dispatchEvent(initEvt);
-		} else if(document.documentElement.initCustomerAccountsModels === 0){
-			document.documentElement.initCustomerAccountsModels++
-		}
-		</script>
+
 		<script type="text/javascript"> _W = _W || {}; _W.securePrefix='www.chilltechproducts.com'; </script><script>_W = _W || {};
 			_W.customerLocale = "en_US";
 			_W.storeName = null;
@@ -163,19 +150,9 @@ _W.setup_model_rpc({"rpc_namespace":"_W.CustomerAccounts.RPC","model_namespace":
 								_W = window._W || {};
 								_W.allowMemberRegistration = true;
 								_W.showLogin = true;
-							</script><script type="text/javascript">
-					function initMembershipModels() {
-						(function(){_W.setup_rpc({"url":"\/ajax\/api\/JsonRPC\/Membership\/","actions":{"Member":[{"name":"getRedirectUrl","len":1,"multiple":false,"standalone":false},{"name":"getOriginUrl","len":0,"multiple":false,"standalone":false},{"name":"getSecureMemberUrl","len":0,"multiple":false,"standalone":false},{"name":"validate_user","len":2,"multiple":false,"standalone":false},{"name":"get_account_information","len":0,"multiple":false,"standalone":false},{"name":"get_session_details","len":0,"multiple":false,"standalone":false},{"name":"register_member","len":5,"multiple":false,"standalone":false},{"name":"validate_session","len":1,"multiple":false,"standalone":false},{"name":"set_password","len":3,"multiple":false,"standalone":false},{"name":"send_reset_password_email","len":1,"multiple":false,"standalone":false},{"name":"create","len":1,"multiple":false,"standalone":false},{"name":"readOne","len":1,"multiple":false,"standalone":false},{"name":"readMany","len":1,"multiple":false,"standalone":false},{"name":"update","len":1,"multiple":false,"standalone":false},{"name":"patch","len":1,"multiple":false,"standalone":false},{"name":"destroy","len":1,"multiple":false,"standalone":false}]},"namespace":"_W.Membership.RPC"});
-_W.setup_model_rpc({"rpc_namespace":"_W.Membership.RPC","model_namespace":"_W.Membership.BackboneModelData","collection_namespace":"_W.Membership.BackboneCollectionData","bootstrap_namespace":"_W.Membership.BackboneBootstrap","models":{"Member":{"_class":"Membership.Model.Member","defaults":{"class_name":null,"name":null,"email":"","access_token":null,"token_expiry_date":null,"last_ip":null,"last_login":null,"approved":false,"password_set":null,"group_ids":null,"page_ids":null,"group_page_ids":null,"owner_id":"","site_id":"","updated_date":0,"created_date":0},"validation":{"class_name":null,"site_member_id":null,"name":null,"email":{"email":null,"required":true},"access_token":null,"token_expiry_date":null,"last_ip":null,"last_login":null,"approved":null,"password_set":null,"group_ids":null,"page_ids":null,"group_page_ids":null,"owner_id":{"required":true},"site_id":{"required":true},"updated_date":null,"created_date":null},"types":{"class_name":null,"site_member_id":"string","name":"string","email":"string","access_token":"string","token_expiry_date":"int","last_ip":"string","last_login":"int","approved":"boolean","password_set":"boolean","group_ids":"json","page_ids":"json","group_page_ids":"json","owner_id":"string","site_id":"string","updated_date":"int","created_date":"int"},"idAttribute":"site_member_id","keydefs":{"PRIMARY":["owner_id","site_id","site_member_id"],"idx_owner_site_account":["owner_id","site_id","site_account_id"]}}},"collections":{"Member":{"_class":"Membership.Collection.Member"}},"bootstrap":[]});
-})();
-					}
-					if(document.createEvent && document.addEventListener) {
-						var initEvt = document.createEvent('Event');
-						initEvt.initEvent('membershipModelsInitialized', true, false);
-						document.dispatchEvent(initEvt);
-					} else if(document.documentElement.initMembershipModels === 0){
-						document.documentElement.initMembershipModels++
-					}
+							</script>
+							<script type="text/javascript">
+				
 					</script><script src='//cdn2.editmysite.com/js/site/main-membership-site.js?buildTime=1541447432'></script>
 <script type="text/javascript">
 								_W = _W || {};
@@ -213,7 +190,416 @@ _W.setup_model_rpc({"rpc_namespace":"_W.Commerce.RPC","model_namespace":"_W.Comm
 
   gtag('config', 'UA-128538474-1');
 </script>
+<style>
+.menu li {
+    display: inline-block;
+    padding: 7px 0;
+    margin-right: 40px;
+}
+.menu ul {
+    list-style: none;
+}
+.wsite-section-content {
+    width: 70%;
+    margin: 0 auto;
+}
+.wsite-section-wrap:nth-child(2), .wsite-section-wrap:nth-child(3), .wsite-section-wrap:nth-child(4) {
+    width: 70%;
+     margin: 0 auto;
+}
+.menu .wsite-menu-default li a {
 
-		
+    border-bottom: 3px solid transparent;
+    padding-bottom: 11px;
+    transition: 0.2s ease-in border-bottom;
+    letter-spacing: .03em;
+    font-weight: bold !important;
+
+}
+.menu .wsite-menu-default li:hover {
+
+    background-color: #eee;
+ 
+
+}
+.menu .wsite-menu-default li {
+
+    padding: 0px 10px 7px;
+
+}
+.wsite-logo {
+    display: block;
+    vertical-align: top;
+    float: left;
+    margin-left: 30%;
+    position: relative;
+    top: -30px;
+    font-size: 53px;
+    clear: right;
+    margin-bottom: 20px;
+}
+.header-wrap #logo a span {
+
+    font-size: 40px !important;
+    max-width: unset !important;
+    text-shadow: 2px 1px 3px blue;
+    color: #cccfff;
+
+}
+.header-wrap #logo {
+
+    padding: 10px 0 !important;
+    text-align: center;
+    font-family: 'Cookie', cursive;
+    font-size: 40px;
+    font-weight: normal;
+    line-height: 10px;
+    display: table;
+    height: 39px;
+    margin-bottom: -60px;
+    margin-top: 0px;
+
+}
+.wsite-logo {
+
+    display: block;
+    vertical-align: top;
+    float: left;
+    margin-left: 30%;
+    position: relative;
+    top: -25px;
+    font-size: 53px;
+    clear: right;
+    margin-bottom: 40px;
+    margin-left: 50%;
+
+}
+.wsite-section-elements > div {
+
+    width: 50%;
+    display: inline-block;
+    float: left;
+
+}
+.wsite-button, .wsite-editor .wsite-button {
+	background-image: -webkit-linear-gradient(top,#337ab7 0,#265a88 100%)!important;
+	background-image: -o-linear-gradient(top,#337ab7 0,#265a88 100%)!important;
+	background-image: -webkit-gradient(linear,left top,left bottom,from(#337ab7),to(#265a88))!important;
+	background-image: linear-gradient(to bottom,#337ab7 0,#265a88 100%)!important;
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff337ab7', endColorstr='#ff265a88', GradientType=0)!important;
+	filter: progid:DXImageTransform.Microsoft.gradient(enabled=false)!important;
+	background-repeat: repeat-x!important;
+	border-color: #245580!important;
+}
+.menu ul {
+
+    list-style: none;
+    padding-top: 5px;
+
+}
+.menu .wsite-menu-default li a {
+ font-family: 'Patua One';
+    color: #fff !important;
+    text-shadow: 2px 2px 2px blue;
+
+}
+.menu .wsite-menu-default li a {
+
+    font-family: 'Patua One' !important;
+    color: #ccc !important;
+    text-shadow: 1px 1px 1px blue;
+    font-size: 16px !important;
+    width: 100%;
+
+}
+.form-select, .wsite-form-field select, .wsite-com-product-option-groups select {
+
+    height: 40px;
+    padding: 8px !important;
+    background: #ffffee !important;
+    color: #626262;
+    border: 1px solid #cccccc !important;
+    border-radius: 4px;
+    font-family: 'Lato', sans-serif;
+    font-size: 15px;
+    font-weight: normal;
+    line-height: normal;
+    -webkit-transition: all 200ms ease-in;
+    -moz-transition: all 200ms ease-in;
+    -ms-transition: all 200ms ease-in;
+    -o-transition: all 200ms ease-in;
+    transition: all 200ms ease-in;
+
+}
+.wsite-form-field div.wsite-form-input-container .wsite-form-input {
+
+    box-sizing: border-box;
+    width: 100% !important;
+    background-color: #ffffee !important;
+    border-radius: 5px;
+
+}
+.wsite-form-field input[type="radio"], .wsite-form-field input[type="checkbox"], .wsite-com-product-option-groups input[type="radio"], .wsite-com-product-option-groups input[type="checkbox"] {
+
+    width: 16px;
+    height: 16px;
+    background: #ffffee;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    text-shadow: none;
+    border: 1px solid #cccccc !important;
+    border-radius: 3px;
+
+}
+.wsite-button .wsite-button-inner, .wsite-editor .wsite-button .wsite-button-inner {
+
+    display: block;
+    height: auto;
+    padding: 8px 16px;
+    background: white;
+        background-image: none;
+    font-family: 'Patua One';
+    color: #fff !important;
+    text-shadow: 2px 2px 2px blue;
+
+    border: 2px solid #1e1e1e;
+    text-transform: uppercase;
+    letter-spacing: .02em;
+    white-space: normal;
+    font-family: 'Roboto', sans-serif;
+    font-size: 1.2em;
+    font-weight: 700;
+    line-height: 1.7em;
+    -webkit-transition: all 400ms ease-in;
+    -moz-transition: all 400ms ease-in;
+    -ms-transition: all 400ms ease-in;
+    -o-transition: all 400ms ease-in;
+    transition: all 400ms ease-in;
+
+}
+.wsite-button-inner {
+
+    background-image: linear-gradient(to bottom,#337ab7 0,#265a88 100%) !important;
+    width: 100%;
+    border: 0px none!Important;
+    border-radius: 10px !important;
+    color: #fff !important;
+    font-family: 'Patua One';
+    color: #fff !important;
+    text-shadow: 2px 2px 2px blue;
+
+
+}
+.wsite-button, .wsite-editor .wsite-button {
+
+    display: block;
+    height: auto;
+    padding: 0;
+    clear: both;
+    color: #fff !important;
+    background: unset !important;
+        background-image: unset;
+        background-repeat: unset;
+    text-align: center;
+    width: 90%;
+    margin: 20px auto 0 35px;
+
+}
+.paragraph.right.cool-font {
+
+    float: right;
+    font-size: .25em;
+
+}
+
+.banner-wrap {
+
+    position: relative;
+    border-top: 1px solid #666;
+
+}
+.menu {
+
+    font-size: 12px;
+    text-transform: uppercase;
+    font-weight: 700;
+    border-top: 1px solid #666;
+    background-color: #c2c2c2;
+
+}
+.menu .wsite-menu-default li a:hover, .menu .wsite-menu-default li#active a {
+
+    border-bottom: 3px transparent;
+    padding-bottom: 4px;
+
+}
+.menu li {
+
+    display: inline-block;
+    padding: 7px 0;
+    margin-right: 0px;
+    border-right: unset;
+    border-left: 1px solid #fff;
+    padding: 5px 22px !important;
+   
+
+}
+.menu ul {
+
+    list-style: none;
+    padding-top: 0px;
+
+}
+.header-wrap #logo a span {
+
+    color: #5a61f1;
+}
+.menu .wsite-menu-default li a {
+   
+    color: #5a61f1 !important;
+    text-shadow: 1px 1px 1px blue;
+    font-size: 16px !important;
+    width: 100%;
+}
+@media(max-width: 1200px){
+.wsite-section-wrap, .alert-success {
+    min-width: 100% !important;
+    max-width: 100% !important;
+   
+}
+.wsite-section-content {
+    width: 100%;
+    margin: 0 auto 20px 10px;
+}
+.formlist, .wsite-editor .formlist {
+    min-height: inherit;
+    width: 90%;
+}
+.wsite-multicol-col {
+
+    vertical-align: top;
+    margin: 0 !important;
+    border: 0 !important;
+    padding: 0;
+    -moz-box-sizing: border-box;
+    width: 100% !important;
+    display: block;
+
+}
+.wsite-logo {
+
+    display: block;
+    vertical-align: top;
+    float: left;
+    margin-left: 30%;
+    position: relative;
+    top: 20px;
+    font-size: 53px;
+    clear: right;
+    margin-bottom: 40px;
+    margin-left: 0;
+
+}
+.wsite-multicol-table {
+
+    position: relative;
+    border-collapse: collapse;
+    table-layout: fixed;
+    width: 70%;
+    margin: 0 !important;
+    border: 0 !important;
+    padding: 0 !important;
+
+}
+.wsite-multicol-col:nth-child(3) {
+
+    width: 15% !important;
+
+}
+.wsite-multicol-col.move_up {
+    float: right;
+    max-width: 150px;
+    display: inline-block;
+    position: relative;
+    top: -701px;
+    left: 171px;
+}
+.wsite-image.wsite-image-border-none.left {
+
+    width: 100px;
+    float: left;
+
+}
+}
+@media(max-width:600px){
+.paragraph {
+	width: 100% !important;
+}
+.wsite-logo {
+    display: block;
+    vertical-align: top;
+    float: left;
+    margin-left: 30%;
+    position: relative;
+    top: 20px;
+    font-size: 23px;
+    clear: right;
+    margin-bottom: 40px;
+    margin-left: 0 !important;
+}
+.wsite-section.wsite-header-section.wsite-section-bg-image {
+height: auto;
+background-image: url('https://chilltechproducts.com/uploads/1/2/2/7/122787378/background-images/1963154272.jpg');
+background-repeat: no-repeat;
+background-position: unset!important;
+background-size: unset!important;
+background-color: transparent;
+}
+.wsite-section-elements > div {
+    width: 100%;
+    display: inline-block;
+    float: left;
+}
+.wsite-multicol-col.move_up {
+    float: right;
+    max-width: 130px;
+    display: inline-block;
+    position: relative;
+    top: -701px;
+    left: 98px;
+    z-index: 0;
+}
+.wsite-multicol-table-wrap {
+
+    margin: 0 auto !important;
+    width: 100% !important;
+    display: table;
+    text-align: left;
+
+}
+.wsite-multicol-table {
+    position: relative;
+    border-collapse: collapse;
+    table-layout: fixed;
+    width: 100%;
+    margin: 0 !important;
+    border: 0 !important;
+    padding: 0 !important;
+}
+.wsite-elements.wsite-footer .wsite-multicol-col:nth-child(3), #navmobile  .wsite-multicol-col:nth-child(3) {
+
+    width: 100% !important;
+
+}
+}
+</style>
+<script src="/public/js/parallax.js" type="text/javascript"></script>
+	<script>
+	$('.parallax-window > div').parallax({imageSrc: 'https://chilltechproducts.com/uploads/1/2/2/7/122787378/background-images/1963154272.jpg'});
+	</script>
 	</head>
 	

@@ -4,7 +4,7 @@
 						<ul class="wsite-menu-default">
 								<li id="active" class="wsite-menu-item-wrap">
 									<a
-												href="/"
+												href="/welcome"
 										class="wsite-menu-item"
 										>
 										Home
@@ -35,6 +35,15 @@
 										class="wsite-menu-item"
 										>
 										Contact
+									</a>
+									
+								</li>
+								<li id="pg367032951775923472" class="wsite-menu-item-wrap">
+									<a
+												href="/welcome/schedule"
+										class="wsite-menu-item"
+										>
+										Join
 									</a>
 									
 								</li>

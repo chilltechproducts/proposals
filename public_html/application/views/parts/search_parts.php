@@ -3,7 +3,7 @@
        <?php $array = $this->input->get(); ?>
        <div class="col-lg-4 col-lg-offset-4">
         <h2>View Parts</h2>
-        <form id="registration_form" name="registration_form" action="javascript: part_submit();" class="search_parts">
+        <form id="registration_form" name="registration_form" action="javascript: get_parts();" class="search_parts">
                 <div class="form-group">
                         <label>Part / Serial Number</label>
                         <?php echo form_input(array('name'=>'serial_number', 'id'=> 'serial_number', 'placeholder'=>'Part / Serial Number', 'class'=>'form-control name', 'value'=> set_value('serial_number', $array['serial_number']))); ?>

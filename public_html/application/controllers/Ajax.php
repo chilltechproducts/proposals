@@ -31,6 +31,14 @@ class Ajax extends CI_Controller {
           }
         
         }*/
+        public function find_part(){
+           $data = $this->db->query("select * from parts where part_name like '%" . $this->input->get('term') . "%' or model_number like '%" . $this->input->get('term') . "%' order by part_name asc limit 10")->result_array(); 
+          echo json_encode($data);
+        }
+        public function find_service(){
+           $data = $this->db->query("select * from services where service_name like '%" . $this->input->get('term') . "%' and (status=1 or user_id=" . $this->session->userdata['user_id'] . ")order by service_name asc limit 10")->result_array(); 
+          echo json_encode($data);
+        }
         public function user_lookup(){
                 $data = $this->db->query("select user_id, concat(first_name, ' ', last_name) as user_name, company_name, avatar, logo from users where company_name  like '" . $this->input->get('term') . "%' or  concat(first_name, ' ', last_name) like '" . $this->input->get('term') . "%'")->result_array();
                 header('content-type: application/json');
@@ -196,7 +204,32 @@ class Ajax extends CI_Controller {
            header("content-type: application/json");
            echo json_encode($data);
         }
-        public function get_parts(){
+        public function getkwH(){
+        ob_start();
+            $handle = curl_init();
+
+            curl_setopt($handle, CURLOPT_URL, $this->input->post('url'));
+
+            $data = curl_exec($handle);
+            
+          
+            ob_end_clean();
+            echo $data;
+            exit;
+            $doc = new DOMDocument();
+                $doc->loadHTML($data);
+
+                $xpath = new DOMXpath($doc);
+                
+                $elements = $xpath->query("/html/body/div[@id='urdbUtilityInfo']");
+                
+                print_r($elements);
+
+            curl_close($handle);
+        
+        }
+        public function find_parts_json(){
+        $this->load->model('Parts');
           if(empty($this->session->userdata['user_id'])){
            redirect('/main/login?ajax_set=1');
            return;
@@ -204,30 +237,99 @@ class Ajax extends CI_Controller {
           
           $s=$this->input->get('s')?$this->input->get('s'):0;
           $l = 25;
-          $o = $this->input->get('o')?$this->input->get('o'):'install_date';
+          $o = 'install_date';
           
           
           $me = $this->user_model->getUserInfo($this->session->userdata['user_id']);
+          $filter = '';
+          if(count($this->input->post())>0){
+            
+            $o = 0;
+            foreach($this->input->post() as $k => $v){
+              $o++;
+               if(!empty($v)){
+                 if ($o == 1){
+                     $filter .= ' where ';
+                    $filter .= $v . ' like \'' . $v . '%\'';
+               }else{
+                    $filter .= ' and ' . $v . ' like \'' . $v . '%\'';
+               }
+            }
           
-          $sql = $me['level_info']['part_sql'];
-      
+          }
+          }
+          $sql = "select distinct model_number, part_data.* from part_data $filter order by part_name asc limit 0, 50";
+          parse_str($this->input->post('search_data'), $arr);
+        
           
-          $replaces = array($uid => 'customer_id', $uid => 'dealer_id', $this->input->post('sid') => 'salesman_id', $this->input->post('tid') => 'technician_id', $this->input->post('mid') => 'maintanence_id', $this->session->userdata['user_id'] => 'uid');
+          $filters = $this->Parts->SearchFilters($arr);
+          
+          
+          $replaces = array($arr['customer_id']?$arr['customer_id']:'' => 'customer_id', $uid => 'dealer_id', $this->input->post('sid') => 'salesman_id', $this->input->post('technician_id') => 'technician_id', $this->input->post('maintenence_id') => 'maintanence_id', $this->session->userdata['user_id'] => 'uid');
           foreach($replaces as $r => $replace){
             $sql = str_replace("[[" . $replace . "]]", $r, $sql);
             
           }
           $sql = str_replace("[[start]]", $s, $sql);
           $sql = str_replace("[[limit]]", $l, $sql);
+          $sql = str_replace("[[filter]]", $filters, $sql);
+        
           $sql = str_replace("[[order_by]]", $o, $sql);
-          
-          header("content-type: application/json");
+          //echo $sql;
+          //return;
+         // header("content-type: application/json");
            $data = array();
            $data['part_data'] = $this->db->query($sql)->result_array();
-           
+           $data['filters'] = $filters;
            //$data['part_data'][$k]['json']
            //exit;
            echo json_encode($data);
+        }
+        public function get_parts(){
+        $this->load->model('Parts');
+          if(empty($this->session->userdata['user_id'])){
+           redirect('/main/login?ajax_set=1');
+           return;
+          }
+          
+          $s=$this->input->get('s')?$this->input->get('s'):0;
+          $l = 25;
+          $o = 'install_date';
+          
+          
+          $me = $this->user_model->getUserInfo($this->session->userdata['user_id']);
+          
+          $sql = $me['level_info']['part_sql'];
+          parse_str($this->input->post('search_data'), $arr);
+        
+          
+          $filters = $this->Parts->SearchFilters($arr);
+          
+          
+          $replaces = array($arr['customer_id']?$arr['customer_id']:'' => 'customer_id', $uid => 'dealer_id', $this->input->post('sid') => 'salesman_id', $this->input->post('technician_id') => 'technician_id', $this->input->post('maintenence_id') => 'maintanence_id', $this->session->userdata['user_id'] => 'uid');
+          foreach($replaces as $r => $replace){
+            $sql = str_replace("[[" . $replace . "]]", $r, $sql);
+            
+          }
+          $sql = str_replace("[[start]]", $s, $sql);
+          $sql = str_replace("[[limit]]", $l, $sql);
+          $sql = str_replace("[[filter]]", $filters, $sql);
+        
+          $sql = str_replace("[[order_by]]", $o, $sql);
+          //echo $sql;
+          //return;
+         // header("content-type: application/json");
+           $data = array();
+           $data['part_data'] = $this->db->query($sql)->result_array();
+           $data['filters'] = $filters;
+           //$data['part_data'][$k]['json']
+           //exit;
+           echo json_encode($data);
+        }
+        public function find_parts(){
+        
+          $this->load->view('parts/search_all_parts', array('data' => $data));
+          $this->load->view('parts/all_parts', array('data' => $data));
         }
         public function delete_image(){
            if(empty($this->uri->segment(4))){
@@ -280,6 +382,7 @@ class Ajax extends CI_Controller {
            }
         }
         public function product_lookup(){
+          $this->load->model('Parts');
           if(empty($this->uri->segment(2))){
             return;
           }
@@ -303,13 +406,16 @@ class Ajax extends CI_Controller {
             }
           // echo "select " . $meta[0]->column_name . " from " . $meta[0]->table_name . " " . $meta[0]->joins . " where " . $meta[0]->where_name . " like '" . $this->input->get('term') . "%' order by " . $meta[0]->order_by_name . " asc limit 10";
            // exit;
-            $data = $this->db->query("select distinct " . $meta[0]->column_name . " from " . $meta[0]->table_name  . " " . $meta[0]->joins . " where " . $meta[0]->where_name . " like '" . $this->input->get('term') . "%' order by " . $meta[0]->order_by_name . " asc limit 10")->result_array();
+           $filters = $this->Parts->SearchFilters($this->input->get('search_data'));
+           
+            $data = $this->db->query("select distinct " . $meta[0]->column_name . " from " . $meta[0]->table_name  . " " . $meta[0]->joins . " where " . $meta[0]->where_name .  " like '" . $this->input->get('term') . "%' " . $filters . " order by " . $meta[0]->order_by_name . " asc limit 10")->result_array();
           
           }else{
             return;
           }
           header("content-type: application/json");
           echo json_encode($data);
+          return;
         } 
         public function register()
         {
@@ -411,7 +517,7 @@ class Ajax extends CI_Controller {
      public function myprofile()
         {
           $me = $this->user_model->getUserInfo($this->session->userdata['user_id']);
-       
+     
           if(empty($me['user_id'])){
                 //    $this->load->view('header');
                     $this->load->view('login');

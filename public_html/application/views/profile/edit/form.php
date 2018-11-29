@@ -1,5 +1,5 @@
 <div class="col-lg-4 col-lg-offset-4">
-  <?php if($this->session->userdata['user_id'] == $this->input->get('user_id')){ $array = $me; } else { if($me['level_info']['level_id'] <=2){ $array = $data;  }else{ $array = $this->input->post(); } } ?>
+  <?php if($this->session->userdata['user_id'] == $this->input->get('user_id')){ $array = $me; } else { if($me['level_id'] <=2){ $array = $data;  }else{ $array = $this->input->post(); } } ?>
     <h2><?php if(!empty($data['user_id'])){ ?>Edit <?php if($data['user_id'] == $this->session->userdata['user_id']){ ?>Your<?php }else{ echo $data['first_name'] . ' ' . $data['last_name'] . '\'s'; } ?> Profile <?php }else{ ?>Add a User<?php } ?></h2>
     <span class="alert-success"></span>
    
@@ -8,14 +8,14 @@
                 <div id="preview-avatar"><?php if(!empty($array['avatar'])){ ?><img src="<?php echo $array['avatar']; ?>" /><?php } ?></div>
                 <div id="avatar-uploader"></div>
         </div>
-    
+    <?php if($me['level_id'] <= 2){ ?>
    
         <div class="form-group">
             <label>Company Logo<span>opt.</span></label> 
                 <div id="preview-logo"><?php if(!empty($array['logo'])){ ?><img src="<?php echo $array['logo']; ?>" /><?php } ?></div>
                 <div id="logo-uploader"></div>
         </div>
-    
+    <?php } ?>
     <form id="registration_form" name="registration_form" action="javascript: get_form_data_and_submit();" >
     <?php if($array['level_id'] <= 2){ ?>
     <div class="form-group">
@@ -47,6 +47,7 @@
                 <?php echo form_input(array('name'=>'last_name', 'id'=> 'last_name', 'placeholder'=>'Last Name', 'class'=>'form-control', 'value'=> set_value('last_name', $array['last_name']))); ?>
                 <?php echo form_error('last_name');?>
             </div>
+            <?php if($me['level_id'] <= 2){ ?>
              <div class="form-group">
                 <label>Address<span>req.</span></label>
                 <?php echo form_input(array('name'=>'street_address', 'id'=> 'street_address', 'placeholder'=>'Street Address', 'class'=>'form-control', 'value'=> set_value('street_address', $array['street_address']))); ?>
@@ -76,12 +77,14 @@
                 <?php echo form_input(array('name'=>'postal_code', 'id'=> 'postal_code', 'placeholder'=>'Zip Code', 'class'=>'form-control', 'autocomplete' => 'off', 'value'=> set_value('postal_code', $array['postal_code']))); ?>
                 <?php echo form_error('postal_code');?>
             </div>
+            <?php } ?>
             <div class="form-group">
                 <label>Primary Phone <span>req.</span></label>
                 <?php echo form_input(array('name'=>'business_phone', 'id'=> 'business_phone', 'class'=>'form-control', 'autocomplete' => 'off', 'data-masked-input' => '(999) 999-9999', 'placeholder' => 'Primary Phone', 'value'=> set_value('business_phone', $array['business_phone']))); ?>
                 <?php echo form_error('business_phone');?>
            
             </div>
+            <?php if($me['level_id'] <= 2){ ?>
             <div class="form-group">
                 <label>Service Phone <span>opt.</span></label>
                 <?php echo form_input(array('name'=>'service_phone', 'id'=> 'service_phone',  'class'=>'form-control', 'autocomplete' => 'off', 'data-masked-input' => '(999) 999-9999', 'placeholder' => 'Service Phone', 'value'=> set_value('service_phone', $array['service_phone']))); ?>
@@ -126,9 +129,64 @@
                 <?php echo form_input(array('name'=>'user_facebook', 'id'=> 'user_facebook', 'placeholder'=>'Facebook URL', 'class'=>'form-control', 'value' => set_value('user_facebook', $array['user_facebook'])  )   ); ?>
                 <?php echo form_error('user_facebook');?>
             </div>
-    
+            <div class="form-group">
+                <label>Promotional Slide<span>opt.</span></label>
+                <textarea id="presentation_slide" name="presentation_slide"><?php echo $array['presentation_slide']; ?></textarea>
+            </div>    
+            <?php } ?>
+            <?php if($me['level_id'] <= 2){ ?>
+            <div class="form-group">
+            <h2>Default Proposal Settings</h2>
+            </div>
+            <div class="form-group">
+                <label>Hourly Labor Rate</label>
+                <?php echo form_input(array('type' => 'number', 'name'=>'labor_rate', 'id'=> 'labor_rate', 'placeholder'=>'Hourly Labor Rate', 'class'=>'form-control', 'value' => set_value('labor_rate', $array['labor_rate'])  )   ); ?>
+                <?php echo form_error('labor_rate');?>
+            </div>
+            <div class="form-group">
+                <label>Parts Sales Tax</label>
+                <?php echo form_input(array('type' => 'number', 'name'=>'sales_tax', 'max' => '100', 'min' => '0', 'id'=> 'sales_tax', 'placeholder'=>'Sales Tax', 'class'=>'form-control', 'value' => set_value('sales_tax', $array['sales_tax'])  )   ); ?>
+                <?php echo form_error('sales_tax');?>
+            </div>
+            <div class="form-group">
+                <label>Travel Distance</label>
+                <?php echo form_input(array('type' => 'number', 'name'=>'travel_distance', 'max' => '300', 'min' => '0', 'id'=> 'travel_distance', 'placeholder'=>'Travel Distance', 'class'=>'form-control', 'value' => set_value('travel_distance', $array['travel_distance'])  )   ); ?>
+                <?php echo form_error('travel_distance');?>
+            </div>
+            <div class="form-group">
+                <label>Travel Cost Per Mile</label>
+                <?php echo form_input(array('type' => 'number', 'name'=>'travel_cost', 'id'=> 'travel_cost', 'placeholder'=>'Travel Cost', 'class'=>'form-control', 'value' => set_value('travel_cost', $array['travel_cost'])  )   ); ?>
+                <?php echo form_error('travel_cost');?>
+            </div>
+            <div class="form-group">
+                <label>Hourly Vehcile Charge</label>
+                <?php echo form_input(array('type' => 'number', 'name'=>'vehicle_charge', 'id'=> 'vehicle_charge', 'placeholder'=>'Hourly Vehicle Charge', 'class'=>'form-control', 'value' => set_value('vehicle_charge', $array['vehicle_charge'])  )   ); ?>
+                <?php echo form_error('vehicle_charge');?>
+            </div>
+            <div class="form-group">
+                <label>Service Dept Overhead</label>
+                <?php echo form_input(array('type' => 'number', 'name'=>'service_dept_efficiency', 'id'=> 'service_dept_efficiency', 'placeholder'=>'Service Dept Overhead', 'class'=>'form-control', 'value' => set_value('service_dept_efficiency', $array['service_dept_efficiency'])  )   ); ?>
+                <?php echo form_error('service_dept_efficiency');?>
+            </div>
+            <div class="form-group">
+                <label>Sales Commission % of Sales</label>
+                <?php echo form_input(array('type' => 'number', 'name'=>'sales_commiss', 'id'=> 'sales_commiss', 'placeholder'=>'Sales Commission % of Sales', 'class'=>'form-control', 'value' => set_value('sales_commiss', $array['sales_commiss'])  )   ); ?>
+                <?php echo form_error('target_net');?>
+            </div>
+            <div class="form-group">
+                <label>Target Net Profit % Before Taxes</label>
+                <?php echo form_input(array('type' => 'number', 'name'=>'target_net', 'id'=> 'target_net', 'placeholder'=>'Target Net Profit % Before Taxes', 'class'=>'form-control', 'value' => set_value('target_net', $array['target_net'])  )   ); ?>
+                <?php echo form_error('target_net');?>
+            </div>
+            <div class="form-group">
+                <label>Total Gross Profit Margin %</label>
+                <?php echo form_input(array('type' => 'number', 'name'=>'target_gross', 'id'=> 'target_gross', 'placeholder'=>'Total Gross Profit Margin %', 'class'=>'form-control', 'value' => set_value('target_gross', $array['target_gross'])  )   ); ?>
+                <?php echo form_error('target_gross');?>
+            </div>
+            <?php } ?>
              <?php 
       $levels = array();
+      if(count($user_levels)>0){
       foreach($user_levels as $key => $arr){
          $levels[$arr->level_id] = $arr->level_name;
       
@@ -157,7 +215,8 @@
             <?php
                      
            
-                }  
+                } 
+                }
             ?>
           <?php echo form_input(array('type' => 'hidden', 'name' => 'user_id', 'id' => 'user_id', 'value' => $this->input->get('user_id'))); ?>
         
@@ -168,6 +227,12 @@
 </div>
  
 <script>
+CKEDITOR.editorConfig = function( config ) {
+config.enterMode = CKEDITOR.ENTER_BR // pressing the ENTER Key puts the <br/> tag
+config.shiftEnterMode = CKEDITOR.ENTER_P; //pressing the SHIFT + ENTER Keys puts the <p> tag
+};
+CKEDITOR.replace('presentation_slide');
+
 $('#postal_code').click(function(){
 								      $('#postal_code').autocomplete({
 											    minLength: 1,

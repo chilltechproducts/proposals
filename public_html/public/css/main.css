@@ -912,11 +912,10 @@ img.inline.right.qrcode {
 
 }
 #id_submit_form {
-
     margin-bottom: 50px;
     top: 20px;
     position: relative;
-
+    width: 95%;
 }
 .error {
     position: relative;
@@ -968,4 +967,313 @@ img.inline.right.qrcode {
 
     display: none !important;
 
+}
+.formlist > div {
+    width: 50%;
+    float: left;
+    display: inline-flex;
+    vertical-align: baseline;
+}
+.formlist > div:last-child {
+    clear: both;
+    width: 100%;
+}
+.formlist > div:last-child div.wsite-form-field {
+
+    width: 100%;
+    max-width: unset !important;
+
+}
+.formlist > div:last-child div.wsite-form-field .wsite-form-input-container {
+    width: 100%;
+}
+.wsite-form-field div.wsite-form-input-container .wsite-input-width-370px {
+    max-width: unset;
+}
+.wsite-section.wsite-header-section.wsite-section-bg-color, .alert-success {
+    width: 70% !important;
+    display: table;
+    margin: 10px auto;
+    background-color: rgba(99, 176, 235, 0.15) !important;
+    border-width: 1px 1px 1px 1px;
+    border-color: #c2c2c2;
+    border-style: solid;
+}
+.banner-wrap .banner h2 {
+    color: #fff;
+    text-transform: uppercase;
+    font-family: 'Lato', sans-serif;
+    font-size: 58px;
+    font-weight: 300;
+    line-height: normal;
+    text-shadow: 2px 2px 2px #666;
+}
+.wsite-section-elements form {
+
+    position: relative;
+    top: -55px;
+
+}
+.banner-wrap .banner div.paragraph {
+    padding: 10px 0 20px;
+    color: white;
+    font-family: 'Lato', sans-serif;
+    font-size: 1.25em;
+    font-weight: bold;
+    text-shadow: 1.5px 1.5px 1.5px #666;
+}
+.wsite-form-field div.wsite-form-input-container .wsite-input-width-370px {
+
+    max-width: unset !important;
+    border-color: #c2c2c2 !important;
+    background-color: #ffffee !important;
+    display: block;
+    border-radius:5px;
+    min-width: 100%;
+}
+.left.boxes.block {
+
+    display: none;
+
+}
+#content_box {
+background-color:#fff;
+}
+.loading {
+    margin: 20% auto 0;
+    width:150px;
+}
+.btn.dropdown-toggle {
+
+    background-color: transparent;
+    background-image: url(/public/images/arrow.png);
+    background-size: 20px 20px;
+    background-repeat: no-repeat;
+    margin-top: 9px;
+    background-position: top center;
+
+}
+.nav > li.inline.open, .nav > li.inline.open > a {
+
+    background-color: blue !important;
+
+}
+.nav > li.inline.open > li, .nav > li.inline.open > li a {
+     color: #ffffee
+    
+} 
+.open .btn.dropdown-toggle {
+    background-image: url(/public/images/arrow-down.png);
+    
+}
+.dealer_details .right {
+    float: right;
+    width: 210px;
+}
+.dealer_details p.left {
+    text-align: left;
+    float: left;
+    display: inline-block;
+    position: relative;
+    top: -50px;
+}
+.row.block.hundred.client_details {
+    display: inline-block!important;
+    width: 30%!important;
+    float: left!important;
+    text-align: left;
+    background-color: #fff !important;
+}
+.row.block.hundred.client_details span {
+    color:#fff;
+    background-color: #666;
+}
+.row.block.hundred.location_details {
+    display: inline-block;
+    width: 30%!important;
+    float: right!important;
+    text-align: left;
+}
+.row.block.hundred.location_details span {
+    color:#fff;
+    background-color: #666;
+}
+.row.block.hundred.location_details {
+    clear: right;
+    float: right;
+    display: inline-block;
+    background-color: #fff !important;
+    width: 30%;
+    height: 100px;
+}
+.row.block.hundred.client_details span, .row.block.hundred.location_details span {
+    color: #fff;
+    background-color: #666;
+    width: 100%;
+    display: block;
+    padding: 5px;
+    text-align: center;
+    font-weight: bold;
+}
+.row.block.hundred.dealer_details {
+
+    background-color: #fff !important;
+    margin: 20px auto !important;
+    border: 1px solid;
+    padding: 5px 10px !important;
+
+}
+.proposal_date {
+
+    clear: both;
+    display: block;
+    width: 100%;
+    text-align: center;
+    font-size: 18px;
+    font-weight: ;
+
+}
+#warranty_info {
+
+    border: 1px solid #666;
+    display: block;
+    height: auto;
+    text-align: left;
+    padding: 10px;
+    width: 95%;
+}
+#warranty_info p:last-child {
+
+    font-weight: bold;
+    text-align: center;
+    font-size: 18px;
+
+}
+#company_warranty {
+
+    border: 1px dotted #c2c2c2;
+    margin-bottom: 20px;
+    margin-top: 10px;
+
+}
+#parts_info .inline {
+    width: 30%;
+    display: inline-block;
+}
+#parts_info > div .form-control, #labor_info > div .form-control {
+
+    display: block;
+    width: 100%;
+    height: 50px;
+    margin-bottom: 3px;
+
+}
+p.btn.btn-lg.btn-primary.btn-block {
+    width: 50%;
+    margin-left: auto;
+    margin-right: auto;
+}
+#parts_info, #labor_info {
+
+    display: table !important;
+    height: auto;
+    width: 95%;
+
+}
+#parts_info h2, #labor_info h2 {
+
+    font-size: 17px;
+    padding-bottom: 5px;
+    margin-bottom: 5px !important;
+
+}
+#warranty_info {
+
+    border: 1px solid #666;
+    display: block;
+    height: auto;
+    text-align: left;
+    padding: 10px;
+    width: 95%;
+    margin-top: -95px;
+
+}
+.inline.model_number {
+
+    width: 20% !important;
+
+}
+.inline.model_number input {
+
+    max-width: 100px;
+
+}
+.inline.quantity input {
+
+    max-width: 50px;
+
+}
+#parts_info > div .form-control {
+    display: block;
+    width: 100%;
+    height: 50px;
+}
+.inline.totals {
+
+    width: 175px !important;
+    float: right;
+    text-align: left;
+
+}
+.inline.quantity {
+
+    width: 50px !important;
+
+}
+#parts_info .fa.fa-close {
+
+    float: right;
+
+}
+.form-control.parts_totals {
+
+    border: unset !important;
+    box-shadow: unset;
+    background-color: #c2c2c2;
+
+}
+#labor_info ul {
+    list-style: none;
+}
+
+::after, ::before {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+element {
+}
+#labor_info .inline {
+    display: inline-block;
+    width: auto;
+}
+#labor_info .inline i {
+    float: right;
+    font-size: 12px;
+}
+#labor_info .inline.model_number {
+    width: 25% !important;
+}
+#labor_info .inline.quantity {
+    width: 125px !important;
+}
+#labor_info .fa.fa-close {
+    float: right;
+}
+#labor_info .inline.totals {
+    float: right;
+    width: 100px !important;
+}
+.form-control.parts_totals {
+    height: 100px !important;
 }

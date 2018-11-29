@@ -26,6 +26,17 @@ class User_model extends CI_Model {
             $this->db->query($q);
             return $this->db->insert_id();
     }
+    public function states(){
+    $states = $this->db->query("select distinct(state), id from zipcodes where country='United States' order by state asc")->result_array();
+          $states_out = array();
+          foreach($states as $k => $arr){
+            if(!in_array($arr['state'], $states_out)){
+              $states_out[$arr['state']] = $arr['state'];
+            }
+          }
+         
+          return $states_out;
+    }      
     public function user_level($id){
       
       return $this->db->query("select level_name from user_levels where level_id=" . $id)->row()->level_name;
@@ -106,8 +117,11 @@ class User_model extends CI_Model {
     }
     public function getUserInfo($id)
     {
-    
-        $q = $this->db->query("select * from users where user_id = " . $id)->result_array(); 
+  //  echo $id; exit;
+    if(empty($id)){
+      return array();
+      }
+        $q = $this->db->query("select users.*, lw.labor_warranty_text as warranty from users left join labor_warranty lw on lw.dealer_id=users.user_id  where users.user_id = " . $id)->result_array(); 
     
         if(count($q) > 0){
            if($q[0]['level_id'] <=2){
@@ -124,9 +138,9 @@ class User_model extends CI_Model {
     
     public function updateUserInfo($post)
     {
-    
+    unset($post['post']);
         $data = array(
-               'password' => $post['password'],
+            
                'last_login' => date('Y-m-d h:i:s A'), 
                'first_name' => $post['first_name'],
                'last_name' => $post['last_name'],
@@ -144,13 +158,23 @@ class User_model extends CI_Model {
                'webhook_url' => $post['webhook_url'],
                'user_facebook' => $post['user_facebook'],
                'user_website' => $post['user_website'],
-               'status' => 1
+               'status' => 1,
+               'presentation_slide' => $post['presentation_slide'],
+               'sales_tax' => $post['sales_tax'],
+               'labor_rate' => $post['labor_rate'],
+               'travel_distance' => $post['travel_distance'],
+               'travel_cost' => $post['travel_cost'],
+               'vehicle_charge' => $post['vehicle_charge'],
+               'service_dept_efficiency' => $post['service_dept_efficiency'],
+               'sales_commiss' => $post['sales_commiss'],
+               'target_net' => $post['target_net'],
+               'target_gross' => $post['target_gross']
             );
           
-        $this->db->where(array('user_id=' => $post['user_id']) );
+        $this->db->where(array('user_id' => $post['user_id']) );
         $this->db->update('users', $data); 
         $success = $this->db->affected_rows(); 
-      print_r($success);
+      
         if(!$success){
             error_log('Unable to updateUserInfo('.$post['user_id'].')');
             return false;
@@ -168,16 +192,17 @@ class User_model extends CI_Model {
         $this->db->where('email', $post['email']);
         $query = $this->db->get('users');
         $userInfo = $query->row();
-    
+  
         if(!$this->password->validate_password($post['password'], $userInfo->password)){
-            error_log('Unsuccessful login attempt('.$post['email'].')');
-            return false; 
-        }
+
+            return array(); 
+        }else{
         
         $this->updateLoginTime($userInfo->user_id);
-        
+      
         unset($userInfo->password);
         return $userInfo; 
+        }
     }
     
     public function updateLoginTime($id)
@@ -203,13 +228,9 @@ class User_model extends CI_Model {
     public function updatePassword($post)
     {   
         $this->db->where('user_id', $post['user_id']);
-        $this->db->update('users', array('password' => $post['password'])); 
-        $success = $this->db->affected_rows(); 
         
-        if(!$success){
-            error_log('Unable to updatePassword('.$post['user_id'].')');
-            return false;
-        }        
+        $this->db->update('users', array('password' => $post['password'])); 
+       
         return true;
     } 
     

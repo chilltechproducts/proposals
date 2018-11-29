@@ -57,7 +57,7 @@
 <h2 class="wsite-content-title"><font size="4">No obligation, no nonsense</font></h2>
 
 <div style="text-align:center;"><div style="height: 10px; overflow: hidden;"></div>
-<a class="wsite-button wsite-button-large wsite-button-normal" href="/contact.html" >
+<a class="wsite-button wsite-button-large wsite-button-normal" href="/welcome/contact" >
 <span class="wsite-button-inner">CONTACT US NOW!</span>
 </a>
 <div style="height: 10px; overflow: hidden;"></div></div>

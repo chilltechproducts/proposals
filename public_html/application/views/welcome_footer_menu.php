@@ -10,7 +10,7 @@
 		</li>
 		<li id="pg581042645584318327" class="wsite-menu-item-wrap">
 			<a
-						href="/products.html"
+						href="/welcome/products"
 				class="wsite-menu-item"
 				>
 				Products
@@ -19,7 +19,7 @@
 		</li>
 		<li id="pg122947105113674234" class="wsite-menu-item-wrap">
 			<a
-						href="/next.html"
+						href="/welcome/next"
 				class="wsite-menu-item"
 				>
 				What Next
@@ -28,7 +28,7 @@
 		</li>
 		<li id="active" class="wsite-menu-item-wrap">
 			<a
-						href="/contact.html"
+						href="/welcome/contact"
 				class="wsite-menu-item"
 				>
 				Contact

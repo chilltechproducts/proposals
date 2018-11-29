@@ -104,6 +104,293 @@ function submit_diagnostics(lid, sid){
     })      
     
 }
+function get_clients(){
+    $.ajax({
+        url: '/main/client_listings/?ajax_set=1',
+        type: 'post',
+        dataType: 'html',
+        data: $('#registration_form').serialize(),
+        beforeSend: function() {
+            $('#content_box').html('<img src="public/images/loading.gif" class="loading" />').fadeIn();
+        },           
+        success: function(response){
+             $('#content_box').html(response);
+        }     
+    })
+}
+function find_clients(){
+    
+    data = $('#registration_form').serialize();
+    data.ajax_set = 1;
+     $.ajax({
+        url: '/main/client_listings/?ajax_set=1',
+        type: 'post',
+        beforeSend: function() {
+            $('#content_box').html('<img src="public/images/loading.gif" class="loading" />').fadeIn();
+        },
+        
+        dataType: 'html',
+        data: data,
+        success: function(response){
+             $('#content_box').html(response);
+        }     
+    })
+}
+function load_proposals(cid){
+ 
+        url = '/main/create_proposal/2/' + cid + '/?ajax_set=1';
+        
+    
+ $.ajax({
+        url: url,
+        type: 'post',
+        dataType: 'html',
+        data: $('#registration_form').serialize(),
+        beforeSend: function() {
+            $('#content_box').html('<img src="public/images/loading.gif" class="loading" />').fadeIn();
+        },        
+        success: function(response){
+             $('#content_box').html(response);
+        }     
+ }) 
+    
+}
+function edit_warranty(pid){
+  CKEDITOR.disableAutoInline = true;
+    CKEDITOR.inline( 'company_warranty' );
+    if($('#company_warranty .buttons').length==0){
+         
+    }    
+}   
+function load_proposal_details(cid, did, pid){
+ 
+        url = '/main/create_proposal/3/' + cid + '/' + pid + '/?ajax_set=1';
+        
+    
+ $.ajax({
+        url: url,
+        type: 'post',
+        dataType: 'html',
+        data: $('#registration_form').serialize(),
+        beforeSend: function() {
+            $('#content_box').html('<img src="public/images/loading.gif" class="loading" />').fadeIn();
+        },        
+        success: function(response){
+             $('#content_box').html(response);
+                add_part_to_proposal('parts', pid);
+                add_part_to_proposal('labor', pid);
+             $('#company_warranty' ).click(function(){
+                try{
+                    CKEDITOR.disableAutoInline = true;
+                    CKEDITOR.inline( 'company_warranty' );
+                   
+                    }catch(err){}
+             })
+            
+        }     
+ }) 
+    
+}
+function add_client(cid){
+    if(!cid){
+        url = '/main/create_proposal/1/?ajax_set=1';
+    }else{
+        url = '/main/create_proposal/1/' + cid + '/?ajax_set=1';
+        
+    }
+ $.ajax({
+        url: url,
+        type: 'post',
+        dataType: 'html',
+        data: $('#registration_form').serialize(),
+        beforeSend: function() {
+            $('#content_box').html('<img src="public/images/loading.gif" class="loading" />').fadeIn();
+        },        
+        success: function(response){
+             $('#content_box').html(response);
+        }     
+ })
+}
+function submit_part_to_server(part_id, pid, alt){
+   
+    $.ajax({
+           url : '/proposals/submit_new_part/' + pid + '/' + part_id + '/' + alt,
+           data: $('#parts_info .form-control[alt="' + alt + '"] input').removeAttr('disabled').serialize(),
+           type: 'post',
+           success: function(response){
+            add_part_to_proposal('parts', pid);
+           }
+    });      
+}  
+function submit_labor_to_server(part_id, pid, alt){
+   
+    $.ajax({
+           url : '/proposals/submit_new_labor/' + pid + '/' + alt,
+           data: $('#labor_info .form-control[alt="' + alt + '"] input').removeAttr('disabled').serialize(),
+           type: 'post',
+           success: function(response){
+            add_part_to_proposal('labor', pid);
+           }
+    });      
+}    
+function add_part_to_proposal(type, pid){
+    $.ajax({
+        url: '/proposals/add_part_to_proposal/' + pid + '/' + type,
+        type: 'post',
+        dataType: 'html',
+     
+        beforeSend: function() {
+            $('#' + type + '_info > div').html('<img src="public/images/loading.gif" class="loading" />').fadeIn();
+        },        
+        success: function(response){
+             $('#' + type + '_info > div').html(response);
+             
+             if(type == 'parts'){
+                  $('#' + type + '_info .form-control .qty').bind('blur change', function(ui){
+                                   alt= $(this).attr('alt');
+                                    part_id = $('#part_id_' + alt).val();
+                                 
+                                    submit_part_to_server(part_id, pid, alt);
+                        })
+                    
+                        $('#' + type + '_info .form-control .inline.name input').each(function(i, item){
+                            var alt=$(this).attr('alt');
+                            console.log(alt)
+                            $('#' + type + '_info .form-control[alt="' + alt + '"] .fa-close').click(function(){
+                                
+                                $('#' + type + '_info .form-control[alt="' + alt + '"]').remove();
+                            });    
+                            
+                                
+                                $('#' + type + '_info .form-control .inline.name input[alt="' + alt + '"]').autocomplete({
+                                                        minLength: 1,
+                                                        source: '/ajax/find_part/?q=' + $('.form-control .inline.name input[alt="' + alt + '"]').val(),
+                                                        focus: function( event, ui ) {
+                                                        
+                                                        return false;
+                                                        },
+                                                        select: function( event, ui ) {
+                                                            
+                                                                    $('#' + type + '_info .form-control input[id="part_id_' + alt + '"]').val(ui.item.part_id)
+                                                                    $('#' + type + '_info .form-control .inline.model_number input[alt="' + alt + '"]').val( ui.item.model_number );
+                                                                    $('#' + type + '_info .form-control .inline.name input[alt="' + alt + '"]').val( ui.item.part_name );
+                                                                    if($('#' + type + '_info .form-control .inline.quantity input[alt="' + alt + '"]').val() == ''){
+                                                                        $('#' + type + '_info .form-control .inline.quantity input[alt="' + alt + '"]').val(1);
+                                                                    }
+                                                                        setTimeout(function(){ submit_part_to_server(ui.item.id, pid, alt); }, 500);
+                                                                    return false;
+                                                        }
+                                                        })
+                                                        .autocomplete( "instance" )._renderItem = function( ul, item ) {
+                                                        return $( "<li>" )
+                                                        .append( "<a>" + item.part_name + "</a>" )
+                                                        .appendTo( ul );
+                                                        };
+
+
+                                });
+             }else{
+                 
+                  $('#' + type + '_info .form-control .qty').bind('blur change', function(ui){
+                                   alt= $(this).attr('alt');
+                                    part_id = $('#part_id_' + alt).val();
+                                 
+                                    submit_labor_to_server(part_id, pid, alt);
+                        })
+                    
+                        $('#' + type + '_info .form-control .inline.name input').each(function(i, item){
+                            var alt=$(this).attr('alt');
+                            console.log(alt)
+                            $('#' + type + '_info .form-control[alt="' + alt + '"] .fa-close').click(function(){
+                                
+                                $('#' + type + '_info .form-control[alt="' + alt + '"]').remove();
+                            });    
+                            
+                                
+                                $('#' + type + '_info .form-control .inline.name input[alt="' + alt + '"]').autocomplete({
+                                                        minLength: 1,
+                                                        source: '/ajax/find_service/?q=' + $('.form-control .inline.name input[alt="' + alt + '"]').val(),
+                                                        focus: function( event, ui ) {
+                                                        
+                                                        return false;
+                                                        },
+                                                        select: function( event, ui ) {
+                                                            
+                                                                    $('#' + type + '_info .form-control  input[id="service_id_' + alt + '"]').val(ui.item.id)
+                                                                    $('#' + type + '_info .form-control .inline.model_number input[alt="' + alt + '"]').val( ui.item.service_rate );
+                                                                    $('#' + type + '_info .form-control .inline.name input[alt="' + alt + '"]').val( ui.item.service_name );
+                                                                    if($('#' + type + '_info .form-control .inline.quantity input[alt="' + alt + '"]').val() == ''){
+                                                                        $('#' + type + '_info .form-control .inline.quantity input[alt="' + alt + '"]').val(1);
+                                                                    }
+                                                                        setTimeout(function(){ submit_labor_to_server(ui.item.id, pid, alt); }, 500);
+                                                                    return false;
+                                                        }
+                                                        })
+                                                        .autocomplete( "instance" )._renderItem = function( ul, item ) {
+                                                        return $( "<li>" )
+                                                        .append( "<a>" + item.service_name + "</a>" )
+                                                        .appendTo( ul );
+                                                        };
+
+
+                                });
+                 
+             }
+             
+             parts_total = Number($('#parts_info > div .final_total').html());
+             labor_total = Number($('#labor_info > div .final_total').html());
+             
+             total_over = labor_total + parts_total;
+             $('#total_over').html(total_over);
+            // alert(total_over);
+        
+        }
+ })
+    
+}
+function add_proposal_data(cid, pid){
+    
+        url = '/main/create_proposal/3/' + cid + '/' + pid + '/?ajax_set=1';
+        data = $('#registration_form').serialize();
+        
+       try{ data += '&warranty=' +CKEDITOR.instances.company_warranty.getData(); }catch(err){}
+        console.log(data);
+        
+       
+ $.ajax({
+        url: url,
+        type: 'post',
+        dataType: 'html',
+        data: data,
+        beforeSend: function() {
+            $('#content_box').html('<img src="public/images/loading.gif" class="loading" />').fadeIn();
+        },        
+        success: function(response){
+             $('#content_box').html(response);
+             
+        }     
+ })
+}
+function add_proposal(cid){
+    if(!cid){
+        url = '/main/create_proposal/2/?ajax_set=1';
+    }else{
+        url = '/main/create_proposal/2/' + cid + '/?ajax_set=1';
+        
+    }
+ $.ajax({
+        url: url,
+        type: 'post',
+        dataType: 'html',
+        data: $('#registration_form').serialize(),
+        beforeSend: function() {
+            $('#content_box').html('<img src="public/images/loading.gif" class="loading" />').fadeIn();
+        },        
+        success: function(response){
+             $('#content_box').html(response);
+        }     
+ })
+}
 function load_profile(user_id){
     if(!user_id){
       user_id = 0;   
@@ -112,6 +399,9 @@ function load_profile(user_id){
           url: '/ajax/myprofile',
           type: 'get',
           data: { user_id: user_id, ajax: true },
+        beforeSend: function() {
+            $('#content_box').html('<img src="public/images/loading.gif" class="loading" />').fadeIn();
+        },           
           success: function(response){
               $('#content_box').html(response);
           }
@@ -149,6 +439,9 @@ function sales_staff(){
         type: 'post',
          dataType: 'json',
         cache: false,
+        beforeSend: function() {
+            $('#content_box').html('<img src="public/images/loading.gif" class="loading" />').fadeIn();
+        },        
         success: function(response){
             $('#content_box').html('<ul class="hundred"></ul>');
             $.each(response.data, function(i, item){
@@ -306,13 +599,79 @@ function show_data_sheet(lid){
     
     
 }
-function get_parts(uid){
+function ajax_page(url){
+
+  $.ajax({
+      url: url, 
+      dataType: 'html',
+      beforeSend: function() {
+            $('#content_box').html('<img src="public/images/loading.gif" class="loading" />').fadeIn();
+        },   
+      success: function(response){
+        
+        $('#content_box').html(response);     
+      }
+  });  
+    
+}
+function find_parts_json(uid){
+     data = $('#registration_form').serialize();
+                $.ajax({
+                    url: '/ajax/find_parts_json',
+                    data: data,
+                    dataType: 'json',
+                    type: 'post',
+                    success: function(response){
+                        if(response.part_data.length==0){
+                            $('#content_box ul.parts').html('<li>No Parts Found</li>');
+                            return;
+                        }
+                            $.each(response.part_data, function(i, item){
+                                if(i%2==0){
+                                    odd_even='even';
+                                }else{
+                                    odd_even='odd';
+                                }
+                                html = '<li class="block row ' + odd_even + '"><span class="name inline" id="part_data_' + item.part_id + '">' + item.part_name + '<br />manufacturer: <i>' + item.manufacturer_name + '</i><br />part: <i>' + item.part_name + '</i><br /><br />model #: <i>' + item.model_number + '</i><br /><span class="inline buttons"><i class="fa fa-close"></i><i class="fa fa-pencil" onclick="add_part(' + item.location_id + ');lookup_part_data(' + item.location_id + ')"></i><i class="fa fa-eye" onclick="show_data_sheet(' + item.location_id + ');"></i><i class="fa fa-cog" onclick="service_history(' + item.location_id + ');"></i></span><div id="chartContainer_' + item.location_id + '" class="right line-chart"></div><span class="ajax"></span></span><span class="qrcode inline"><img src="/QRCodeCreator/create/' + item.location_id + '" /><i class="fa fa-print" onclick="print_qrcode(' + item.location_id + ');"></i></span></li>';
+                                $('#content_box > ul.parts').append(html); 
+                            })
+                            
+                    }
+                });
+}                
+function find_parts(uid){
+ 
     
       $.ajax({
-         url: '/ajax/get_parts',
-         data: { uid: uid },
-         dataType: 'json',
+         url: '/ajax/find_parts',
+         data: { uid: uid},
+         dataType: 'html',
+         type: 'post',
+        beforeSend: function() {
+            $('#content_box').html('<img src="public/images/loading.gif" class="loading" />').fadeIn();
+        },         
          success: function(response){
+             
+             
+            $('#content_box').html(response + '<ul class="parts"></ul>');
+            //find_parts_json();
+             
+         }   
+      })
+}  
+function get_parts(uid){
+    data = $('#registration_form').serialize();
+      $.ajax({
+         url: '/ajax/get_parts',
+         data: { uid: uid, search_data: data },
+         dataType: 'json',
+         type: 'post',
+         success: function(response){
+            $('#content_box ul.parts').html('');
+            if(response.part_data.length==0){
+                $('#content_box ul.parts').html('<li>No Parts Found</li>');
+                return;
+            }    
              $.each(response.part_data, function(i, item){
                 if(i%2==0){
                     odd_even='even';
@@ -466,6 +825,9 @@ $('#content_box').html('')
   $.ajax({
          url: '/ajax/my_parts',
          data: { uid: uid },
+        beforeSend: function() {
+            $('#content_box').html('<img src="public/images/loading.gif" class="loading" />').fadeIn();
+        },         
          success: function(response){
              $('#content_box').html(response);
              if($('#email_form').length>0){
@@ -502,7 +864,7 @@ $('#content_box').html('')
                                                                                             if($('#' + id.replace(/name$/ig, 'id') ).length>0){
                                                                                                 $('#' + id.replace(/name$/ig, 'id') ).remove();
                                                                                             }   
-                                                                                        //  $(this).after('<input type="hidden" id="' + id.replace(/(name)$/ig, 'id') + '" name="' + id.replace(/(name)$/ig, 'id') + '" value="" class="hidden" />');   
+                                                                                          $(this).after('<input type="hidden" id="' + id.replace(/(name)$/ig, 'id') + '" name="' + id.replace(/(name)$/ig, 'id') + '" value="" class="hidden" />');   
                                                                                         }
                                                                                         $('#' + id).val(ui.item.value);
                                                                                         $('#' + id.replace(/name$/ig, 'id') ).val(ui.item.id);  
@@ -546,7 +908,10 @@ function delete_image(iid, confirmed){
 }    
                    
     
-function createUploaderProduct(elem, type, model_number, lid){            
+function createUploaderProduct(elem, type, model_number, lid){ 
+    if(elem.length==0){
+        return;
+    }
             var ajaxuploader = new qq.FineUploader({
                 element: document.getElementById(elem),
                 template: 'qq-template-gallery',
@@ -594,7 +959,7 @@ function part_submit(){
        
         type: 'post',
         data: $('#registration_form').serialize(),
-         dataType: 'json',
+         dataType: 'html',
         cache: false,
         success: function(response){
             $('#content_box').html(response)
@@ -614,6 +979,9 @@ function login_form(){
         type: 'get',
          dataType: 'html',
         cache: false,
+        beforeSend: function() {
+            $('#content_box').html('<img src="public/images/loading.gif" class="loading" />').fadeIn();
+        },
         success: function(response){
             //alert(1)
           $('#content_box').html(response);
@@ -630,6 +998,9 @@ function ajax_register(){
         type: 'get',
          dataType: 'html',
         cache: false,
+        beforeSend: function() {
+            $('#content_box').html('<img src="public/images/loading.gif" class="loading" />').fadeIn();
+        },        
         success: function(response){
             //alert(1)
           $('#content_box').html(response);
@@ -646,6 +1017,9 @@ function ajax_recover(){
         data: $('#recover').serialize(),
          dataType: 'html',
         cache: false,
+        beforeSend: function() {
+            $('#content_box').html('<img src="public/images/loading.gif" class="loading" />').fadeIn();
+        },        
         success: function(response){
             //alert(1)
           $('#content_box').html(response);

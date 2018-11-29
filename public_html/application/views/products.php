@@ -1,3 +1,158 @@
+<style>
+.container {
+
+    width: 100%;
+    max-width: unset;
+    margin: 0 auto;
+
+}
+.wsite-section-elements > div {
+
+    width: 45%;
+    margin-right: 25px;
+    margin-left: 25px;
+
+}
+h2, .wsite-content-title, .paragraph, .alert-success {
+
+    word-wrap: break-word;
+    font-family: 'Patua One';
+    color: #cccfff !important;
+    font-size: 25px;
+
+}
+@media(max-width: 1200px){
+.wsite-section-wrap, .alert-success {
+    min-width: 100% !important;
+    max-width: 100% !important;
+   
+}
+.wsite-section-content {
+    width: 100%;
+    margin: 0 auto 20px 10px;
+}
+.formlist, .wsite-editor .formlist {
+    min-height: inherit;
+    width: 90%;
+}
+.wsite-multicol-col {
+
+    vertical-align: top;
+    margin: 0 !important;
+    border: 0 !important;
+    padding: 0;
+    -moz-box-sizing: border-box;
+    width: 100% !important;
+    display: block;
+
+}
+.wsite-logo {
+
+    display: block;
+    vertical-align: top;
+    float: left;
+    margin-left: 30%;
+    position: relative;
+    top: 20px;
+    font-size: 53px;
+    clear: right;
+    margin-bottom: 40px;
+    margin-left: 0;
+
+}
+.wsite-multicol-table {
+
+    position: relative;
+    border-collapse: collapse;
+    table-layout: fixed;
+    width: 70%;
+    margin: 0 !important;
+    border: 0 !important;
+    padding: 0 !important;
+
+}
+.wsite-multicol-col:nth-child(3) {
+
+    width: 15% !important;
+
+}
+.wsite-multicol-col.move_up {
+    float: right;
+    max-width: 150px;
+    display: inline-block;
+    position: relative;
+    top: -701px;
+    left: 171px;
+}
+.wsite-image.wsite-image-border-none.left {
+
+    width: 100px;
+    float: left;
+
+}
+}
+@media(max-width:600px){
+.paragraph {
+	width: 100% !important;
+}
+.wsite-logo {
+    display: block;
+    vertical-align: top;
+    float: left;
+    margin-left: 30%;
+    position: relative;
+    top: 20px;
+    font-size: 23px;
+    clear: right;
+    margin-bottom: 40px;
+    margin-left: 0 !important;
+}
+.wsite-section.wsite-header-section.wsite-section-bg-image {
+height: auto;
+background-image: url('https://chilltechproducts.com/uploads/1/2/2/7/122787378/background-images/1963154272.jpg');
+background-repeat: no-repeat;
+background-position: unset!important;
+background-size: unset!important;
+background-color: transparent;
+}
+.wsite-section-elements > div {
+    width: 100%;
+    display: inline-block;
+    float: left;
+}
+.wsite-multicol-col.move_up {
+    float: right;
+    max-width: 130px;
+    display: inline-block;
+    position: relative;
+    top: -701px;
+    left: 98px;
+    z-index: 0;
+}
+.wsite-multicol-table-wrap {
+
+    margin: 0 auto !important;
+    width: 100% !important;
+    display: table;
+    text-align: left;
+
+}
+.wsite-multicol-table {
+    position: relative;
+    border-collapse: collapse;
+    table-layout: fixed;
+    width: 100%;
+    margin: 0 !important;
+    border: 0 !important;
+    padding: 0 !important;
+}
+.wsite-elements.wsite-footer .wsite-multicol-col:nth-child(3), #navmobile  .wsite-multicol-col:nth-child(3) {
+
+    width: 100% !important;
+
+}
+}
+</style>
 <body class="header-page  wsite-theme-light  wsite-page-products"><div class="wrapper">
 		<div class="header-wrap">
 			<div class="nav-wrap">
@@ -9,7 +164,10 @@
 	
 	</a>
 
-</span></div>
+</span>
+
+</div>
+
 				<label class="hamburger"><span></span></label>
 				<?php include(dirname(__FILE__) . "/welcome_menu.php"); ?>
 

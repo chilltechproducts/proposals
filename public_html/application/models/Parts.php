@@ -31,4 +31,22 @@ class Parts extends CI_Model {
                                         
                                         from part_data where location_id=" . $part_id)->result_array()[0];
        }
+       public function SearchFilters($post){
+     
+       if(count($post)==0){
+         return '';
+       }  
+         $filters = '';
+         foreach($post as $k => $v){
+           if(preg_match("/(_id)$/i", $k)){
+            // if($filters == ''){
+               // $filters .= " where `" . $k . "`='" . $v . "' ";
+            // }else{
+                $filters .= " and `" . $k . "`='" . $v . "' ";
+             //}
+           }
+         }
+       
+         return $filters;
+       }
 }        

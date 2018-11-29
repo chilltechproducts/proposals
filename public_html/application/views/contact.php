@@ -1,4 +1,61 @@
-	<body class="no-header-page  wsite-page-contact wsite-theme-light"><div class="wrapper">
+<style>
+.wsite-section-wrap, .alert-success {
+    width: 70% !important;
+    display: table;
+    margin: 10px auto;
+    background-color: rgba(99, 176, 235, 0.15) !important;
+    border-width: 1px 1px 1px 1px;
+    border-color: #c2c2c2;
+    border-style: solid;
+}
+.wsite-form-field div.wsite-form-input-container .wsite-input-width-370px {
+ max-width: unset !important;
+    border-color: #c2c2c2 !important;
+    background-color: #ffffee !important;
+    display: block;
+    border-radius:5px;
+    min-width: 100%;
+}
+.alert-success {
+    text-align: center;
+    font-size: 25px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    font-weight: bold;
+}
+.wsite-content-title, .alert-success {
+
+    word-wrap: break-word;
+    font-family: 'Patua One';
+    color: #fff !important;
+    font-size: 25px;
+
+}
+.wsite-content-title font, .alert-success {
+color: #cccfff!important;
+
+text-transform: uppercase;
+
+
+text-shadow: 2px 2px 2px #666;
+}
+.wsite-button, .wsite-editor .wsite-button {
+
+    display: block;
+    height: auto;
+    padding: 0;
+    clear: both;
+    color: #fff !important;
+    background: unset !important;
+    background-image: unset;
+    background-repeat: unset;
+    text-align: center;
+    width: 81%;
+    margin: 20px auto 20px -5px;
+
+}
+</style>
+<body class="no-header-page  wsite-page-contact wsite-theme-light"><div class="wrapper">
     <div class="header-wrap">
       <div class="nav-wrap">
         <div id="logo"><span class="wsite-logo">
@@ -16,15 +73,18 @@
 
     <div id="main-wrap">
       <div id="wsite-content" class="wsite-elements wsite-not-footer">
+       <span class="alert-success" <?php if(!empty($data['msg'])){ ?> style="display:block"><?php echo $data['msg']; ?></div><?php }else{ ?> style="display:none"></div><?php } ?></span>
 	<div class="wsite-section-wrap">
-	<div class="wsite-section wsite-body-section wsite-section-bg-color wsite-background-15 wsite-custom-background" style="background-color: #e2e7ff;background-image: none;" >
+	<div class="wsite-section wsite-body-section wsite-section-bg-color wsite-background-15 wsite-custom-background" style="background-image: none;" >
+	
 		<div class="wsite-section-content">
         <div class="container">
 			<div class="wsite-section-elements">
 				<div>
-	<form enctype="multipart/form-data" action="//www.weebly.com/weebly/apps/formSubmit.php" method="POST" id="form-208651797663154240">
+	<form enctype="multipart/form-data" action="/welcome/contact" method="POST" id="form-208651797663154240">
 		<div id="208651797663154240-form-parent" class="wsite-form-container"
 				 style="margin-top:10px;">
+				
 			<ul class="formlist" id="208651797663154240-form-list">
 				<h2 class="wsite-content-title"><font color="#2a2a2a">HAVE some interest?</font></h2>
 
@@ -32,6 +92,7 @@
 				<label class="wsite-form-label" for="input-689818486450563240">Name <span class="form-required">*</span></label>
 				<div class="wsite-form-input-container">
 					<input aria-required="true" id="input-689818486450563240" class="wsite-form-input wsite-input wsite-input-width-370px" type="text" name="_u689818486450563240" />
+					<?php echo form_error('_u689818486450563240') ?>
 				</div>
 				<div id="instructions-689818486450563240" class="wsite-form-instructions" style="display:none;"></div>
 			</div></div>
@@ -40,6 +101,7 @@
 				<label class="wsite-form-label" for="input-299538569683647988">Phone <span class="form-required">*</span></label>
 				<div class="wsite-form-input-container">
 					<input aria-required="true" id="input-299538569683647988" class="wsite-form-input wsite-input wsite-input-width-370px" type="text" name="_u299538569683647988" />
+					<?php echo form_error('_u299538569683647988') ?>
 				</div>
 				<div id="instructions-299538569683647988" class="wsite-form-instructions" style="display:none;"></div>
 			</div></div>
@@ -48,6 +110,7 @@
 				<label class="wsite-form-label" for="input-974858400987469693">Email <span class="form-required">*</span></label>
 				<div class="wsite-form-input-container">
 					<input aria-required="true" id="input-974858400987469693" class="wsite-form-input wsite-input wsite-input-width-370px" type="text" name="_u974858400987469693" />
+					<?php echo form_error('_u974858400987469693') ?>
 				</div>
 				<div id="instructions-974858400987469693" class="wsite-form-instructions" style="display:none;"></div>
 			</div></div>
@@ -58,6 +121,7 @@
 					<textarea aria-required="true" id="input-642942518700304519" class="wsite-form-input wsite-input wsite-input-width-370px" name="_u642942518700304519" style="height: 200px"></textarea>
 				</div>
 				<div id="instructions-642942518700304519" class="wsite-form-instructions" style="display:none;"></div>
+				<?php echo form_error('_u642942518700304519') ?>
 			</div></div>
 			</ul>
 			
@@ -76,7 +140,7 @@
 			</a>
 		</div>
 	</form>
-	<div id="g-recaptcha-208651797663154240" class="recaptcha" data-size="invisible" data-recaptcha="0" data-sitekey="6Ldf5h8UAAAAAJFJhN6x2OfZqBvANPQcnPa8eb1C"></div>
+	<div id="g-recaptcha-208651797663154240" class="recaptcha" data-size="invisible" data-recaptcha="0" data-sitekey="6LeVonoUAAAAAFB13KjOGRJHOOaQdWoi75CpS99m"></div>
 
 
 

@@ -1,9 +1,50 @@
+<style>
+.wsite-section-elements > div.paragraph {
+    width: 44%;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+.banner-wrap {
+    position: relative;
+    top: 0px;
+}
+.wsite-button, .wsite-editor .wsite-button {
+
+    display: block;
+    height: auto;
+    padding: 0;
+    clear: both;
+    color: #fff !important;
+    background: unset !important;
+    background-image: unset;
+    background-repeat: unset;
+    text-align: center;
+    width: 90%;
+    margin: -2px auto 45px -25px;
+
+}
+.wsite-section-elements.hundred > div {
+
+    width: 100%;
+    display: block;
+    float: none;
+
+}
+.wsite-multicol-tr * {
+
+    color: #666 !important;
+
+}
+.wsite-multicol-col.white * {
+    color: #fff !important;
+}
+</style>
 <body class="header-page  wsite-theme-light  wsite-page-index"><div class="wrapper">
 		<div class="header-wrap">
 			<div class="nav-wrap">
 				<div id="logo"><span class="wsite-logo">
 
-	<a href="index.html">
+	<a href="/welcome/index">
 	
 	<span id="wsite-title">CHILL TECH PRODUCTS</span>
 	
@@ -12,11 +53,11 @@
 </span></div>
 				<label class="hamburger"><span></span></label>
 				<?php  include(dirname(__FILE__) . "/welcome_menu.php"); ?>
-     </div>
-			<div class="banner-wrap">
+
+			<div class="banner-wrap parallax-window" data-parallax="scroll">
 				<div class="wsite-elements wsite-not-footer wsite-header-elements">
 	<div class="wsite-section-wrap">
-	<div  class="wsite-section wsite-header-section wsite-section-bg-image" style="height: auto;background-image: url(https://www.chilltechproducts.com/&quot;/uploads/1/2/2/7/122787378/background-images/1963154272.jpg&quot;) ;background-repeat: no-repeat ;background-position: 50.00% 17.20% ;background-size: 100% ;background-color: transparent ;background-size: cover;" >
+	<div  class="wsite-section wsite-header-section wsite-section-bg-image" style="height: auto;background-image: url('https://chilltechproducts.com/uploads/1/2/2/7/122787378/background-images/1963154272.jpg') ;background-repeat: no-repeat ;background-position: 50.00% 17.20% ;background-size: 100% ;background-color: transparent ;" >
 		<div class="wsite-section-content">
 			
 					<div class="container">
@@ -53,7 +94,7 @@
 			<div class="wsite-section-elements">
 				<div><div class="wsite-image wsite-image-border-none " style="padding-top:10px;padding-bottom:35px;margin-left:0px;margin-right:0px;text-align:left">
 <a>
-<img src="uploads/1/2/2/7/122787378/01_1_orig.png" alt="Picture" style="width:auto;max-width:100%" />
+<img src="https://chilltechproducts.com/uploads/1/2/2/7/122787378/01_1_orig.png" alt="Picture" style="width:auto;max-width:100%" />
 </a>
 <div style="display:block;font-size:90%"></div>
 </div></div>
@@ -77,7 +118,7 @@
 <div class="wsite-spacer" style="height:17px;"></div>
 
 <div style="text-align:left;"><div style="height: 10px; overflow: hidden;"></div>
-<a class="wsite-button wsite-button-small wsite-button-normal" href="schedule.html" >
+<a class="wsite-button wsite-button-small wsite-button-normal" href="/welcome/schedule" >
 <span class="wsite-button-inner">Schedule A Demo</span>
 </a>
 <div style="height: 10px; overflow: hidden;"></div></div>
@@ -91,18 +132,18 @@
 	<div class="wsite-section wsite-body-section wsite-section-bg-color wsite-background-7 wsite-custom-background" style="height: 824px;background-color: #787373;background-image: none;" >
 		<div class="wsite-section-content">
 				<div class="container">
-			<div class="wsite-section-elements">
+			<div class="wsite-section-elements hundred">
 				<div><div class="wsite-multicol"><div class="wsite-multicol-table-wrap" style="margin:0 -15px;">
 	<table class="wsite-multicol-table">
 		<tbody class="wsite-multicol-tbody">
 			<tr class="wsite-multicol-tr">
-				<td class="wsite-multicol-col" style="width:71.717171717172%; padding:0 15px;">
+				<td class="wsite-multicol-col white" style="width:71.717171717172%; padding:0 15px;">
 					
 						
 
-<div><div class="wsite-image wsite-image-border-none " style="padding-top:10px;padding-bottom:30px;margin-left:0px;margin-right:0px;text-align:left">
-<a href='uploads/1/2/2/7/122787378/02_1_orig.png' rel='lightbox' onclick='if (!lightboxLoaded) return false'>
-<img src="uploads/1/2/2/7/122787378/02_1_orig.png" alt="Picture" style="width:auto;max-width:100%" />
+<div><div class="wsite-image wsite-image-border-none left " style="padding-top:10px;padding-bottom:30px;margin-left:0px;margin-right:0px;text-align:left">
+<a href='https://chilltechproducts.com/uploads/1/2/2/7/122787378/02_1_orig.png' rel='lightbox' onclick='if (!lightboxLoaded) return false'>
+<img src="https://chilltechproducts.com/uploads/1/2/2/7/122787378/02_1_orig.png" alt="Picture" style="width:auto;max-width:100%" />
 </a>
 <div style="display:block;font-size:90%"></div>
 </div></div>
@@ -118,22 +159,22 @@
 <div class="paragraph"><em><strong><font size="5" color="#ffffff">Systematic Selling Opens The Way To Profitability.</font></strong></em></div>
 
 <div style="text-align:left;"><div style="height: 40px; overflow: hidden;"></div>
-<a class="wsite-button wsite-button-small wsite-button-normal" href="schedule.html" >
+<a class="wsite-button wsite-button-small wsite-button-normal" href="/welcome/schedule" >
 <span class="wsite-button-inner">schedule a demo</span>
 </a>
 <div style="height: 10px; overflow: hidden;"></div></div>
 
 
 					
-				</td>				<td class="wsite-multicol-col" style="width:28.282828282828%; padding:0 15px;">
+				</td>				<td class="wsite-multicol-col move_up" style="width:28.282828282828%; padding:0 15px;">
 					
 						
 
 <div class="wsite-spacer" style="height:72px;"></div>
 
-<div><div class="wsite-image wsite-image-border-none " style="padding-top:10px;padding-bottom:10px;margin-left:0;margin-right:0;text-align:left">
+<div><div class="wsite-image wsite-image-border-none" style="padding-top:10px;padding-bottom:10px;margin-left:0;margin-right:0;text-align:left">
 <a>
-<img src="uploads/1/2/2/7/122787378/published/system-icon.png%3F1541069607" alt="Picture" style="width:250;max-width:100%" />
+<img src="https://chilltechproducts.com/uploads/1/2/2/7/122787378/published/system-icon.png" alt="Picture" style="width:250;max-width:100%" />
 </a>
 <div style="display:block;font-size:90%"></div>
 </div></div>
@@ -158,22 +199,22 @@
 	</div>
 </div>
 <div class="wsite-section-wrap">
-	<div class="wsite-section wsite-body-section wsite-section-bg-image wsite-background-8 wsite-custom-background" style="height: 810px;vertical-align: middle;background-image: url(https://www.chilltechproducts.com/&quot;/uploads/1/2/2/7/122787378/background-images/1722396685.jpeg&quot;) ;background-repeat: no-repeat ;background-position: 50% 50% ;background-size: 100% ;background-color: transparent ;background-size: cover;" >
+	<div class="wsite-section wsite-body-section wsite-section-bg-image wsite-background-8 wsite-custom-background" style="height: 810px;vertical-align: middle;background-image: url('https://chilltechproducts.com/uploads/1/2/2/7/122787378/background-images/1722396685.jpeg') ;background-repeat: no-repeat ;background-position: 50% 50% ;background-size: 100% ;background-color: transparent ;background-size: cover;" >
 		<div class="wsite-section-content">
 				<div class="container">
-			<div class="wsite-section-elements">
+			<div class="wsite-section-elements hundred">
 				<h2 class="wsite-content-title" style="text-align:center;"><font color="#2a2a2a" size="7">Meet the Products</font></h2>
 
 <div><div class="wsite-image wsite-image-border-none " style="padding-top:10px;padding-bottom:10px;margin-left:0px;margin-right:0px;text-align:center">
 <a>
-<img src="uploads/1/2/2/7/122787378/editor/ch1ll-tech-authorized-dealer-white-back.png%3F1541086255" alt="Picture" style="width:503;max-width:100%" />
+<img src="https://chilltechproducts.com/uploads/1/2/2/7/122787378/editor/ch1ll-tech-authorized-dealer-white-back.png" alt="Picture" style="width:503;max-width:100%" />
 </a>
 <div style="display:block;font-size:90%"></div>
 </div></div>
 
 <div><div class="wsite-image wsite-image-border-none " style="padding-top:10px;padding-bottom:10px;margin-left:0px;margin-right:0px;text-align:center">
 <a>
-<img src="uploads/1/2/2/7/122787378/published/fridgewizelargelogofloat2-1024x355.jpg%3F1541106836" alt="Picture" style="width:auto;max-width:100%" />
+<img src="https://chilltechproducts.com/uploads/1/2/2/7/122787378/published/fridgewizelargelogofloat2-1024x355.jpg" alt="Picture" style="width:auto;max-width:100%" />
 </a>
 <div style="display:block;font-size:90%"></div>
 </div></div>
@@ -188,14 +229,14 @@
 
 <div><div class="wsite-image wsite-image-border-none " style="padding-top:10px;padding-bottom:10px;margin-left:0;margin-right:0;text-align:center">
 <a>
-<img src="uploads/1/2/2/7/122787378/published/ec-motor.png%3F1541086798" alt="Picture" style="width:322;max-width:100%" />
+<img src="https://chilltechproducts.com/uploads/1/2/2/7/122787378/published/ec-motor.png" alt="Picture" style="width:322;max-width:100%" />
 </a>
 <div style="display:block;font-size:90%"></div>
 </div></div>
 
 <div><div class="wsite-image wsite-image-border-none " style="padding-top:10px;padding-bottom:10px;margin-left:0;margin-right:0;text-align:right">
 <a>
-<img src="uploads/1/2/2/7/122787378/mt-antisweat-heat-controller_orig.png" alt="Picture" style="width:auto;max-width:100%" />
+<img src="https://chilltechproducts.com/uploads/1/2/2/7/122787378/mt-antisweat-heat-controller_orig.png" alt="Picture" style="width:auto;max-width:100%" />
 </a>
 <div style="display:block;font-size:90%"></div>
 </div></div>
@@ -208,14 +249,14 @@
 
 <div><div class="wsite-image wsite-image-border-none " style="padding-top:10px;padding-bottom:10px;margin-left:0;margin-right:0;text-align:right">
 <a>
-<img src="uploads/1/2/2/7/122787378/published/qblade-3awards-970x1024.png%3F1541086802" alt="Picture" style="width:389;max-width:100%" />
+<img src="https://chilltechproducts.com/uploads/1/2/2/7/122787378/published/qblade-3awards-970x1024.png" alt="Picture" style="width:389;max-width:100%" />
 </a>
 <div style="display:block;font-size:90%"></div>
 </div></div>
 
 <div><div class="wsite-image wsite-image-border-none " style="padding-top:10px;padding-bottom:10px;margin-left:0;margin-right:0;text-align:center">
 <a>
-<img src="uploads/1/2/2/7/122787378/published/ke2-300x522.png%3F1541106857" alt="Picture" style="width:242;max-width:100%" />
+<img src="https://chilltechproducts.com/uploads/1/2/2/7/122787378/published/ke2-300x522.png" alt="Picture" style="width:242;max-width:100%" />
 </a>
 <div style="display:block;font-size:90%"></div>
 </div></div>
@@ -233,10 +274,10 @@
 	</div>
 </div>
 <div class="wsite-section-wrap">
-	<div class="wsite-section wsite-body-section wsite-section-bg-image wsite-background-10 wsite-custom-background" style="background-image: url(https://www.chilltechproducts.com/&quot;/uploads/1/2/2/7/122787378/background-images/496065706.jpg&quot;) ;background-repeat: no-repeat ;background-position: 50% 50% ;background-size: 100% ;background-color: transparent ;background-size: cover;" >
+	<div class="wsite-section wsite-body-section wsite-section-bg-image wsite-background-10 wsite-custom-background" style="background-image: url('https://chilltechproducts.com/uploads/1/2/2/7/122787378/background-images/496065706.jpg') ;background-repeat: no-repeat ;background-position: 50% 50% ;background-size: 100% ;background-color: transparent ;background-size: cover;" >
 		<div class="wsite-section-content">
 				<div class="container">
-			<div class="wsite-section-elements">
+			<div class="wsite-section-elements hundred">
 				<div><div class="wsite-multicol"><div class="wsite-multicol-table-wrap" style="margin:0 -45px;">
 	<table class="wsite-multicol-table">
 		<tbody class="wsite-multicol-tbody">
@@ -252,7 +293,7 @@
 <div class="paragraph"><font color="#ffffff">&#8203;<strong>Chill Tech Products, Inc.</strong><br /><font>&#8203;88 Priscilla Lane<br />Unit 4<br />&#8203;Auburn, NH 03032<br /><br />&#8203;<strong>MONDAY - FRIDAY</strong><br /><font>8am - 5pm<br /><br /><strong>&#8203;SATURDAY,&nbsp;</strong><strong>SUNDAY</strong><br /><font>Closed</font></font></font></font><br /></div>
 
 <div style="text-align:left;"><div style="height: 10px; overflow: hidden;"></div>
-<a class="wsite-button wsite-button-small wsite-button-normal" href="javascript:;" >
+<a class="wsite-button wsite-button-small wsite-button-normal" href="/welcome/javascript:;" >
 <span class="wsite-button-inner">SCHEDULE A DEMO NOW!</span>
 </a>
 <div style="height: 10px; overflow: hidden;"></div></div>
@@ -294,7 +335,7 @@
 					
 						
 
-<h2 class="wsite-content-title" style="text-align:center;"><font size="4"><a href="index.html">Home</a></font></h2>
+<h2 class="wsite-content-title" style="text-align:center;"><font size="4"><a href="/welcome/index">Home</a></font></h2>
 
 
 					
@@ -302,7 +343,7 @@
 					
 						
 
-<h2 class="wsite-content-title" style="text-align:center;"><font size="4"><a href="products.html">Products</a></font></h2>
+<h2 class="wsite-content-title" style="text-align:center;"><font size="4"><a href="/welcome/products">Products</a></font></h2>
 
 
 					
@@ -310,7 +351,7 @@
 					
 						
 
-<h2 class="wsite-content-title" style="text-align:center;"><font size="4"><a href="next.html">What Next</a></font></h2>
+<h2 class="wsite-content-title" style="text-align:center;"><font size="4"><a href="/welcome/next">What Next</a></font></h2>
 
 
 					
@@ -318,7 +359,7 @@
 					
 						
 
-<h2 class="wsite-content-title" style="text-align:center;"><font size="4"><a href="news.html">NEWS</a></font></h2>
+<h2 class="wsite-content-title" style="text-align:center;"><font size="4"><a href="/welcome/news">NEWS</a></font></h2>
 
 
 					
@@ -326,7 +367,7 @@
 					
 						
 
-<h2 class="wsite-content-title" style="text-align:center;"><font size="4"><a href="contact.html">ContaCT</a></font></h2>
+<h2 class="wsite-content-title" style="text-align:center;"><font size="4"><a href="/welcome/contact">ContaCT</a></font></h2>
 
 
 					
@@ -347,9 +388,9 @@
 </div>
 	</div>
 
-  <script type="text/javascript" src="files/theme/mobile.js%3F1529356182"></script>
-  <script type="text/javascript" src="files/theme/plugins.js%3F1529356182"></script>
-  <script type="text/javascript" src="files/theme/custom.js%3F1529356182"></script>
+  <script type="text/javascript" src="files/theme/mobile.js"></script>
+  <script type="text/javascript" src="files/theme/plugins.js"></script>
+  <script type="text/javascript" src="files/theme/custom.js"></script>
 
     <div id="customer-accounts-app"></div>
     <script src="https://cdn2.editmysite.com/js/site/main-customer-accounts-site.js?buildTime=1541447432"></script>
