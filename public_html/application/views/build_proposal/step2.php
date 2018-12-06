@@ -4,7 +4,7 @@ if(count($client['proposals']) > 0){
 
 
 }else{
-print_r($client);
+//print_r($client);
 ?>
 <div class="col-lg-4 col-lg-offset-4">
 <?php $array = $client; ?>
@@ -16,7 +16,7 @@ print_r($client);
     <form id="registration_form" name="registration_form" action="javascript: add_proposal(<?php echo $client['user_id']; ?>, '<?php echo $proposal['proposal_id']; ?>');" >
             <div class="form-group">
                 <label>Proposal Name<span>req.</span></label>
-                <?php echo form_input(array('name'=>'proposal_name', 'id'=> 'proposal_name', 'placeholder'=>'Proposal Name', 'class'=>'form-control', 'value'=> set_value('proposal_name', $array['proposal_name']))); ?>
+                <?php echo form_input(array('name'=>'proposal_name', 'id'=> 'proposal_name', 'placeholder'=>'Proposal Name', 'class'=>'form-control', 'value'=> set_value('proposal_name', $proposal['proposal_name']))); ?>
                 <?php echo form_error('proposal_name');?>
             </div>
             <div class="form-group">

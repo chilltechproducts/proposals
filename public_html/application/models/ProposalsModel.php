@@ -91,12 +91,13 @@ class ProposalsModel extends CI_Model {
       
             $data = file_get_contents("https://maps.googleapis.com/maps/api/distancematrix/json?origins=$from&destinations=$to&key=$apiKey&language=en-EN&sensor=false");
             $data = json_decode($data, true);
-           
+           if(!empty($data['rows'][0]['elements'][0]['distance']['text'])){
             $km = str_replace(" km", "", $data['rows'][0]['elements'][0]['distance']['text']);
             $miles = $km * 0.62137119;
             
             $duration = $data['rows'][0]['elements'][0]['distance']['value'] * 2;
             $this->db->query("update proposals set distance='" . $miles . "', travel_time='$duration' where proposal_id=" . $proposal['proposal_id']);
+            }
           }  
             return $miles;
 	}
@@ -121,19 +122,25 @@ class ProposalsModel extends CI_Model {
         
 	  $this->load->view('parts/parts_for_proposal', array('parts' => $parts, 'dealer' => $dealer[0], 'proposal' => $proposal[0]));
 	}
-	public function AddPartsAndServices($client_id, $proposal_id){
-            $client = $this->user_model->getUserInfo($client_id);
+	public function AddPartsAndServices($proposal_id){
+	//echo $proposal_id; exit;
+            $proposal = $this->JobDetails($proposal_id);
+        
+            $client = $this->user_model->getUserInfo($proposal[0]['client_id']);
+           // print_r($client);
             $job = $this->JobDetails($proposal_id);
             $me = $this->user_model->getUserInfo($this->session->userdata['user_id']);
-            $proposal = $this->JobDetails($proposal_id);
+            
+            $dealer = $this->user_model->getUserInfo($proposal[0]['dealer_id']);
             
             
-            
+            $motors = $this->db->query("select * from parts where series = 'A' or series='IP'")->result_array();
+            $blades = $this->db->query("select * from parts where series = 'BLADE'")->result_array();
             
             $distance = $this->CalculateMiles($client, $me, $proposal);
             
             
-            $this->load->view('build_proposal/step3', array('client' => $client, 'states' => $states, 'job' => $job, 'distance' => $distance, 'me' => $me, 'proposal' => $proposal));
+            $this->load->view('build_proposal/step3', array('client' => $client, 'states' => $states, 'job' => $job, 'distance' => $distance, 'me' => $me, 'proposal' => $proposal, 'dealer' => $dealer, 'blades' => $blades, 'motors' => $motors));
 	
 	}
 }

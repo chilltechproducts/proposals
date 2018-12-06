@@ -328,19 +328,19 @@ class Main extends CI_Controller {
                                                         $this->db->query("insert into labor_warranty values(null, " . $this->session->userdata['user_id'] . ", '" . $data['warranty'] . "', NOW(), NOW(), 1);");
                                                  }
                           }                       
-                  return $this->ProposalsModel->AddPartsAndServices($this->uri->segment(4), $this->uri->segment(5));
+                  return $this->ProposalsModel->AddPartsAndServices($this->uri->segment(5));
                }
                if($step ==2){
                
                $proposal = array();
                $proposal[0] = array();
-               if(!empty($this->uri->segment(5))){
-                $proposal = $this->db->query("select * from proposals where proposal_id=" . $this->uri->segment(5))->result_array();
-               }else{
-                 $proposal = $this->db->query("select * from proposals where proposal_id=" . $this->uri->segment(4))->result_array();
-                 
+              if(!empty($this->uri->segment(5))){
+                 $proposal = $this->db->query("select * from proposals where proposal_id=" . $this->uri->segment(5))->result_array();
+                 }else{
+                 $proposal[0]['client_id'] = $this->uri->segment(4);
+                 }
                
-               }
+              
               
                 if(count($this->input->post())>0 & isset($_POST['proposal_name'])){
                      $this->form_validation->set_rules('street_address', 'Street Address', 'required');
@@ -361,26 +361,29 @@ class Main extends CI_Controller {
                           // $this->load->view('header');
                            $proposals = array();
                             if(!empty($this->uri->segment(5))){
-                                $proposal = $this->db->query("select * from proposals where proposal_id=" . $this->uri->segment(5))->result_array();
+                            //    $proposal = $this->db->query("select * from proposals where proposal_id=" . $this->uri->segment(5))->result_array();
                             }
                                 $this->load->view('build_proposal/step' . $step, array('client' => $client, 'proposal' => $proposal[0], 'msg' => 'Error creating Proposal please check your inputs'));
                                 return;
                         }else{ 
                             $clean = $this->security->xss_clean($this->input->post(NULL, TRUE));
+                           
                             if(empty($clean['proposal_id'])){
                                     $data = array(
                                                     'proposal_id' => null,
                                                     'customer_id' => $clean['client_id'],
-                                                    'dealer_id' => $this->session->userdata['user_id'],
+                                                    'dealer_id' => $clean['client_id'],
                                                     'street_address' => $clean['street_address'],
                                                     'street_address2' => $clean['street_address2'],
+                                                    'salesman_id' => $this->session->userdata['user_id'],
                                                     'city' => $clean['city'],
                                                     'state' => $clean['state'],
                                                     'postal_code' => $clean['postal_code'],
                                                     'utility_company' => $clean['utility_company'],
                                                     'utility_kwH_rate' => $clean['utility_kwH_rate'],
                                                     'proposal_name' => $clean['proposal_name'],
-                                                    'proposal_date' => date('Y-m-d', time())
+                                                    'proposal_date' => date('Y-m-d H:i:s', time()),
+                                                    'client_id' => $clean['client_id']
                                                  );   
                                     $this->db->query($this->db->insert_string('proposals', $data));
                                     $id = $this->db->insert_id();
@@ -389,7 +392,7 @@ class Main extends CI_Controller {
                                    $data = array(
                                                     
                                                     'client_id' => $clean['client_id'],
-                                                    'customer_id' => $this->session->userdata['user_id'],
+                                                    'customer_id' =>$clean['client_id'],
                                                     'street_address' => $clean['street_address'],
                                                     'street_address2' => $clean['street_address2'],
                                                     'city' => $clean['city'],
@@ -398,23 +401,21 @@ class Main extends CI_Controller {
                                                     'utility_company' => $clean['utility_company'],
                                                     'utility_kwH_rate' => $clean['utility_kwH_rate'],
                                                     'proposal_name' => $clean['proposal_name'],
-                                                    'proposal_date' => date('Y-m-d', time())
+                                                    'proposal_date' => date('Y-m-d H:i:s', time()),
+                                                    'salesman_id' => $this->session->userdata['user_id'],
+                                                    'client_id' => $clean['client_id']
                                                  );  
                                                  $this->db->where(array('proposal_id' => $id) );
                                                  $this->db->update('proposals', $data); 
                             } 
-                            redirect('/main/create_proposal/3/'  . $client['user_id'] . '/' . $id);
+                            redirect('/main/create_proposal/3/'  . $clean['client_id'] . '/' . $id);
                             return;
                         }
                
                  }else{
                          $client = $this->user_model->getUserInfo($this->uri->segment(4));
                          
-                         $proposal = array();
-                         if(!empty($this->uri->segment(5))){
-                            $proposal = $this->db->query("select * from proposals where proposal_id=" . $this->uri->segment(5))->result_array();
-                         }
-                           // $this->load->view('header');
+                         
                             $this->load->view('build_proposal/step' . $step, array('client' => $client, 'states' => $states, 'proposal' => $proposal[0]));
                        
                  }
@@ -456,7 +457,7 @@ class Main extends CI_Controller {
                                 $post['user_id'] = $id;
                                 $this->user_model->updateUserInfo($clean);
                                 
-                                $this->db->query("update users set salesman_id=" . $this->session->userdata['user_id'] . ", dealer_id=" . $me['dealer_id'] . " where user_id=" . $id);
+                                $this->db->query("update users set company_name='" . addslashes($clean['company_name']) . "', salesman_id=" . $this->session->userdata['user_id'] . ", dealer_id=" . $me['dealer_id'] . " where user_id=" . $id);
                                 
                                 $token = $this->user_model->insertToken($id);                                        
                                 
@@ -483,7 +484,7 @@ class Main extends CI_Controller {
            }else{
                 $client = array();
            }
-print_r($client);
+
             
                 $this->load->view('build_proposal/step' . $step, array('client' => $client, 'states' => $states, 'proposal' => $proposal));
             

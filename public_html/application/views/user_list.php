@@ -62,6 +62,9 @@
                     <span class="inline buttons">
                         <i class="fa fa-close"></i>
                         <i class="fa fa-pencil" onclick="add_client(<?php echo $client['user_id']; ?>)"></i>
+                        <?php if(count($proposals)== 0){ ?>
+                        <i class="fa fa-plus" onclick="load_proposals(<?php echo $client['user_id']; ?>, <?php echo $this->session->userdata['user_id'];?>);"></i>
+                        <?php } ?>
                     </span>
                         <ul class="hundred block exiting_proposals">
                            <?php

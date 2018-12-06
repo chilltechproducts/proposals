@@ -136,11 +136,11 @@ function find_clients(){
         }     
     })
 }
-function load_proposals(cid, pid){
+function load_proposals(uid, cid, pid){
     if(!pid){
-        url = '/main/create_proposal/2/' + cid + '/?ajax_set=1';
+        url = '/main/create_proposal/2/' + uid + '/?ajax_set=1';
     }else{
-        url = '/main/create_proposal/2/' + cid + '/' + pid + '/?ajax_set=1';
+        url = '/main/create_proposal/2/' + uid + '/' + pid + '/?ajax_set=1';
     }
     
  $.ajax({

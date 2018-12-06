@@ -1310,3 +1310,10 @@ element {
     height: 36px;
 
 }
+#company_name {
+
+    width: 70%;
+    margin-right: 20px;
+    float: right;
+
+}

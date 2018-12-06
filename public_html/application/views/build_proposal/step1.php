@@ -1,5 +1,6 @@
 <div class="col-lg-4 col-lg-offset-4">
-<?php $array = $client; ?>
+<?php //print_r($client); 
+$array = $client; ?>
   
     <h2>Update / Add Client</h2>
     <span class="alert-success"></span>
@@ -9,8 +10,8 @@
     
     <div class="form-group">
                 <label>Company Name<span>req.</span></label>
-                <?php echo form_input(array('name'=>'company_name', 'id'=> 'company_name', 'placeholder'=>'Company Name', 'class'=>'form-control', 'value' => set_value('company_name', $array['company_name']?$array['company_name']:$array['first_name'] . ' ' . $array['last_name'] )  )   ); ?>
-                <?php echo form_error('first_name');?>
+                <input name="company_name" autocomplete="off" id="company_name" placeholder="Company Name" class="form-control" value="<?php echo $client['company_name']; ?>" />
+                <?php echo form_error('company_name');?>
             </div>
     
      <div class="form-group">

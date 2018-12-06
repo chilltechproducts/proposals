@@ -168,7 +168,8 @@ class User_model extends CI_Model {
                'service_dept_overhead' => $post['service_dept_efficiency'],
                'sales_commiss' => $post['sales_commiss'],
                'target_net' => $post['target_net'],
-               'target_gross' => $post['target_gross']
+               'target_gross' => $post['target_gross'],
+               'company_name' => $post['company_name']
             );
           
         $this->db->where(array('user_id' => $post['user_id']) );

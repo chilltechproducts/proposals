@@ -6,7 +6,7 @@ if(count($client['proposals']) > 0){
 }else{
 ?>
 <div class="col-lg-4 col-lg-offset-4">
-<?php $array = $client; $proposal = $proposal[0]; ?>
+<?php $array = $client[0]; $proposal = $proposal[0]; ?>
   
     
     <div class="row block hundred  dealer_details">
@@ -76,14 +76,10 @@ if(count($client['proposals']) > 0){
             </div>
             <div class="form-group item_breakdown" id="parts_info">
               <h2>Parts</h2>
-              <div></div>
-              <!--<p class="btn btn-lg btn-primary btn-block" onclick="add_part_to_proposal('parts', <?php echo $proposal['proposal_id']; ?>);">Add Part</p>-->
+              <div><?php require(dirname(dirname(__FILE__)) . "/parts/parts_for_proposal.php"); ?></div>
+              
             </div>
-            <div class="form-group item_breakdown" id="labor_info">
-               <h2>Labor / Ancillary</h2>
-               <div></div>
-               <!--<p class="btn btn-lg btn-primary btn-block" onclick="add_part_to_proposal('labor', <?php echo $proposal['proposal_id']; ?>);">Add Labor</p>-->
-             </div>  
+           
             <div id="total_over" ></div>
             <?php echo form_input(array('type' => 'hidden', 'name' => 'client_id', 'id' => 'client_id', 'value' => $client['user_id'])); ?>
            <?php echo form_input(array('type' => 'hidden', 'name' => 'level_id', 'id' => 'level_id', 'value' => 5)); ?> 
