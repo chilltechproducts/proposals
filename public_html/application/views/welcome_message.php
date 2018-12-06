@@ -269,6 +269,15 @@ _W.setup_model_rpc({"rpc_namespace":"_W.Commerce.RPC","model_namespace":"_W.Comm
 									</a>
 									
 								</li>
+								<li id="pg367032951775923472" class="wsite-menu-item-wrap">
+									<a
+												href="/proposals"
+										class="wsite-menu-item"
+										>
+										Dealer Portal
+									</a>
+									
+								</li>
 						</ul>
 					</div>
 				</div>
@@ -283,14 +292,9 @@ _W.setup_model_rpc({"rpc_namespace":"_W.Commerce.RPC","model_namespace":"_W.Comm
 					<div class="container">
 						<div class="banner">
 				<div class="wsite-section-elements">
-					<div><div class="wsite-image wsite-image-border-none " style="padding-top:10px;padding-bottom:10px;margin-left:0;margin-right:0;text-align:inherit">
-<a>
-<img src="/uploads/1/2/2/7/122787378/editor/ch1ll-tech-logo-blank-background_2.png?1541034018" alt="Picture" style="width:463;max-width:100%" />
-</a>
-<div style="display:block;font-size:90%"></div>
-</div></div>
+					
 
-<h2 class="wsite-content-title" style="text-align:center;"><em><font size="5" color="#d5d5d5">"Providing Profitability Through Systematic Selling"</font></em></h2>
+<h2 class="wsite-content-title" style="text-align:center;"><em><font size="5" color="#d5d5d5"><img src="/uploads/1/2/2/7/122787378/editor/ch1ll-tech-logo-blank-background_2.png?1541034018" alt="Picture" style="width:463;max-width:100%" />"Providing Profitability Through Systematic Selling"</font></em></h2>
 				</div>
 			</div>
 					</div>
@@ -603,44 +607,7 @@ _W.setup_model_rpc({"rpc_namespace":"_W.Commerce.RPC","model_namespace":"_W.Comm
 <div class="paragraph" style="text-align:center;">Copyright &copy; 2018</div></div></div></div>
 
 	<div class="navmobile-wrapper">
-		<div id="navmobile" class="nav"><ul class="wsite-menu-default">
-		<li id="active" class="wsite-menu-item-wrap">
-			<a
-						href="/"
-				class="wsite-menu-item"
-				>
-				Home
-			</a>
-			
-		</li>
-		<li id="pg581042645584318327" class="wsite-menu-item-wrap">
-			<a
-						href="/products.html"
-				class="wsite-menu-item"
-				>
-				Products
-			</a>
-			
-		</li>
-		<li id="pg122947105113674234" class="wsite-menu-item-wrap">
-			<a
-						href="/next.html"
-				class="wsite-menu-item"
-				>
-				What Next
-			</a>
-			
-		</li>
-		<li id="pg367032951775923472" class="wsite-menu-item-wrap">
-			<a
-						href="/contact.html"
-				class="wsite-menu-item"
-				>
-				Contact
-			</a>
-			
-		</li>
-</ul>
+		<div id="navmobile" class="nav"><?php include(dirname(__FILE__) . "/welcome_footer_menu.php"); ?>
 </div>
 	</div>
 

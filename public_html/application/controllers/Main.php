@@ -44,18 +44,18 @@ class Main extends CI_Controller {
         
         
         
-        $data[1]['text'] = '<div id="dealer_info"><div><b>Company Name:</b> ' . $me[0]['company_name'] . '<br />' ;
-        $data[1]['text'] .= '<b>Address:</b> ' . $me[0]['street_address'] . $me[0]['street_address2'] . '<br />' ;
-        $data[1]['text'] .= '<b>City:</b> ' . $me[0]['city'] . ', '. $me[0]['state'] . ' ' . $me[0]['postal_code'] . '<br />' ;
-        $data[1]['text'] .= '<b>Phone:</b> ' . $me[0]['business_phone'] . '<br />' ;
+        $data[1]['text'] = '<div id="dealer_info"><div>' . $me[0]['company_name'] . '<br />' ;
+        $data[1]['text'] .= '' . $me[0]['street_address'] . $me[0]['street_address2'] . '<br />' ;
+        $data[1]['text'] .= '' . $me[0]['city'] . ', '. $me[0]['state'] . ' ' . $me[0]['postal_code'] . '<br />' ;
+        $data[1]['text'] .= '' . $me[0]['business_phone'] . '<br />' ;
         if(!empty($me[0]['user_website'] )){
-            $data[1]['text'] .= '<b>Website:</b> ' . $me[0]['user_website'] . '<br />' ;
+            $data[1]['text'] .= '' . $me[0]['user_website'] . '<br />' ;
         }
         if(!empty($me[0]['user_facebook'] )){
-            $data[1]['text'] .= '<b>Website:</b> ' . $me[0]['user_facebook'] . '<br />' ;
+            $data[1]['text'] .= ' ' . $me[0]['user_facebook'] . '<br />' ;
         }
         if(!empty($me[0]['email'] )){
-            $data[1]['text'] .= '<b>Email:</b> ' . $me[0]['email'] . '<br />' ;
+            $data[1]['text'] .= '' . $me[0]['email'] . '<br />' ;
         }
         $data[1]['text'] .= '</div>';
         if(!empty($me[0]['logo'])){
@@ -118,9 +118,9 @@ class Main extends CI_Controller {
         
         public function complete()
         {                                   
-            $token = base64_decode($this->uri->segment(4));       
+            $token = base64_decode($this->uri->segment(3));       
             $cleanToken = $this->security->xss_clean($token);
-            
+         
             $user_info = $this->user_model->isTokenValid($cleanToken); //either false or array();           
           
             if(!$user_info){
@@ -273,7 +273,7 @@ class Main extends CI_Controller {
 				
                 $token = $this->user_model->insertToken($userInfo->user_id);                        
                 $qstring = $this->base64url_encode($token);                  
-                $url = site_url() . '/proposals?redirect=' . base64_encode('/main/reset_password/token/' . $qstring . '?ajax_set=' . $_REQUEST['ajax_set']);
+                $url = site_url() . 'main/reset_password/'  . $qstring .  '/?redirect=' . base64_encode('/main/reset_password/token/' . $qstring . '?ajax_set=' . $_REQUEST['ajax_set']);
                 $link = '<a href="' . $url . '">' . $url . '</a>'; 
                 
                 $message = '';                     

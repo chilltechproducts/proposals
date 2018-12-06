@@ -135,7 +135,7 @@ text-shadow: 2px 2px 2px #666;
 			<input type="hidden" name="ucfid" value="208651797663154240" />
 			<input type="hidden" name="recaptcha_token"/>
 			<input type="submit" style="position:absolute;top:0;left:-9999px;width:1px;height:1px" />
-			<a class="wsite-button">
+			<a class="wsite-button" onclick="$('#form-208651797663154240').submit();">
 				<span class="wsite-button-inner">Submit</span>
 			</a>
 		</div>

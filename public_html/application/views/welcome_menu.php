@@ -47,6 +47,15 @@
 									</a>
 									
 								</li>
+								<li id="pg367032951775923472" class="wsite-menu-item-wrap">
+									<a
+												href="/proposals"
+										class="wsite-menu-item"
+										>
+										Dealer Portal
+									</a>
+									
+								</li>
 						</ul>
 					</div>
 				</div>

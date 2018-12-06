@@ -92,14 +92,9 @@
 		<div class="wsite-section-content">
 				<div class="container">
 			<div class="wsite-section-elements">
-				<div><div class="wsite-image wsite-image-border-none " style="padding-top:10px;padding-bottom:35px;margin-left:0px;margin-right:0px;text-align:left">
-<a>
-<img src="https://chilltechproducts.com/uploads/1/2/2/7/122787378/01_1_orig.png" alt="Picture" style="width:auto;max-width:100%" />
-</a>
-<div style="display:block;font-size:90%"></div>
-</div></div>
+	
 
-<h2 class="wsite-content-title">What's missing from your business?</h2>
+<h2 class="wsite-content-title"><img src="https://chilltechproducts.com/uploads/1/2/2/7/122787378/01_1_orig.png" alt="Picture" style="width:auto;max-width:100%" />What's missing from your business?</h2>
 
 <div class="paragraph"><font size="3">YOU ARE WANTING TO GROW YOUR BUSINESS AND ALONG WITH THAT IT CAN BE VERY DIFFICULT TO FIND EXPERIENCED PEOPLE BOTH IN THE SALES FORCE AND IN THE FIELD.</font></div>
 
@@ -141,14 +136,9 @@
 					
 						
 
-<div><div class="wsite-image wsite-image-border-none left " style="padding-top:10px;padding-bottom:30px;margin-left:0px;margin-right:0px;text-align:left">
-<a href='https://chilltechproducts.com/uploads/1/2/2/7/122787378/02_1_orig.png' rel='lightbox' onclick='if (!lightboxLoaded) return false'>
-<img src="https://chilltechproducts.com/uploads/1/2/2/7/122787378/02_1_orig.png" alt="Picture" style="width:auto;max-width:100%" />
-</a>
-<div style="display:block;font-size:90%"></div>
-</div></div>
 
-<h2 class="wsite-content-title"><font color="#ffffff">What is systematic selling?</font></h2>
+
+<h2 class="wsite-content-title"><font color="#ffffff"><img src="https://chilltechproducts.com/uploads/1/2/2/7/122787378/02_1_orig.png" alt="Picture" style="width:auto;max-width:100%" />What is systematic selling?</font></h2>
 
 <div class="wsite-spacer" style="height:36px;"></div>
 
@@ -328,52 +318,7 @@
 	</div><!--/.wrapper-->
 	<div id="footer-wrap"><div class="container"><div class='wsite-elements wsite-footer'>
 <div><div class="wsite-multicol"><div class="wsite-multicol-table-wrap" style="margin:0 -15px;">
-	<table class="wsite-multicol-table">
-		<tbody class="wsite-multicol-tbody">
-			<tr class="wsite-multicol-tr">
-				<td class="wsite-multicol-col" style="width:20%; padding:0 15px;">
-					
-						
-
-<h2 class="wsite-content-title" style="text-align:center;"><font size="4"><a href="/welcome/index">Home</a></font></h2>
-
-
-					
-				</td>				<td class="wsite-multicol-col" style="width:20%; padding:0 15px;">
-					
-						
-
-<h2 class="wsite-content-title" style="text-align:center;"><font size="4"><a href="/welcome/products">Products</a></font></h2>
-
-
-					
-				</td>				<td class="wsite-multicol-col" style="width:20%; padding:0 15px;">
-					
-						
-
-<h2 class="wsite-content-title" style="text-align:center;"><font size="4"><a href="/welcome/next">What Next</a></font></h2>
-
-
-					
-				</td>				<td class="wsite-multicol-col" style="width:20%; padding:0 15px;">
-					
-						
-
-<h2 class="wsite-content-title" style="text-align:center;"><font size="4"><a href="/welcome/news">NEWS</a></font></h2>
-
-
-					
-				</td>				<td class="wsite-multicol-col" style="width:20%; padding:0 15px;">
-					
-						
-
-<h2 class="wsite-content-title" style="text-align:center;"><font size="4"><a href="/welcome/contact">ContaCT</a></font></h2>
-
-
-					
-				</td>			</tr>
-		</tbody>
-	</table>
+	<?php  include(dirname(__FILE__) . "/welcome_footer_table.php"); ?>
 </div></div></div>
 
 <div class="wsite-spacer" style="height:17px;"></div>

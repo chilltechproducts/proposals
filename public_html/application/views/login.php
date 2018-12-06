@@ -26,6 +26,6 @@
    
     <?php echo form_submit(array('value'=>'Let me in!', 'class'=>'btn btn-lg btn-primary btn-block')); ?>
     <?php echo form_close(); ?>
-    <p>Don't have an account? Click to <a href="<?php if(empty($_REQUEST['ajax_set'])){ echo site_url();?>main/register?ajax_set=<?php echo $_REQUEST['ajax_set']; }else{ ?>javascript: ajax_register(); <?php } ?>">Register</a></p>
+    <p>Don't have an account? Click to <a href="<?php if(empty($_REQUEST['ajax_set'])){ echo site_url();?>/welcome/schedule?ajax_set=<?php echo $_REQUEST['ajax_set']; }else{ ?>javascript: ajax_register(); <?php } ?>">Register</a></p>
     <p>Click <a href="<?php if(empty($_REQUEST['ajax_set'])){  echo site_url();?>main/forgot?ajax_set=<?php echo $_REQUEST['ajax_set']; }else{ ?>javascript: ajax_recover(); <?php } ?>">here</a> if you forgot your password.</p>
 </div>

@@ -47,10 +47,13 @@ class Welcome extends CI_Controller {
             if ($this->form_validation->run() == FALSE) { 
                 $this->load->view('welcome_header');
                 $this->load->view('contact');
+                return;
             }else{
                 $this->load->model('Emailer');
                 $post = $this->security->xss_clean($this->input->post(NULL, TRUE));
-                $this->Emailer->send($post['_u974858400987469693'], 'jon@chilltechproducts.com', 'Contact Form Submission', $post['_u642942518700304519']);
+                $message = $post['_u642942518700304519'] . '<br /><b>From: </b>' .  $post['_u689818486450563240'] . '<br />' . $post['_u974858400987469693'] . '<br />' . $post['_u299538569683647988'];
+                
+                $this->Emailer->send('jon@chilltechproducts.com', 'support@chilltechproducts.com',  'Contact Form Submission', $message, 'html', 'tom@chilltechproducts.com,dan@chilltechproducts.com,edward.goodnow@gmail.com');
                 $data['msg'] = 'Message Sent';
                 
              }   
@@ -93,12 +96,17 @@ class Welcome extends CI_Controller {
                 
                 
             if ($this->form_validation->run() == FALSE) { 
+            
                 $this->load->view('welcome_header');
-                $this->load->view('contact');
+                $this->load->view('schedule');
+                
+                return;
             }else{
                 $this->load->model('Emailer');
                 $post = $this->security->xss_clean($this->input->post(NULL, TRUE));
-                $this->Emailer->send($post['_u974858400987469693'], 'jon@chilltechproducts.com', 'Schedule Request', $post['_u642942518700304519']);
+                $message= $post['_u898295096151894438'] . '<br />' . $post['_u458618890989731388[first]'] . ' ' . $post['_u458618890989731388[last]'] . '<br />' . $post['_u295912610444034561'] . '<br />' . $post['_u613312299727719573'] . '<br />' . $post['_u853152573264572327'] . '<br />' . $post['_u534123273502973030[line1]'] . ' ' . $post['_u534123273502973030[city]'] . ', ' . $post['_u534123273502973030[state]'] . ' ' . $post['_u534123273502973030[zip]'];
+                
+                $this->Emailer->send('jon@chilltechproducts.com', 'support@chilltechproducts.com',  'Contact Form Submission', $message, 'html', 'tom@chilltechproducts.com,dan@chilltechproducts.com,edward.goodnow@gmail.com');
                 $data['msg'] = 'Message Sent';
                 
              }   

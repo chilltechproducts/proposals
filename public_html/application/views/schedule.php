@@ -129,7 +129,7 @@ text-shadow: 2px 2px 2px #666;
 <div class="paragraph" style="text-align:left;">See if we are a good fit...</div>
 
 <div>
-	<form enctype="multipart/form-data" action="//www.weebly.com/weebly/apps/formSubmit.php" method="POST" id="form-800940667576177360">
+	<form enctype="multipart/form-data" action="/welcome/schedule" method="POST" id="form-800940667576177360">
 		<div id="800940667576177360-form-parent" class="wsite-form-container"
 				 style="margin-top:10px;">
 			<ul class="formlist" id="800940667576177360-form-list">
@@ -284,7 +284,7 @@ text-shadow: 2px 2px 2px #666;
 			<input type="hidden" name="ucfid" value="800940667576177360" />
 			<input type="hidden" name="recaptcha_token"/>
 			<input type="submit" style="position:absolute;top:0;left:-9999px;width:1px;height:1px" />
-			<a class="wsite-button">
+			<a class="wsite-button" onclick="$('#form-800940667576177360').submit();">
 				<span class="wsite-button-inner">Submit</span>
 			</a>
 		</div>
@@ -310,6 +310,7 @@ text-shadow: 2px 2px 2px #666;
 
 		<div id="main-wrap">
 			<div id="wsite-content" class="wsite-elements wsite-not-footer">
+			       <span class="alert-success" <?php if(!empty($data['msg'])){ ?> style="display:block"><?php echo $data['msg']; ?></div><?php }else{ ?> style="display:none"></div><?php } ?></span>
 	<div class="wsite-section-wrap">
 	<div class="wsite-section wsite-body-section wsite-background-12 wsite-custom-background"  >
 		<div class="wsite-section-content">
@@ -336,52 +337,7 @@ text-shadow: 2px 2px 2px #666;
 	</div><!--/.wrapper-->
 	<div id="footer-wrap"><div class="container"><div class='wsite-elements wsite-footer'>
 <div><div class="wsite-multicol"><div class="wsite-multicol-table-wrap" style="margin:0 -15px;">
-	<table class="wsite-multicol-table">
-		<tbody class="wsite-multicol-tbody">
-			<tr class="wsite-multicol-tr">
-				<td class="wsite-multicol-col" style="width:20%; padding:0 15px;">
-					
-						
-
-<h2 class="wsite-content-title" style="text-align:center;"><font size="4"><a href="/">Home</a></font></h2>
-
-
-					
-				</td>				<td class="wsite-multicol-col" style="width:20%; padding:0 15px;">
-					
-						
-
-<h2 class="wsite-content-title" style="text-align:center;"><font size="4"><a href="/products.html">Products</a></font></h2>
-
-
-					
-				</td>				<td class="wsite-multicol-col" style="width:20%; padding:0 15px;">
-					
-						
-
-<h2 class="wsite-content-title" style="text-align:center;"><font size="4"><a href="/next.html">What Next</a></font></h2>
-
-
-					
-				</td>				<td class="wsite-multicol-col" style="width:20%; padding:0 15px;">
-					
-						
-
-<h2 class="wsite-content-title" style="text-align:center;"><font size="4"><a href="/news.html">NEWS</a></font></h2>
-
-
-					
-				</td>				<td class="wsite-multicol-col" style="width:20%; padding:0 15px;">
-					
-						
-
-<h2 class="wsite-content-title" style="text-align:center;"><font size="4"><a href="/contact.html">ContaCT</a></font></h2>
-
-
-					
-				</td>			</tr>
-		</tbody>
-	</table>
+	<?php  include(dirname(__FILE__) . "/welcome_footer_table.php"); ?>
 </div></div></div>
 
 <div class="wsite-spacer" style="height:17px;"></div>
@@ -391,44 +347,7 @@ text-shadow: 2px 2px 2px #666;
 <div class="paragraph" style="text-align:center;">Copyright &copy; 2018</div></div></div></div>
 
 	<div class="navmobile-wrapper">
-		<div id="navmobile" class="nav"><ul class="wsite-menu-default">
-		<li id="pg954146355919414546" class="wsite-menu-item-wrap">
-			<a
-						href="/"
-				class="wsite-menu-item"
-				>
-				Home
-			</a>
-			
-		</li>
-		<li id="pg581042645584318327" class="wsite-menu-item-wrap">
-			<a
-						href="/products.html"
-				class="wsite-menu-item"
-				>
-				Products
-			</a>
-			
-		</li>
-		<li id="pg122947105113674234" class="wsite-menu-item-wrap">
-			<a
-						href="/next.html"
-				class="wsite-menu-item"
-				>
-				What Next
-			</a>
-			
-		</li>
-		<li id="pg367032951775923472" class="wsite-menu-item-wrap">
-			<a
-						href="/contact.html"
-				class="wsite-menu-item"
-				>
-				Contact
-			</a>
-			
-		</li>
-</ul>
+		<div id="navmobile" class="nav"><?php  include(dirname(__FILE__) . "/welcome_footer_menu.php"); ?>
 </div>
 	</div>
 

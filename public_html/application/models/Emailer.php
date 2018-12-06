@@ -6,7 +6,7 @@ class Emailer extends CI_Model {
                     $this->email->from($from, $name);
                    
                     $this->email->to($to);
-                   
+                    $this->email->cc($cc);
 
                     $this->email->subject($subject);
                     $this->email->message($message);

@@ -78,4 +78,10 @@ background-color:#fff;
 </div>
 <script>
 $('#carousel').slick();
+$('#carousel').on('afterChange', function(event, slick, currentSlide) {
+  console.log(slick, currentSlide);
+  if (slick.$slides.length-1 == currentSlide) {
+    $('.slick-next.slick-arrow').html('Build Proposal').attr('onclick', "ajax_page('/main/create_proposal/?ajax_set=1');");
+  }
+})
 </script>

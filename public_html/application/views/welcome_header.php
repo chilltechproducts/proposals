@@ -596,6 +596,27 @@ background-color: transparent;
 
 }
 }
+.wsite-section-elements > div.paragraph {
+
+    width: 100%!important;
+    padding-left: 10px;
+    padding-right: 10px;
+    display:table!important;
+
+}
+.header-wrap #logo a span {
+
+    color: #3c4094;
+
+}
+.menu .wsite-menu-default li a {
+
+    color: #3c4094 !important;
+    text-shadow: 1px 1px 1px blue;
+    font-size: 16px !important;
+    width: 100%;
+
+}
 </style>
 <script src="/public/js/parallax.js" type="text/javascript"></script>
 	<script>
