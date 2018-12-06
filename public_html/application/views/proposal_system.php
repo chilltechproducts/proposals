@@ -1,6 +1,6 @@
 <div class="container">
 <h3>Chill Tech Order Proposal System</h3>
-<p class="avatar_box"><?php if(!empty($this->session->userdata['avatar'])){ ?><img src="<?php echo $this->session->userdata['avatar']; ?>" /><?php } if(!empty($this->session->userdata['user_id'])){ ?>Welcome, <?php echo $this->session->userdata['first_name']  . '  ' .  $this->session->userdata['last_name']; }else{ ?><a class="button login" href="javascript:;" onclick="login_form();">Login</a><?php } ?></p>
+<p class="avatar_box"><?php if(!empty($this->session->userdata['avatar'])){ ?><img src="<?php echo $this->session->userdata['avatar']; ?>" /><?php } if(!empty($this->session->userdata['user_id'])){ ?>Welcome, <?php echo $me['first_name']?$me['first_name']  . '  ' .  $me['last_name']:$me['email']; }else{ ?><a class="button login" href="javascript:;" onclick="login_form();">Login</a><?php } ?></p>
 
 <img src="/public/images/ch1ll-tech-logo-blank-background_2.png" class="inline right" />
 

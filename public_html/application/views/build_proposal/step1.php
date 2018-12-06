@@ -72,11 +72,6 @@
            
             </div>
           
-             <div class="form-group">
-                <label>EIN<span>opt.</span></label>
-                <?php echo form_input(array('name'=>'employer_identication_number', 'id'=> 'employer_identication_number', 'placeholder'=>'Employer Identification Number', 'class'=>'form-control', 'value' => set_value('employer_identication_number', $array['employer_identication_number'])  )   ); ?>
-                <?php echo form_error('employer_identication_number');?>
-            </div>
             
            <?php echo form_input(array('type' => 'hidden', 'name' => 'level_id', 'id' => 'level_id', 'value' => 5)); ?> 
            <?php echo form_input(array('type' => 'hidden', 'name' => 'dealer_id', 'id' => 'dealer_id', 'value' => $this->session->userdata['user_id'])); ?> 

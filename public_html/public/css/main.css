@@ -1277,3 +1277,36 @@ element {
 .form-control.parts_totals {
     height: 100px !important;
 }
+.clients .left.inline {
+    color: #fff;
+}
+.exiting_proposals .fa.fa-cog {
+
+    color: #fff;
+    font-size: 24px;
+    border: 1px solid;
+    padding: 4px;
+    border-radius: 4px;
+
+}
+.exiting_proposals .fa.fa-eye {
+
+    color: #fff;
+    font-size: 23px;
+    border: 1px solid;
+    padding: 4px;
+    border-radius: 4px;
+
+}
+.exiting_proposals a {
+
+    color: #fff;
+
+}
+.form-group input[type="number"] {
+
+    width: 35% !important;
+    font-size: 20px;
+    height: 36px;
+
+}

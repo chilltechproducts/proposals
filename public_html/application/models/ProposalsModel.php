@@ -82,11 +82,13 @@ class ProposalsModel extends CI_Model {
                     
                     }
             }
-        if(empty($proposal['distance']) | empty($proposal['travel_time'])){
+            $miles = 20;
+        if(empty($proposal['distance']) | empty($proposal['travel_time']) & !empty($to) & !empty($from)){
             $from = urlencode($from);
             $to = urlencode($to);
+          
             $apiKey= "AIzaSyDb61TGMg2rxGzypjkMRKWFn5qye_Vbkt4";  
-        
+      
             $data = file_get_contents("https://maps.googleapis.com/maps/api/distancematrix/json?origins=$from&destinations=$to&key=$apiKey&language=en-EN&sensor=false");
             $data = json_decode($data, true);
            

@@ -56,7 +56,7 @@ class UploadHandler {
 
         $targetPath = join(DIRECTORY_SEPARATOR, array($uploadDirectory, $uuid, $name));
         $this->uploadName = $name;
-
+       
         if (!file_exists($targetPath)){
             mkdir(dirname($targetPath), 0777, true);
         }
@@ -222,6 +222,7 @@ class UploadHandler {
         }
 
         $targetFolder = $uploadDirectory;
+        
         $uuid = false;
         $method = $_SERVER["REQUEST_METHOD"];
 	    if ($method == "DELETE") {

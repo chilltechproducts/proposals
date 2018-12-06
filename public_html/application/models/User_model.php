@@ -165,7 +165,7 @@ class User_model extends CI_Model {
                'travel_distance' => $post['travel_distance'],
                'travel_cost' => $post['travel_cost'],
                'vehicle_charge' => $post['vehicle_charge'],
-               'service_dept_efficiency' => $post['service_dept_efficiency'],
+               'service_dept_overhead' => $post['service_dept_efficiency'],
                'sales_commiss' => $post['sales_commiss'],
                'target_net' => $post['target_net'],
                'target_gross' => $post['target_gross']

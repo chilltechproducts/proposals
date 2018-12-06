@@ -50,12 +50,12 @@ class Uploader extends CI_Controller {
                 // Assumes you have a chunking.success.endpoint set to point here with a query parameter of "done".
                 // For example: /myserver/handlers/endpoint.php?done
                 if (isset($_GET["done"])) {
-                    $result = $uploader->combineChunks("/home/chilltech/public_html/public/uploads");
+                    $result = $uploader->combineChunks($_SERVER['DOCUMENT_ROOT'] . "/public/uploads");
                 }
                 // Handles upload requests
                 else {
                     // Call handleUpload() with the name of the folder, relative to PHP's getcwd()
-                    $result = $uploader->handleUpload("/home/chilltech/public_html/public/uploads");
+                    $result = $uploader->handleUpload($_SERVER['DOCUMENT_ROOT'] . "/public/uploads");
 
                     // To return a name used for uploaded file you can use the following line.
                     $result["uploadName"] = $uploader->getUploadName();
@@ -74,7 +74,7 @@ class Uploader extends CI_Controller {
             // for delete file requests
             else if ($method == "DELETE") {
             $this->load->database();
-                $result = $uploader->handleDelete("/home/chilltech/public_html/public/uploads");
+                $result = $uploader->handleDelete($_SERVER['DOCUMENT_ROOT'] . "/public_html/public/uploads");
                 $this->db->query("update " . $this->input->post('table') . " set " . $this->input->post('which') . "='' where user_id=" . $this->input->post('user_id'));
                 echo json_encode($result);
             }
@@ -112,12 +112,12 @@ class Uploader extends CI_Controller {
                 // Assumes you have a chunking.success.endpoint set to point here with a query parameter of "done".
                 // For example: /myserver/handlers/endpoint.php?done
                 if (isset($_GET["done"])) {
-                    $result = $uploader->combineChunks("/home/chilltech/public_html/public/uploads");
+                    $result = $uploader->combineChunks($_SERVER['DOCUMENT_ROOT'] .  "/public/uploads");
                 }
                 // Handles upload requests
                 else {
                     // Call handleUpload() with the name of the folder, relative to PHP's getcwd()
-                    $result = $uploader->handleUpload("/home/chilltech/public_html/public/uploads");
+                    $result = $uploader->handleUpload($_SERVER['DOCUMENT_ROOT'] .  "/public/uploads");
 
                     // To return a name used for uploaded file you can use the following line.
                     $result["uploadName"] = $uploader->getUploadName();
@@ -134,7 +134,7 @@ class Uploader extends CI_Controller {
             // for delete file requests
             else if ($method == "DELETE") {
             $this->load->database();
-                $result = $uploader->handleDelete("/home/chilltech/public_html/public/uploads");
+                $result = $uploader->handleDelete($_SERVER['DOCUMENT_ROOT'] .  "/public/uploads");
                 $this->db->query("update " . $this->input->post('table') . " set " . $this->input->post('which') . "='' where user_id=" . $this->input->post('user_id'));
                 echo json_encode($result);
             }

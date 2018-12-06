@@ -289,8 +289,10 @@ class Main extends CI_Controller {
             
         }
         public function client_listings(){
-        
-           $data = $this->db->query("select email, first_name, last_name, business_phone, company_name, street_address, street_address2, city, state, postal_code, user_id from users where level_id=5 and dealer_id=" . $this->session->userdata['user_id'] . " and (company_name like '" . $this->input->post('company_name') . "%' or concat(first_name, ' ', last_name) like '" . $this->input->post('company_name') . "%' or email like '" . $this->input->post('company_name') . "%')")->result_array();
+           $me = $this->user_model->getUserInfo($this->session->userdata['user_id']);
+           
+         //  echo "select email, first_name, last_name, business_phone, company_name, street_address, street_address2, city, state, postal_code, user_id from users where level_id=5 and dealer_id=" . $me['dealer_id'] . " and (company_name like '" . $this->input->post('company_name') . "%' or concat(first_name, ' ', last_name) like '" . $this->input->post('company_name') . "%' or email like '" . $this->input->post('company_name') . "%')";
+           $data = $this->db->query("select email, first_name, last_name, business_phone, company_name, street_address, street_address2, city, state, postal_code, user_id from users where level_id=5 and dealer_id=" . $me['dealer_id'] . " and (company_name like '" . $this->input->post('company_name') . "%' or concat(first_name, ' ', last_name) like '" . $this->input->post('company_name') . "%' or email like '" . $this->input->post('company_name') . "%')")->result_array();
            
            foreach($data as $c => $client){
              $data[$c]['proposals'] = $this->db->query("select * from proposals where dealer_id=" . $this->session->userdata['user_id'] . " and customer_id=" . $client['user_id'])->result_array();
@@ -308,6 +310,7 @@ class Main extends CI_Controller {
                 $step = $this->uri->segment(3);
             }    
            $states = $this->user_model->states();
+           $me = $this->user_model->getUserInfo($this->session->userdata['user_id']);
                if($step == 3){
                           $clean = $this->input->post(NULL, TRUE);
                         
@@ -418,11 +421,7 @@ class Main extends CI_Controller {
                                 'travel_distance' => $post['travel_distance'],
                                 'travel_cost' => $post['travel_cost'],
                                 'vehicle_charge' => $post['vehicle_charge'] */
-                            $this->form_validation->set_rules('sales_tax', 'Sales Tax', 'required'); 
-                            $this->form_validation->set_rules('labor_rate', 'Labor Rate', 'required'); 
-                            $this->form_validation->set_rules('travel_distance', 'Travel Distance', 'required'); 
-                            $this->form_validation->set_rules('travel_cost', 'Travel Cost', 'required'); 
-                            $this->form_validation->set_rules('vehicle_charge', 'Vehicle Charge', 'required'); 
+                         
                             //$this->form_validation->set_rules('last_name', 'Last Name', 'required'); 
                             //$this->form_validation->set_rules('last_name', 'Last Name', 'required'); 
                             
@@ -446,10 +445,12 @@ class Main extends CI_Controller {
                                 $post['user_id'] = $id;
                                 $this->user_model->updateUserInfo($post);
                                 
+                                $this->db->query("update users set salesman_id=" . $this->session->userdata['user_id'] . ", dealer_id=" . $me['delaer_id'] . " where user_id=" . $id);
+                                
                                 $token = $this->user_model->insertToken($id);                                        
                                 
                                 $qstring = $this->base64url_encode($token);                    
-                                $url = site_url() . 'main/complete/token/' . $qstring;
+                                $url = site_url() . 'main/complete/' . $qstring;
                                 $link = '<a href="' . $url . '">' . $url . '</a>'; 
                                         
                                 $message = '';                     

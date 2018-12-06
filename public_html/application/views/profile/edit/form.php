@@ -114,6 +114,7 @@
                 <?php echo form_input(array('name'=>'employer_identication_number', 'id'=> 'employer_identication_number', 'placeholder'=>'Employer Identification Number', 'class'=>'form-control', 'value' => set_value('employer_identication_number', $array['employer_identication_number'])  )   ); ?>
                 <?php echo form_error('employer_identication_number');?>
             </div>
+          
              <div class="form-group">
                 <label>Webhook URL<span>opt.</span></label>
                 <?php echo form_input(array('name'=>'webhook_url', 'id'=> 'webhook_url', 'placeholder'=>'Webhook / Callback URL', 'class'=>'form-control', 'value' => set_value('webhook_url', $array['webhook_url'])  )   ); ?>
@@ -140,12 +141,12 @@
             </div>
             <div class="form-group">
                 <label>Hourly Labor Rate</label>
-                <?php echo form_input(array('type' => 'number', 'name'=>'labor_rate', 'id'=> 'labor_rate', 'placeholder'=>'Hourly Labor Rate', 'class'=>'form-control', 'value' => set_value('labor_rate', $array['labor_rate'])  )   ); ?>
+                <?php echo form_input(array('type' => 'number', 'step' => '0.05', 'name'=>'labor_rate', 'id'=> 'labor_rate', 'placeholder'=>'Hourly Labor Rate', 'class'=>'form-control', 'value' => set_value('labor_rate', $array['labor_rate'])  )   ); ?>
                 <?php echo form_error('labor_rate');?>
             </div>
             <div class="form-group">
                 <label>Parts Sales Tax</label>
-                <?php echo form_input(array('type' => 'number', 'name'=>'sales_tax', 'max' => '100', 'min' => '0', 'id'=> 'sales_tax', 'placeholder'=>'Sales Tax', 'class'=>'form-control', 'value' => set_value('sales_tax', $array['sales_tax'])  )   ); ?>
+                <?php echo form_input(array('type' => 'number', 'name'=>'sales_tax','step' => '0.05',  'max' => '100', 'min' => '0', 'id'=> 'sales_tax', 'placeholder'=>'Sales Tax', 'class'=>'form-control', 'value' => set_value('sales_tax', $array['sales_tax'])  )   ); ?>
                 <?php echo form_error('sales_tax');?>
             </div>
             <div class="form-group">
@@ -155,32 +156,32 @@
             </div>
             <div class="form-group">
                 <label>Travel Cost Per Mile</label>
-                <?php echo form_input(array('type' => 'number', 'name'=>'travel_cost', 'id'=> 'travel_cost', 'placeholder'=>'Travel Cost', 'class'=>'form-control', 'value' => set_value('travel_cost', $array['travel_cost'])  )   ); ?>
+                <?php echo form_input(array('type' => 'number', 'step' => '0.05',  'name'=>'travel_cost', 'id'=> 'travel_cost', 'placeholder'=>'Travel Cost', 'class'=>'form-control', 'value' => set_value('travel_cost', $array['travel_cost'])  )   ); ?>
                 <?php echo form_error('travel_cost');?>
             </div>
             <div class="form-group">
                 <label>Hourly Vehcile Charge</label>
-                <?php echo form_input(array('type' => 'number', 'name'=>'vehicle_charge', 'id'=> 'vehicle_charge', 'placeholder'=>'Hourly Vehicle Charge', 'class'=>'form-control', 'value' => set_value('vehicle_charge', $array['vehicle_charge'])  )   ); ?>
+                <?php echo form_input(array('type' => 'number', 'name'=>'vehicle_charge', 'step' => '0.05',  'id'=> 'vehicle_charge', 'placeholder'=>'Hourly Vehicle Charge', 'class'=>'form-control', 'value' => set_value('vehicle_charge', $array['vehicle_charge'])  )   ); ?>
                 <?php echo form_error('vehicle_charge');?>
             </div>
             <div class="form-group">
                 <label>Service Dept Overhead</label>
-                <?php echo form_input(array('type' => 'number', 'name'=>'service_dept_efficiency', 'id'=> 'service_dept_efficiency', 'placeholder'=>'Service Dept Overhead', 'class'=>'form-control', 'value' => set_value('service_dept_efficiency', $array['service_dept_efficiency'])  )   ); ?>
+                <?php echo form_input(array('type' => 'number', 'name'=>'service_dept_efficiency', 'step' => '0.05',  'id'=> 'service_dept_efficiency', 'placeholder'=>'Service Dept Overhead', 'class'=>'form-control', 'value' => set_value('service_dept_efficiency', $array['service_dept_efficiency'])  )   ); ?>
                 <?php echo form_error('service_dept_efficiency');?>
             </div>
             <div class="form-group">
                 <label>Sales Commission % of Sales</label>
-                <?php echo form_input(array('type' => 'number', 'name'=>'sales_commiss', 'id'=> 'sales_commiss', 'placeholder'=>'Sales Commission % of Sales', 'class'=>'form-control', 'value' => set_value('sales_commiss', $array['sales_commiss'])  )   ); ?>
+                <?php echo form_input(array('type' => 'number', 'name'=>'sales_commiss', 'step' => '0.05', 'id'=> 'sales_commiss', 'placeholder'=>'Sales Commission % of Sales', 'class'=>'form-control', 'value' => set_value('sales_commiss', $array['sales_commiss'])  )   ); ?>
                 <?php echo form_error('target_net');?>
             </div>
             <div class="form-group">
                 <label>Target Net Profit % Before Taxes</label>
-                <?php echo form_input(array('type' => 'number', 'name'=>'target_net', 'id'=> 'target_net', 'placeholder'=>'Target Net Profit % Before Taxes', 'class'=>'form-control', 'value' => set_value('target_net', $array['target_net'])  )   ); ?>
+                <?php echo form_input(array('type' => 'number', 'name'=>'target_net', 'step' => '0.05', 'id'=> 'target_net', 'placeholder'=>'Target Net Profit % Before Taxes', 'class'=>'form-control', 'value' => set_value('target_net', $array['target_net'])  )   ); ?>
                 <?php echo form_error('target_net');?>
             </div>
             <div class="form-group">
                 <label>Total Gross Profit Margin %</label>
-                <?php echo form_input(array('type' => 'number', 'name'=>'target_gross', 'id'=> 'target_gross', 'placeholder'=>'Total Gross Profit Margin %', 'class'=>'form-control', 'value' => set_value('target_gross', $array['target_gross'])  )   ); ?>
+                <?php echo form_input(array('type' => 'number', 'name'=>'target_gross', 'step' => '0.05',  'id'=> 'target_gross', 'placeholder'=>'Total Gross Profit Margin %', 'class'=>'form-control', 'value' => set_value('target_gross', $array['target_gross'])  )   ); ?>
                 <?php echo form_error('target_gross');?>
             </div>
             <?php } ?>

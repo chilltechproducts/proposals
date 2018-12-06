@@ -53,13 +53,25 @@
                     $odd_even = 'odd';
                 }    
                 ?>
-                <li class="block row <?php echo $odd_even; ?>"><span class="name inline"><?php echo $client['first_name']; ?> <?php echo $client['last_name']; ?></span><br /><span class="name email"><?php echo $client['email']; ?><br /><?php echo $client['street_address'];?><br /> <?php echo $client['city'];?>, <?php echo $client['state_province_code'];?> <?php echo $client['postal_code'];?><br /><?php echo $client['business_phone']; ?></span><span class="inline buttons"><i class="fa fa-close"></i><i class="fa fa-pencil" onclick="add_client(<?php echo $client['user_id']; ?>)"></i><i class="fa fa-cog" onclick="load_proposals(<?php echo $client['user_id']; ?>, <?php echo $this->session->userdata['user_id'];?>);"></i></span>
+                <li class="block row <?php echo $odd_even; ?>">
+                    <span class="name inline">
+                            <?php echo $client['first_name']; ?> <?php echo $client['last_name']; ?></span><br /><span class="name email"><?php echo $client['email']; ?><br />
+                            <?php echo $client['street_address'];?><br /> <?php echo $client['city'];?>, <?php echo $client['state_province_code'];?> <?php echo $client['postal_code'];?><br />
+                            <?php echo $client['business_phone']; ?>
+                    </span>
+                    <span class="inline buttons">
+                        <i class="fa fa-close"></i>
+                        <i class="fa fa-pencil" onclick="add_client(<?php echo $client['user_id']; ?>)"></i>
+                    </span>
                         <ul class="hundred block exiting_proposals">
                            <?php
                            foreach($client['proposals'] as $p => $proposal){
                            ?>
-                             <li onclick="load_proposal_details(<?php echo $client['user_id']; ?>, <?php echo $this->session->userdata['user_id'];?>, <?php echo $proposal['proposal_id']; ?>);">
-                               <span class="left inline"><?php echo $proposal['proposal_name']; ?></span><span class="right inline"><?php echo $proposal['street_address'];?><br /> <?php echo $proposal['city']; ?>, <?php echo $proposal['state']; ?><?php echo $proposal['postal_code'];?></span>
+                             <li>
+                               
+                                    <i class="fa fa-cog" onclick="load_proposals(<?php echo $client['user_id']; ?>, <?php echo $this->session->userdata['user_id'];?>);"></i>
+                                    <i onclick="load_proposal_details(<?php echo $client['user_id']; ?>, <?php echo $this->session->userdata['user_id'];?>, <?php echo $proposal['proposal_id']; ?>);" class="fa fa-eye"></i>
+                               <span class="left inline"> <a href="javascript;;" onclick="load_proposal_details(<?php echo $client['user_id']; ?>, <?php echo $this->session->userdata['user_id'];?>, <?php echo $proposal['proposal_id']; ?>);"><?php echo $proposal['proposal_name']; ?></a></span><span class="right inline"><?php echo $proposal['street_address'];?><br /> <?php echo $proposal['city']; ?>, <?php echo $proposal['state']; ?><?php echo $proposal['postal_code'];?></span>
                              </li>
                            
                            <?php } ?>

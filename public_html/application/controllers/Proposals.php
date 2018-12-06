@@ -56,7 +56,7 @@ class Proposals extends CI_Controller {
         
             $data = $me;
           }
-          
+
           $user_levels = $this->user_model->user_levels($me['level_id']);
           $states = $this->user_model->states();
           
