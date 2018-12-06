@@ -136,10 +136,12 @@ function find_clients(){
         }     
     })
 }
-function load_proposals(cid){
- 
+function load_proposals(cid, pid){
+    if(!pid){
         url = '/main/create_proposal/2/' + cid + '/?ajax_set=1';
-        
+    }else{
+        url = '/main/create_proposal/2/' + cid + '/' + pid + '/?ajax_set=1';
+    }
     
  $.ajax({
         url: url,
@@ -353,7 +355,7 @@ function add_proposal_data(cid, pid){
         url = '/main/create_proposal/3/' + cid + '/' + pid + '/?ajax_set=1';
         data = $('#registration_form').serialize();
         
-       try{ data += '&warranty=' +CKEDITOR.instances.company_warranty.getData(); }catch(err){}
+       try{ data += '&warranty=' +CKEDITOR.instances.company_warranty.getData() + '&salesman_warranty=' + CKEDITOR.instances.salesman_warranty.getData(); }catch(err){}
         console.log(data);
         
        
@@ -371,11 +373,22 @@ function add_proposal_data(cid, pid){
         }     
  })
 }
-function add_proposal(cid){
+function add_proposal(cid, pid){
+    if(!pid){
     if(!cid){
         url = '/main/create_proposal/2/?ajax_set=1';
     }else{
         url = '/main/create_proposal/2/' + cid + '/?ajax_set=1';
+        
+    }
+    }else{
+        if(!cid){
+            url = '/main/create_proposal/2/?ajax_set=1';
+        }else{
+            url = '/main/create_proposal/2/' + cid + '/' + pid + '/?ajax_set=1';
+            
+        }
+        
         
     }
  $.ajax({

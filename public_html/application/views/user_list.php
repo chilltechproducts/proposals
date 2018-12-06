@@ -69,7 +69,7 @@
                            ?>
                              <li>
                                
-                                    <i class="fa fa-cog" onclick="load_proposals(<?php echo $client['user_id']; ?>, <?php echo $this->session->userdata['user_id'];?>);"></i>
+                                    <i class="fa fa-cog" onclick="load_proposals(<?php echo $client['user_id']; ?>, <?php echo $this->session->userdata['user_id'];?>, <?php echo $proposal['proposal_id']; ?>);"></i>
                                     <i onclick="load_proposal_details(<?php echo $client['user_id']; ?>, <?php echo $this->session->userdata['user_id'];?>, <?php echo $proposal['proposal_id']; ?>);" class="fa fa-eye"></i>
                                <span class="left inline"> <a href="javascript;;" onclick="load_proposal_details(<?php echo $client['user_id']; ?>, <?php echo $this->session->userdata['user_id'];?>, <?php echo $proposal['proposal_id']; ?>);"><?php echo $proposal['proposal_name']; ?></a></span><span class="right inline"><?php echo $proposal['street_address'];?><br /> <?php echo $proposal['city']; ?>, <?php echo $proposal['state']; ?><?php echo $proposal['postal_code'];?></span>
                              </li>

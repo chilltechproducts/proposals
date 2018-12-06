@@ -53,10 +53,13 @@
              <div class="form-group">
                 <label>State<span>req.</span></label>
           
-                <?php echo form_dropdown(
-                                                  array( 'id' => 'state', 'name' => 'state', 'class' => 'form-control', 'options' => $states )
-                                                 )
-                                    ?>    
+                <select id="state" name="state" class="form-control">
+                <?php foreach($states as $state){
+                ?>
+                <option value="<?php echo $state; ?>" <?php if($state == $client['state']){ echo 'selected'; } ?>><?php echo $state; ?></option>
+                <?php } ?>
+                
+                </select>
                 <?php echo form_error('state');?>
             </div>
              <div class="form-group">
