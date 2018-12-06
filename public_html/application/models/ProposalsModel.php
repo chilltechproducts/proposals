@@ -115,7 +115,13 @@ class ProposalsModel extends CI_Model {
 	public function AddParts($proposal_id){
 	
 	    
-        $parts = $this->db->query("select distinct(part_data.model_number), count(part_data.location_id) as count, part_data.part_id, p.wholesale, part_data.part_name, part_data.manufacturer_id, m.manufacturer_name, r.rebate_amount, r.limit_amount_per_customer from part_data left join rebates r on r.model_number=part_data.model_number left join manufacturers m on m.manufacturer_id=part_data.manufacturer_id left join parts p on p.id=part_data.part_id where proposal_id=" . $proposal_id)->result_array();
+       $parts = $this->db->query("select distinct(part_data.unique_val), part_data.model_number, p.kWh_with_blade,  part_data.part_id, p.wholesale, part_data.part_name, part_data.manufacturer_id, m.manufacturer_name, r.rebate_amount, r.limit_amount_per_customer, part_data.blade_id from part_data left join rebates r on r.model_number=part_data.model_number left join manufacturers m on m.manufacturer_id=part_data.manufacturer_id left join parts p on p.id=part_data.part_id where part_data.proposal_id=" . $proposal_id)->result_array();
+            
+            foreach($parts as $p => $part){
+               $parts[$p]['blade'] = $this->db->query("select * from parts where id=" . $part['blade_id'])->result_array()[0];
+               $parts[$p]['count'] = $this->db->query("select location_id from part_data where unique_val=" . $part['unique_val'])->num_rows();
+            
+            }
         
        $dealer = $this->db->query("select * from users where user_id=" . $this->session->userdata['user_id'])->result_array();
         $proposal = $this->db->query("select * from proposals where proposal_id=" . $proposal_id)->result_array();
@@ -133,9 +139,15 @@ class ProposalsModel extends CI_Model {
             
             $dealer = $this->user_model->getUserInfo($proposal[0]['dealer_id']);
             
-            $parts = $this->db->query("select distinct(part_data.model_number), count(part_data.location_id) as count, part_data.part_id, p.wholesale, part_data.part_name, part_data.manufacturer_id, m.manufacturer_name, r.rebate_amount, r.limit_amount_per_customer from part_data left join rebates r on r.model_number=part_data.model_number left join manufacturers m on m.manufacturer_id=part_data.manufacturer_id left join parts p on p.id=part_data.part_id where proposal_id=" . $proposal_id)->result_array();
+            $parts = $this->db->query("select distinct(part_data.unique_val), part_data.model_number, p.kWh_with_blade,  part_data.part_id, p.wholesale, part_data.part_name, part_data.manufacturer_id, m.manufacturer_name, r.rebate_amount, r.limit_amount_per_customer, part_data.blade_id from part_data left join rebates r on r.model_number=part_data.model_number left join manufacturers m on m.manufacturer_id=part_data.manufacturer_id left join parts p on p.id=part_data.part_id where part_data.proposal_id=" . $proposal_id)->result_array();
             
+            foreach($parts as $p => $part){
             
+               $parts[$p]['blade'] = $this->db->query("select * from parts where id=" . $part['blade_id'])->result_array()[0];
+               $parts[$p]['count'] = $this->db->query("select location_id from part_data where unique_val=" . $part['unique_val'])->num_rows();
+              
+            
+            }
             $motors = $this->db->query("select * from parts where series = 'A' or series='IP'")->result_array();
             $blades = $this->db->query("select * from parts where series = 'BLADE'")->result_array();
             

@@ -118,8 +118,18 @@ function get_clients(){
         }     
     })
 }
-function submit_combo(unique, part_id, proposal_id){
-    submit_part_to_server(part_id, proposal_id, unique);
+function delete_part(unique, cid, dealer_id, proposal_id){
+    $.ajax({
+        url: '/proposals/delete_part/' + unique,
+        success: function(response){
+            load_proposal_details(cid, dealer_id, proposal_id);
+            
+        }
+    });
+}
+function submit_combo(unique, part_id, proposal_id, blade_id, cid, dealer_id){
+    submit_part_to_server(part_id, proposal_id, unique, blade_id);
+    load_proposal_details(cid, dealer_id, proposal_id);
 }
 function blade_choices(unique, part_id, proposal_id){
 
@@ -127,11 +137,13 @@ function blade_choices(unique, part_id, proposal_id){
         url: '/proposals/blade_choices/' + proposal_id + '/' + part_id + '/' + unique + '/',
         data: { qty: $('#quantity_' + unique).val() },
         success: function(response){
-             $.colorbox({ html: response });
-             $('.fan').click(function(){
-                submit_combo(uniqye, part_id, proposal_id); 
+             $.colorbox({ html: response});
+             //$('#colorbox').colorbox();
+           /*  $('.fan').click(function(){
+                submit_combo(unique, part_id, proposal_id, $(this).attr('alt')); 
                  
              });
+          */
         }
  });     
     
@@ -232,14 +244,15 @@ function add_client(cid){
         }     
  })
 }
-function submit_part_to_server(part_id, pid, alt){
-   
+function submit_part_to_server(part_id, pid, alt, blade_id){
+    $('#colorbox, #cboxOverlay').remove();
     $.ajax({
-           url : '/proposals/submit_new_part/' + pid + '/' + part_id + '/' + alt,
-           data: $('#parts_info .form-control[alt="' + alt + '"] input').removeAttr('disabled').serialize(),
+           url : '/proposals/submit_new_part/' + pid + '/' + part_id + '/' + alt + '/' + blade_id,
+           data: { quantity: $('#quantity_' + alt).val() }, 
            type: 'post',
            success: function(response){
             add_part_to_proposal('parts', pid);
+            // load_proposal_details(cid, dealer_id, proposal_id);
            }
     });      
 }  

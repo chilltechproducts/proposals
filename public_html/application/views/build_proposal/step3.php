@@ -75,17 +75,19 @@ if(count($client['proposals']) > 0){
                 <div id="salesman_warranty" contenteditable="true"><?php echo $proposal['salesman_warranty']?$proposal['salesman_warranty']:$me['warranty']; ?></div>
             </div>
             
-            <div class="form-group item_breakdown" id="parts_info_new">
-              <h2>Parts</h2>
-              <div><?php //require(dirname(dirname(__FILE__)) . "/parts/parts_for_proposal.php"); ?></div>
+            
+          
+            <div class="form-group item_breakdown" id="parts_info">
+              <h2>Parts Selected</h2>
+              <div><?php require(dirname(dirname(__FILE__)) . "/parts/parts_for_proposal.php"); ?></div>
               
             </div>
-           <div class="form-group item_breakdown" id="available_parts_info_new">
-              <h2>Availble Parts</h2>
+             <div class="form-group item_breakdown" id="available_parts_info_new">
+              <h2>Available Parts</h2>
               <div><?php require(dirname(dirname(__FILE__)) . "/parts/available_parts.php"); ?></div>
               
             </div>
-            <div id="total_over" ></div>
+           
             <?php echo form_input(array('type' => 'hidden', 'name' => 'client_id', 'id' => 'client_id', 'value' => $client['user_id'])); ?>
            <?php echo form_input(array('type' => 'hidden', 'name' => 'level_id', 'id' => 'level_id', 'value' => 5)); ?> 
            <?php echo form_input(array('type' => 'hidden', 'name' => 'dealer_id', 'id' => 'dealer_id', 'value' => $this->session->userdata['user_id'])); ?> 

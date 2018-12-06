@@ -64,24 +64,54 @@ class Proposals extends CI_Controller {
 		$this->load->view('proposal_system', array('data' => $data, 'me' => $me, 'user_levels' => $user_levels, 'states' => $states_out));
 	}
 	public function blade_choices(){
+	$proposal_id = $this->uri->segment(3);
+	   
+	   $proposal = $this->db->query("select * from proposals where proposal_id=" . $proposal_id . " and (dealer_id=" . $this->session->userdata['user_id'] . " or salesman_id=" . $this->session->userdata['user_id'] . ")")->result_array();
+	   if(count($proposal)==0){
+	     exit;
+       }else{
+	     $proposal = $proposal[0];
+	   }  
 	   $blades = $this->db->query("select * from parts where series = 'BLADE'")->result_array();
 	
-	   $this->load->view('parts/blade_choices', array('blades' => $blades));
+	   $this->load->view('parts/blade_choices', array('blades' => $blades, 'proposal' => $proposal));
+	}
+	public function delete_part(){
+	    $proposal_id = $this->db->query("select proposal_id from part_data where unique_val=" . $this->uri->segment(3))->result_array();
+	     $proposal_id = $proposal_id[0]['proposal_id'];
+	     
+	     
+	   $proposal = $this->db->query("select * from proposals where proposal_id=" . $proposal_id . " and (dealer_id=" . $this->session->userdata['user_id'] . " or salesman_id=" . $this->session->userdata['user_id'] . ")")->result_array();
+	   if(count($proposal)==0){
+	     exit;
+       }else{
+	     $proposal = $proposal[0];
+	   }  
+	   $this->db->query("delete  from part_data where unique_val=" . $this->uri->segment(3));
 	}
 	public function submit_new_part(){
 	   $alt = $this->uri->segment(5);
 	   
 	   $proposal_id = $this->uri->segment(3);
+	   
+	   $proposal = $this->db->query("select * from proposals where proposal_id=" . $proposal_id . " and (dealer_id=" . $this->session->userdata['user_id'] . " or salesman_id=" . $this->session->userdata['user_id'] . ")")->result_array();
+	   if(count($proposal)==0){
+	     exit;
+       }else{
+	     $proposal = $proposal[0];
+	   }  
 	   $part_id = $this->uri->segment(4);
 	   
 	   $motor = $this->db->query("select * from parts where id=" . $part_id)->result_array()[0];
-	   $this->db->query("delete from part_data where model_number='" . $motor['model_number'] . "' and proposal_id=" . $this->uri->segment(3) . " and unique_val=" . $this->uri->segment(5));
+	   //print_r($motor);
+	   //echo "delete from part_data where proposal_id=" . $this->uri->segment(3) . " and unique_val=" . $this->uri->segment(5);
+	   $this->db->query("delete from part_data where proposal_id=" . $this->uri->segment(3) . " and unique_val=" . $this->uri->segment(5));
 	   
 	   $i =1;
-	   $client = $this->db->query("select proposals.*, u.user_id, u.first_name, u.last_name, u.company_name, u.street_address from proposals left join users u on u.user_id=proposals.customer_id")->result_array();
+	   $client = $this->db->query("select proposals.*, u.user_id, u.first_name, u.last_name, u.company_name, u.street_address from proposals left join users u on u.user_id=proposals.customer_id where  u.user_id=" . $proposal['client_id'])->result_array()[0];
 	   
 	   
-	   
+	   //print_r($client);
 	   
 	   $model_number = $motor['model_number'];
 	   $me = $this->user_model->getUserInfo($this->session->userdata['user_id']);
@@ -92,23 +122,24 @@ class Proposals extends CI_Controller {
 	   $part_name = $motor['part_name'];
 	   
 	   
-	   
-	  
+       $blade_id=$this->uri->segment(6);
+       
+       $blade = $this->db->query("select * from parts where id=" . $blade_id)->result_array()[0];
 	   
 	   $warranty = $this->db->query("select part_warranty_id from part_warranty where part_id=" . $part_id)->result_array();
 	   $manufacturer = $this->db->query("select manufacturer_id from parts where manufacturer_id=" . $part_id)->result_array();
 	   $part_warranty_id = $warrant[0]['part_warranty_id'];
 	   $manufacturer_id =$manufacturer[0]['manufacturer_id'];
-	   $location_name = $part_name . ' for ' . $client['first_name'] . ' ' . $client['last_name'] . ' at ' . $client['street_address'];
+	   $location_str= $part_name . ' for ' . $client['first_name'] . ' ' . $client['last_name'] . ' at ' . $client['street_address'];
 	   $customer_id = $client[0]['user_id'];
-	   
-	   $qty = $this->input->post('quantity[' . $alt . ']');
+	
+	   $qty = $this->input->post('quantity');
 	   
 	   for($i=1;$i<=$qty;$i++){
 	     
-	     $location_name .= ' - ' . $i;
+	     $location_name = $location_str . ' - ' . $i;
 	   
-	     $sql = "insert into part_data (location_id, location_name, part_id, model_number, manufacturer_id, dealer_id, part_warranty_id, proposal_id, customer_id, part_name) values(null, '$location_name', '$part_id', '$model_number', '$manufacturer_id', '$dealer_id', '$part_warranty_id', '$proposal_id', '$customer_id', '$part_name')";
+	     $sql = "insert into part_data (location_id, location_name, part_id, model_number, manufacturer_id, dealer_id, part_warranty_id, proposal_id, customer_id, part_name, unique_val, blade_id, kWh) values(null, '$location_name', '$part_id', '$model_number', '$manufacturer_id', '$dealer_id', '$part_warranty_id', '$proposal_id', '$customer_id', '$part_name' , '" . $alt . "', '$blade_id', '" . $blade['kWh'] . "')";
 	    
 	     $this->db->query($sql);
 	   }

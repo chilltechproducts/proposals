@@ -1343,3 +1343,18 @@ element {
     min-height: 30px;
 
 }
+.motor .fa.fa-close {
+
+    float: right;
+    vertical-align: top;
+    position: relative;
+    top: -100px;
+    margin-right: 5px;
+    background-color: #c2c2c2;
+    font-size: 28px;
+    padding: 4px;
+    border-radius: 4px;
+    clear: both !important;
+    z-index: 10;
+
+}
