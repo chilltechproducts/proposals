@@ -133,6 +133,8 @@ class ProposalsModel extends CI_Model {
             
             $dealer = $this->user_model->getUserInfo($proposal[0]['dealer_id']);
             
+            $parts = $this->db->query("select distinct(part_data.model_number), count(part_data.location_id) as count, part_data.part_id, p.wholesale, part_data.part_name, part_data.manufacturer_id, m.manufacturer_name, r.rebate_amount, r.limit_amount_per_customer from part_data left join rebates r on r.model_number=part_data.model_number left join manufacturers m on m.manufacturer_id=part_data.manufacturer_id left join parts p on p.id=part_data.part_id where proposal_id=" . $proposal_id)->result_array();
+            
             
             $motors = $this->db->query("select * from parts where series = 'A' or series='IP'")->result_array();
             $blades = $this->db->query("select * from parts where series = 'BLADE'")->result_array();
@@ -140,7 +142,7 @@ class ProposalsModel extends CI_Model {
             $distance = $this->CalculateMiles($client, $me, $proposal);
             
             
-            $this->load->view('build_proposal/step3', array('client' => $client, 'states' => $states, 'job' => $job, 'distance' => $distance, 'me' => $me, 'proposal' => $proposal, 'dealer' => $dealer, 'blades' => $blades, 'motors' => $motors));
+            $this->load->view('build_proposal/step3', array('client' => $client, 'states' => $states, 'job' => $job, 'distance' => $distance, 'me' => $me, 'proposal' => $proposal, 'dealer' => $dealer, 'blades' => $blades, 'motors' => $motors, 'parts' => $parts));
 	
 	}
 }

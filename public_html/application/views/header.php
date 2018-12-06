@@ -33,7 +33,7 @@
          
         <link rel="stylesheet" href="/public/css/main.css">
         
-       
+         <link rel="stylesheet" href="/public/css/colorbox.css">
          <link rel="stylesheet" href="/public/css/masked.css">
          <script src="/public/js/jquery.masked-input.js"></script>
          
@@ -47,6 +47,7 @@
 		<script type="text/javascript" src="/public/js/jquery.canvasjs.min.js"></script>
 		
 		<script src="https://cdn.ckeditor.com/4.11.1/standard/ckeditor.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.colorbox/1.6.4/jquery.colorbox.js"></script>
 		<script>
 
 </script>

@@ -72,14 +72,19 @@ if(count($client['proposals']) > 0){
 
 
                <div id="company_warranty" contenteditable="true"><?php echo $proposal['warranty']?$proposal['warranty']:$dealer['warranty']; ?></div>
-               
+                <div id="salesman_warranty" contenteditable="true"><?php echo $proposal['salesman_warranty']?$proposal['salesman_warranty']:$me['warranty']; ?></div>
             </div>
-            <div class="form-group item_breakdown" id="parts_info">
+            
+            <div class="form-group item_breakdown" id="parts_info_new">
               <h2>Parts</h2>
-              <div><?php require(dirname(dirname(__FILE__)) . "/parts/parts_for_proposal.php"); ?></div>
+              <div><?php //require(dirname(dirname(__FILE__)) . "/parts/parts_for_proposal.php"); ?></div>
               
             </div>
-           
+           <div class="form-group item_breakdown" id="available_parts_info_new">
+              <h2>Availble Parts</h2>
+              <div><?php require(dirname(dirname(__FILE__)) . "/parts/available_parts.php"); ?></div>
+              
+            </div>
             <div id="total_over" ></div>
             <?php echo form_input(array('type' => 'hidden', 'name' => 'client_id', 'id' => 'client_id', 'value' => $client['user_id'])); ?>
            <?php echo form_input(array('type' => 'hidden', 'name' => 'level_id', 'id' => 'level_id', 'value' => 5)); ?> 
@@ -93,4 +98,11 @@ if(count($client['proposals']) > 0){
 </div>
  
 <?php } ?>
-
+<script>
+$('form').bind("keypress", function(e) {
+  if (e.keyCode == 13) {               
+    e.preventDefault();
+    return false;
+  }
+});
+</script>

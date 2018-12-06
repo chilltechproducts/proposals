@@ -1317,3 +1317,29 @@ element {
     float: right;
 
 }
+#available_parts_info_new {
+
+    display: block !important;
+    border: 1px solid #c2c2c2;
+    border-radius: 4px;
+    height: auto;
+    width: 97%;
+
+}
+.motor img {
+
+    width: 120px;
+
+}
+.motor.inline {
+
+    display: inline-block !important;
+    width: 20%;
+    border: 1px solid #c2c2c2 !important;
+
+}
+#company_warranty {
+
+    min-height: 30px;
+
+}

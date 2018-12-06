@@ -63,23 +63,40 @@ class Proposals extends CI_Controller {
 	    $this->load->view('header');
 		$this->load->view('proposal_system', array('data' => $data, 'me' => $me, 'user_levels' => $user_levels, 'states' => $states_out));
 	}
+	public function blade_choices(){
+	   $blades = $this->db->query("select * from parts where series = 'BLADE'")->result_array();
+	
+	   $this->load->view('parts/blade_choices', array('blades' => $blades));
+	}
 	public function submit_new_part(){
 	   $alt = $this->uri->segment(5);
 	   
 	   $proposal_id = $this->uri->segment(3);
-	   $this->db->query("delete from part_data where model_number='" . $this->input->post('model_number[' . $alt . ']') . "' and proposal_id=" . $this->uri->segment(3));
+	   $part_id = $this->uri->segment(4);
+	   
+	   $motor = $this->db->query("select * from parts where id=" . $part_id)->result_array()[0];
+	   $this->db->query("delete from part_data where model_number='" . $motor['model_number'] . "' and proposal_id=" . $this->uri->segment(3) . " and unique_val=" . $this->uri->segment(5));
 	   
 	   $i =1;
 	   $client = $this->db->query("select proposals.*, u.user_id, u.first_name, u.last_name, u.company_name, u.street_address from proposals left join users u on u.user_id=proposals.customer_id")->result_array();
-	   $part_id = $this->input->post('part_id[' . $alt . ']');
-	   $model_number = $this->input->post('model_number[' . $alt . ']');
-	   $dealer_id = $this->session->userdata['user_id'];
-	   $part_name = $this->input->post('part_name[' . $alt . ']');
+	   
+	   
+	   
+	   
+	   $model_number = $motor['model_number'];
+	   $me = $this->user_model->getUserInfo($this->session->userdata['user_id']);
+	   $dealer = $this->user_model->getUserInfo($me['dealer_id']);
+	   
+	   
+	   $dealer_id = $dealer['dealer_id'];
+	   $part_name = $motor['part_name'];
+	   
+	   
 	   
 	  
 	   
 	   $warranty = $this->db->query("select part_warranty_id from part_warranty where part_id=" . $part_id)->result_array();
-	   $manufacturer = $this->db->query("select manufacturer_id from parts where id=" . $part_id)->result_array();
+	   $manufacturer = $this->db->query("select manufacturer_id from parts where manufacturer_id=" . $part_id)->result_array();
 	   $part_warranty_id = $warrant[0]['part_warranty_id'];
 	   $manufacturer_id =$manufacturer[0]['manufacturer_id'];
 	   $location_name = $part_name . ' for ' . $client['first_name'] . ' ' . $client['last_name'] . ' at ' . $client['street_address'];

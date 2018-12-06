@@ -118,6 +118,25 @@ function get_clients(){
         }     
     })
 }
+function submit_combo(unique, part_id, proposal_id){
+    submit_part_to_server(part_id, proposal_id, unique);
+}
+function blade_choices(unique, part_id, proposal_id){
+
+ $.ajax({
+        url: '/proposals/blade_choices/' + proposal_id + '/' + part_id + '/' + unique + '/',
+        data: { qty: $('#quantity_' + unique).val() },
+        success: function(response){
+             $.colorbox({ html: response });
+             $('.fan').click(function(){
+                submit_combo(uniqye, part_id, proposal_id); 
+                 
+             });
+        }
+ });     
+    
+    
+}
 function find_clients(){
     
     data = $('#registration_form').serialize();
