@@ -24,7 +24,7 @@ $p++;
        Model: #<?php echo $motor['model_number']; ?><br />
        kwH: <?php echo $motor['kWh_with_blade']; ?><br />
        
-       <span class="block"><b>Qty.</b><input type="number" value="<?php echo $motor['count']; ?>" step="1" min="0" alt="<?php echo $motor['unique_val']; ?>" id="quantity_<?php echo $motor['unique_val']; ?>" class="qty"  onchange="setTimeout(function(){ submit_combo(<?php echo $motor['unique_val']; ?>, <?php echo $motor['part_id']; ?>,  <?php echo $proposal['proposal_id']; ?>,  <?php echo $motor['blade']['id']; ?>, <?php echo $proposal['dealer_id']; ?>);}, 1000);"/>
+       <span class="block"><b>Qty.</b><input type="number" value="<?php echo $motor['count']; ?>" step="1" min="0" alt="<?php echo $motor['unique_val']; ?>" id="quantity_<?php echo $motor['unique_val']; ?>" class="qty"  onchange="setTimeout(function(){ submit_combo(<?php echo $motor['unique_val']; ?>, <?php echo $motor['part_id']; ?>,  <?php echo $proposal['proposal_id']; ?>,  <?php echo $motor['blade']['id']; ?>, <?php echo $proposal['dealer_id']; ?>);}, 1000);" onkeyup="setTimeout(function(){ submit_combo(<?php echo $motor['unique_val']; ?>, <?php echo $motor['part_id']; ?>,  <?php echo $proposal['proposal_id']; ?>,  <?php echo $motor['blade']['id']; ?>, <?php echo $proposal['dealer_id']; ?>);}, 1000);" />
        
        
        <!--submit_part_to_server(part_id, proposal_id, unique, blade_id)-->

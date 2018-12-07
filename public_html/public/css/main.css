@@ -1358,3 +1358,11 @@ element {
     z-index: 10;
 
 }
+.form-group {
+
+    margin-bottom: 11px;
+    display: block !important;
+    clear: both;
+    height: auto;
+
+}

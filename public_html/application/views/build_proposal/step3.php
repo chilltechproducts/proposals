@@ -78,12 +78,12 @@ if(count($client['proposals']) > 0){
             
           
             <div class="form-group item_breakdown" id="parts_info">
-              <h2>Parts Selected</h2>
+              <h2>Motors Selected</h2>
               <div><?php require(dirname(dirname(__FILE__)) . "/parts/parts_for_proposal.php"); ?></div>
               
             </div>
              <div class="form-group item_breakdown" id="available_parts_info_new">
-              <h2>Available Parts</h2>
+              <h2>Available Motors</h2>
               <div><?php require(dirname(dirname(__FILE__)) . "/parts/available_parts.php"); ?></div>
               
             </div>

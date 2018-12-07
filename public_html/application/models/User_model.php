@@ -12,6 +12,7 @@ class User_model extends CI_Model {
     
     public function insertUser($d)
     {  
+   
             $string = array(
                 'first_name'=>$d['first_name'],
                 'last_name'=>$d['last_name'],
@@ -121,7 +122,7 @@ class User_model extends CI_Model {
     if(empty($id)){
       return array();
       }
-        $q = $this->db->query("select users.*, lw.labor_warranty_text as warranty from users left join labor_warranty lw on lw.dealer_id=users.user_id  where users.user_id = " . $id)->result_array(); 
+        $q = $this->db->query("select users.*, lw.labor_warranty_text as warranty from users left join labor_warranty lw on (lw.dealer_id=users.user_id or lw.salesman_id=users.user_id) where users.user_id = " . $id . " order by labor_warranty_id asc limit 1")->result_array(); 
     
         if(count($q) > 0){
            if($q[0]['level_id'] <=2){
@@ -169,13 +170,28 @@ class User_model extends CI_Model {
                'sales_commiss' => $post['sales_commiss'],
                'target_net' => $post['target_net'],
                'target_gross' => $post['target_gross'],
-               'company_name' => $post['company_name']
+               'company_name' => $post['company_name'],
+               'level_id' => $post['level_id'],
+               'billable_efficiency' => $post['billable_efficiency']
             );
           
         $this->db->where(array('user_id' => $post['user_id']) );
         $this->db->update('users', $data); 
         $success = $this->db->affected_rows(); 
-      
+        
+        if(!empty($post['warranty'])){
+            $this->db->query("delete from labor_warranty where dealer_id=".$post['user_id']." or salesman_id=".$post['user_id']);
+            if($post['level_id'] == 2){
+              $col = 'dealer_id';
+              $which= 'warranty';
+            }else{
+              $col = 'salesman_id';
+              $which = 'sales_warrant';
+            }
+            if(!empty($col)){
+              $this->db->query("insert into labor_warranty(labor_warranty_id, $col, labor_warranty_text, created, modified) values(null, " . $post['user_id'] . ", '" .addslashes($post[$which]) . "', NOW(), NOW())");
+            }
+        }    
         if(!$success){
             error_log('Unable to updateUserInfo('.$post['user_id'].')');
             return false;

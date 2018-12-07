@@ -63,6 +63,11 @@ class Proposals extends CI_Controller {
 	    $this->load->view('header');
 		$this->load->view('proposal_system', array('data' => $data, 'me' => $me, 'user_levels' => $user_levels, 'states' => $states_out));
 	}
+	public function last_proposal(){
+	   $proposal =$this->db->query("select * from proposals where (salesman_id=" . $this->session->userdata['user_id'] . " or dealer_id=" . $this->session->userdata['user_id'] . ") order by proposal_id desc limit 1")->result_array();
+	   redirect('/main/create_proposal/3/' . $proposal[0]['client_id'] . '/' . $proposal[0]['proposal_id'] . '/?ajax_set=1');
+	
+	}
 	public function blade_choices(){
 	$proposal_id = $this->uri->segment(3);
 	   

@@ -8,6 +8,7 @@ class ProposalsModel extends CI_Model {
             $this->load->database();
             $this->load->library('form_validation');    
             $this->load->library('session');
+            $this->load->model('GraphsModel');
             $this->form_validation->set_error_delimiters('<div class="error">', '</div>');
             
     }
@@ -101,6 +102,53 @@ class ProposalsModel extends CI_Model {
           }  
             return $miles;
 	}
+	public function ComboPrices($motor, $dealer){
+	ini_set('precision', 15);
+	   $prices = array();
+	   $prices['B2'] = $dealer['labor_rate']?$dealer['labor_rate']:40;
+	   $prices['B3'] = $dealer['billable_efficiency']?$dealer['billable_efficiency']/100:.60;
+	   $prices['B4'] = $dealer['sales_tax']?$dealer['sales_tax']/100:0;
+	   $prices['B5'] = $dealer['travel_distance']?$dealer['travel_distance']:20;
+	   $prices['B6'] = $dealer['travel_cost']?$dealer['travel_cost']:.65;
+	   $prices['B7'] = $dealer['vehicle_charge']?$dealer['vehicle_charge']:5.60;
+	   $prices['B8'] = $dealer['risk']?$dealer['risk']/100:.04;
+	   $prices['B9'] = $dealer['service_dept_overhead']?$dealer['service_dept_overhead']/100:.25;
+	   $prices['B10'] = $dealer['sales_commiss']?$prices['sales_commiss']/100:.10;
+	   $prices['B11'] = $dealer['target_net']?$dealer['target_net']/100:.15;
+	   $prices['B12'] = $dealer['target_gross']?$dealer['target_gross']/100:.50;
+	   $prices['B16'] = $motor['wholesale'];
+	   
+	  // print_r($prices);
+	   $prices['E2'] =(($prices['B2'] / $prices['B3']) / $prices['B9']);   //=SUM((B2/B3)/B9)  266.6666666667 
+	   
+	   
+	   $prices['C16'] = (($prices['B16']*$prices['B12'])*($prices['B8']+$prices['B4'])+($prices['E2'] *0.35)) + $prices['B16'] + $prices['B16'];
+	   
+	   
+	  // $prices['E3'] = ($prices['B16']*(1-$prices['B12']))*($prices['B8']+$prices['B4']) + $prices['B16'];//=SUM(B16/(1-B12))*(1+B8+B4) 393.12
+	  
+        $blade = $this->db->query("select * from parts where id=" . $motor['blade_id'])->result_array();
+        
+        if(count($blade)>0){
+          $prices['B20'] = $blade[0]['wholesale'];
+          $prices['C20'] =  $blade[0]['wholesale'] + $blade[0]['wholesale'] + (($prices['B20']*($prices['B12'])))*($prices['B8']+$prices['B4']) ;//=SUM(((B20/(1-B12))*(1+B8+B4))) 135.20
+          
+        }else{
+          $prices['B20'] = 0;
+          $prices['C20'] = 0;
+        }
+        
+        $prices['B24'] = $prices['C20'] + $prices['C16'];
+        
+        $prices['E4'] = ($prices['B5'] * $prices['B6']) + ($prices['B7']*.75) + ($prices['E2'] * .75); //=SUM(B5*B6,(B7*0.75),(E2*0.75))
+	 
+	   $prices['installed']=$prices['B24'];
+	   $prices['retail'] = $prices['C16'];
+	   $prices['total_hourly'] = $prices['E2'];
+	   $prices['trip_charge'] = $prices['E4'];
+	   
+	   return $prices;
+	}
 	public function AddLabor($proposal_id){
 	
 	    
@@ -114,16 +162,16 @@ class ProposalsModel extends CI_Model {
 	}	
 	public function AddParts($proposal_id){
 	
-	    
+	    $dealer = $this->db->query("select * from users where user_id=" . $this->session->userdata['user_id'])->result_array();
        $parts = $this->db->query("select distinct(part_data.unique_val), part_data.model_number, p.kWh_with_blade,  part_data.part_id, p.wholesale, part_data.part_name, part_data.manufacturer_id, m.manufacturer_name, r.rebate_amount, r.limit_amount_per_customer, part_data.blade_id from part_data left join rebates r on r.model_number=part_data.model_number left join manufacturers m on m.manufacturer_id=part_data.manufacturer_id left join parts p on p.id=part_data.part_id where part_data.proposal_id=" . $proposal_id)->result_array();
             
             foreach($parts as $p => $part){
                $parts[$p]['blade'] = $this->db->query("select * from parts where id=" . $part['blade_id'])->result_array()[0];
                $parts[$p]['count'] = $this->db->query("select location_id from part_data where unique_val=" . $part['unique_val'])->num_rows();
-            
+               $parts[$p]['prices'] = $this->ComboPrices($part, $dealer);
             }
         
-       $dealer = $this->db->query("select * from users where user_id=" . $this->session->userdata['user_id'])->result_array();
+       
         $proposal = $this->db->query("select * from proposals where proposal_id=" . $proposal_id)->result_array();
         
 	  $this->load->view('parts/parts_for_proposal', array('parts' => $parts, 'dealer' => $dealer[0], 'proposal' => $proposal[0]));
@@ -145,14 +193,18 @@ class ProposalsModel extends CI_Model {
             
                $parts[$p]['blade'] = $this->db->query("select * from parts where id=" . $part['blade_id'])->result_array()[0];
                $parts[$p]['count'] = $this->db->query("select location_id from part_data where unique_val=" . $part['unique_val'])->num_rows();
-              
+              $parts[$p]['prices'] = $this->ComboPrices($part, $dealer);
             
             }
             $motors = $this->db->query("select * from parts where series = 'A' or series='IP'")->result_array();
             $blades = $this->db->query("select * from parts where series = 'BLADE'")->result_array();
             
             $distance = $this->CalculateMiles($client, $me, $proposal);
+            $Graphs = array();
+            for($i=1;$i<=3;$i++){
+              $Graphs[$i] = $this->GraphsModel->Graph($parts, $i);
             
+            }
             
             $this->load->view('build_proposal/step3', array('client' => $client, 'states' => $states, 'job' => $job, 'distance' => $distance, 'me' => $me, 'proposal' => $proposal, 'dealer' => $dealer, 'blades' => $blades, 'motors' => $motors, 'parts' => $parts));
 	

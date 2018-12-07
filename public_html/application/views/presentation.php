@@ -64,7 +64,7 @@ background-color:#fff;
 <?php
    for($i=1;$i<=6;$i++){
      if($i == 2 & !empty($me['presentation_slide'])){
-       echo $me['presentation_slide'];
+       echo '<div class="slide">' .  $me['presentation_slide'] . '</div>';
        }else{
      ?>
         <div class="slide" style="background-image: url('/public/presentation/slide<?php echo $i; ?>.png?<?php echo time(); ?>');">

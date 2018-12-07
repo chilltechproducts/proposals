@@ -516,8 +516,51 @@ class Ajax extends CI_Controller {
      }
      public function myprofile()
         {
+        
+        
           $me = $this->user_model->getUserInfo($this->session->userdata['user_id']);
+     if($this->input->post('user_id') == 0 & $me['level_id'] <= 2 & count($this->input->post())>0){
+              $clean = $this->security->xss_clean($this->input->post(NULL, TRUE));
+             
+              $this->load->library('Password');
+                               
+                                $id = $this->user_model->insertUser($clean); 
+                                $clean['user_id'] = $id;
+                                $this->user_model->updateUserInfo($clean);
+                                
+                                $this->db->query("update users set company_name='" . addslashes($clean['company_name']) . "', salesman_id=" . $this->session->userdata['user_id'] . ", dealer_id=" . $me['dealer_id'] . " where user_id=" . $id);
+                                
+                               
+                                
+                                $auto_password= time() . rand(1000, 9999); 
+                               
+                                $hashed['password'] = $this->password->create_hash($auto_password);     
+                                $hashed['user_id'] = $clean['user_id'];
+                                $this->user_model->updatePassword($hashed);
+                                 $token = $this->user_model->insertToken($clean['user_id']);                                        
+                                
+                                $qstring = $this->base64url_encode($token);     
+                                
+                                
+                                $url = site_url() . 'main/reset_password/token/' . $qstring;
+                                $link = '<a href="' . $url . '">' . $url . '</a>'; 
+                                        
+                                $message = '';                     
+                                $message .= '<strong>You have been signed up with our website</strong><br>';
+                                $message .= '<strong>Please click:</strong> ' . $link . ' To change your password. Your current password is ' . $auto_password;                          
+
+                               
+                                
+                                $this->load->model('Emailer');
+                                echo $clean['email'];
+                                $this->Emailer->send('suppport@chilltechproducts.com', $clean['email'], 'You have been registered on ChillTech Products', $message, 'html', 'edward.goodnow@gmail.com');
+                                
+                                
+                                redirect('/ajax/myprofile/' . $id . '/?alert=1');
+                                exit;
      
+     
+     }
           if(empty($me['user_id'])){
                 //    $this->load->view('header');
                     $this->load->view('login');

@@ -2,7 +2,8 @@
   <?php if($this->session->userdata['user_id'] == $this->input->get('user_id')){ $array = $me; } else { if($me['level_id'] <=2){ $array = $data;  }else{ $array = $this->input->post(); } } ?>
     <h2><?php if(!empty($data['user_id'])){ ?>Edit <?php if($data['user_id'] == $this->session->userdata['user_id']){ ?>Your<?php }else{ echo $data['first_name'] . ' ' . $data['last_name'] . '\'s'; } ?> Profile <?php }else{ ?>Add a User<?php } ?></h2>
     <span class="alert-success"></span>
-   
+    <?php 
+      if(!empty($array['email'])){ ?>
         <div class="form-group">
             <label>User Avatar<span>opt.</span></label> 
                 <div id="preview-avatar"><?php if(!empty($array['avatar'])){ ?><img src="<?php echo $array['avatar']; ?>" /><?php } ?></div>
@@ -15,8 +16,48 @@
                 <div id="preview-logo"><?php if(!empty($array['logo'])){ ?><img src="<?php echo $array['logo']; ?>" /><?php } ?></div>
                 <div id="logo-uploader"></div>
         </div>
-    <?php } ?>
+    <?php } 
+    
+    }
+    ?>
     <form id="registration_form" name="registration_form" action="javascript: get_form_data_and_submit();" >
+    <?php
+    if(empty($array['email']) & $me['level_id'] <=2){
+    $levels = array();
+      if(count($user_levels)>0){
+      foreach($user_levels as $key => $arr){
+         $levels[$arr->level_id] = $arr->level_name;
+      
+      }
+      if($this->session->userdata['user_id'] != $data['user_id']
+            & 
+            ($me['level_id'] <=2 | $me['level_id'] == 5 | $me['level_id'] == 8)){
+               
+                        ?>
+                                <div class="form-group">
+                                <label>User Level</label>
+                                    <?php echo form_dropdown(
+                                                  array( 'id' => 'level_id', 'name' => 'level_id', 'class' => 'form-control', 'options' => $levels )
+                                                 )
+                                    ?>             
+                                </div>
+                                <div class="form-group">
+                    
+                                </div>
+                                <div class="form-group">
+                    
+                                </div>
+                                <div class="form-group">
+                    
+                                </div>
+            <?php
+                     
+           
+                } 
+                }
+    
+    }
+    ?>
     <?php if($array['level_id'] <= 2){ ?>
     <div class="form-group">
                 <label>Company Name<span>req.</span></label>
@@ -27,13 +68,27 @@
     <?php } ?>
     <div class="form-group">
       <label>Email</label>
-      <?php echo form_input(array(
+      <?php 
+      if(!empty($array['email'])){
+      echo form_input(array(
           'name'=>'email', 
           'id'=> 'email', 
           'placeholder'=>'Email', 
           'class'=>'form-control', 
           'disabled' => true,
-          'value'=> set_value('email', $array['email']))); ?>
+          'value'=> set_value('email', $array['email'])));
+          
+        }else{
+        
+            echo form_input(array(
+          'name'=>'email', 
+          'id'=> 'email', 
+          'placeholder'=>'Email', 
+          'class'=>'form-control', 
+          'value'=> set_value('email', $array['email'])));
+        
+        }
+          ?>
       <?php echo form_error('email') ?>
     </div>
         
@@ -130,94 +185,81 @@
                 <?php echo form_input(array('name'=>'user_facebook', 'id'=> 'user_facebook', 'placeholder'=>'Facebook URL', 'class'=>'form-control', 'value' => set_value('user_facebook', $array['user_facebook'])  )   ); ?>
                 <?php echo form_error('user_facebook');?>
             </div>
-            <div class="form-group">
-                <label>Promotional Slide<span>opt.</span></label>
-                <textarea id="presentation_slide" name="presentation_slide"><?php echo $array['presentation_slide']; ?></textarea>
-            </div>    
+            
             <?php } ?>
             <?php if($me['level_id'] <= 2){ ?>
+            <div id="hide_dealer" >
             <div class="form-group">
             <h2>Default Proposal Settings</h2>
             </div>
             <div class="form-group">
+                <label>Promotional Slide<span>opt.</span></label>
+                <textarea id="presentation_slide" name="presentation_slide"><?php echo $array['presentation_slide']; ?></textarea>
+            </div>    
+            <div class="form-group">
                 <label>Hourly Labor Rate</label>
-                <?php echo form_input(array('type' => 'number', 'step' => '0.05', 'name'=>'labor_rate', 'id'=> 'labor_rate', 'placeholder'=>'Hourly Labor Rate', 'class'=>'form-control', 'value' => set_value('labor_rate', $array['labor_rate'])  )   ); ?>
+                <?php echo form_input(array('type' => 'number', 'step' => '0.05', 'name'=>'labor_rate', 'id'=> 'labor_rate', 'placeholder'=>'Hourly Labor Rate', 'class'=>'form-control', 'value' => set_value('labor_rate', $array['labor_rate']?$array['labor_rate']:40)  )   ); ?>
                 <?php echo form_error('labor_rate');?>
             </div>
             <div class="form-group">
+                <label>Billable Efficiency</label>
+                <?php echo form_input(array('type' => 'number', 'step' => '0.05', 'name'=>'billable_efficiency', 'id'=> 'billable_efficiency', 'placeholder'=>'Billable Efficiency', 'class'=>'form-control', 'value' => set_value('billable_efficiency', $array['billable_efficiency']?$array['billable_efficiency']:60)  )   ); ?>
+                <?php echo form_error('billable_efficiency');?>
+            </div>
+            <div class="form-group">
                 <label>Parts Sales Tax</label>
-                <?php echo form_input(array('type' => 'number', 'name'=>'sales_tax','step' => '0.05',  'max' => '100', 'min' => '0', 'id'=> 'sales_tax', 'placeholder'=>'Sales Tax', 'class'=>'form-control', 'value' => set_value('sales_tax', $array['sales_tax'])  )   ); ?>
+                <?php echo form_input(array('type' => 'number', 'name'=>'sales_tax','step' => '0.05',  'max' => '100', 'min' => '0', 'id'=> 'sales_tax', 'placeholder'=>'Sales Tax', 'class'=>'form-control', 'value' => set_value('sales_tax', $array['sales_tax']?$array['sales_tax']:10)  )   ); ?>
                 <?php echo form_error('sales_tax');?>
             </div>
             <div class="form-group">
                 <label>Travel Distance</label>
-                <?php echo form_input(array('type' => 'number', 'name'=>'travel_distance', 'max' => '300', 'min' => '0', 'id'=> 'travel_distance', 'placeholder'=>'Travel Distance', 'class'=>'form-control', 'value' => set_value('travel_distance', $array['travel_distance'])  )   ); ?>
+                <?php echo form_input(array('type' => 'number', 'name'=>'travel_distance', 'max' => '300', 'min' => '0', 'id'=> 'travel_distance', 'placeholder'=>'Travel Distance', 'class'=>'form-control', 'value' => set_value('travel_distance', $array['travel_distance']?$array['travel_distance']:20)  )   ); ?>
                 <?php echo form_error('travel_distance');?>
             </div>
             <div class="form-group">
                 <label>Travel Cost Per Mile</label>
-                <?php echo form_input(array('type' => 'number', 'step' => '0.05',  'name'=>'travel_cost', 'id'=> 'travel_cost', 'placeholder'=>'Travel Cost', 'class'=>'form-control', 'value' => set_value('travel_cost', $array['travel_cost'])  )   ); ?>
+                <?php echo form_input(array('type' => 'number', 'step' => '0.05',  'name'=>'travel_cost', 'id'=> 'travel_cost', 'placeholder'=>'Travel Cost', 'class'=>'form-control', 'value' => set_value('travel_cost', $array['travel_cost']?$array['travel_cost']:.65)  )   ); ?>
                 <?php echo form_error('travel_cost');?>
             </div>
             <div class="form-group">
-                <label>Hourly Vehcile Charge</label>
-                <?php echo form_input(array('type' => 'number', 'name'=>'vehicle_charge', 'step' => '0.05',  'id'=> 'vehicle_charge', 'placeholder'=>'Hourly Vehicle Charge', 'class'=>'form-control', 'value' => set_value('vehicle_charge', $array['vehicle_charge'])  )   ); ?>
+                <label>Hourly Vehicle Charge</label>
+                <?php echo form_input(array('type' => 'number', 'name'=>'vehicle_charge', 'step' => '0.05',  'id'=> 'vehicle_charge', 'placeholder'=>'Hourly Vehicle Charge', 'class'=>'form-control', 'value' => set_value('vehicle_charge', $array['vehicle_charge']?$array['vehicle_charge']:5.60)  )   ); ?>
                 <?php echo form_error('vehicle_charge');?>
             </div>
             <div class="form-group">
                 <label>Service Dept Overhead</label>
-                <?php echo form_input(array('type' => 'number', 'name'=>'service_dept_efficiency', 'step' => '0.05',  'id'=> 'service_dept_efficiency', 'placeholder'=>'Service Dept Overhead', 'class'=>'form-control', 'value' => set_value('service_dept_efficiency', $array['service_dept_efficiency'])  )   ); ?>
+                <?php echo form_input(array('type' => 'number', 'name'=>'service_dept_efficiency', 'step' => '0.05',  'id'=> 'service_dept_efficiency', 'placeholder'=>'Service Dept Overhead', 'class'=>'form-control', 'value' => set_value('service_dept_efficiency', $array['service_dept_overhead']?$array['service_dept_overhead']:25)  )   ); ?>
                 <?php echo form_error('service_dept_efficiency');?>
             </div>
             <div class="form-group">
                 <label>Sales Commission % of Sales</label>
-                <?php echo form_input(array('type' => 'number', 'name'=>'sales_commiss', 'step' => '0.05', 'id'=> 'sales_commiss', 'placeholder'=>'Sales Commission % of Sales', 'class'=>'form-control', 'value' => set_value('sales_commiss', $array['sales_commiss'])  )   ); ?>
+                <?php echo form_input(array('type' => 'number', 'name'=>'sales_commiss', 'step' => '0.05', 'id'=> 'sales_commiss', 'placeholder'=>'Sales Commission % of Sales', 'class'=>'form-control', 'value' => set_value('sales_commiss', $array['sales_commiss']?$array['sales_commiss']:10)  )   ); ?>
                 <?php echo form_error('target_net');?>
             </div>
             <div class="form-group">
                 <label>Target Net Profit % Before Taxes</label>
-                <?php echo form_input(array('type' => 'number', 'name'=>'target_net', 'step' => '0.05', 'id'=> 'target_net', 'placeholder'=>'Target Net Profit % Before Taxes', 'class'=>'form-control', 'value' => set_value('target_net', $array['target_net'])  )   ); ?>
+                <?php echo form_input(array('type' => 'number', 'name'=>'target_net', 'step' => '0.05', 'id'=> 'target_net', 'placeholder'=>'Target Net Profit % Before Taxes', 'class'=>'form-control', 'value' => set_value('target_net', $array['target_net']?$array['target_net']:15)  )   ); ?>
                 <?php echo form_error('target_net');?>
             </div>
             <div class="form-group">
                 <label>Total Gross Profit Margin %</label>
-                <?php echo form_input(array('type' => 'number', 'name'=>'target_gross', 'step' => '0.05',  'id'=> 'target_gross', 'placeholder'=>'Total Gross Profit Margin %', 'class'=>'form-control', 'value' => set_value('target_gross', $array['target_gross'])  )   ); ?>
+                <?php echo form_input(array('type' => 'number', 'name'=>'target_gross', 'step' => '0.05',  'id'=> 'target_gross', 'placeholder'=>'Total Gross Profit Margin %', 'class'=>'form-control', 'value' => set_value('target_gross', $array['target_gross']?$array['target_gross']:50)  )   ); ?>
                 <?php echo form_error('target_gross');?>
             </div>
+            <div class="form-group">
+                <label>Warranty</label>
+                <textarea name="warranty" id="warranty"><?php echo $data['warranty']; ?></textarea>
+            </div>
+            </div>
             <?php } ?>
+            <div id="hide_salesman">
+            <div class="form-group" >
+                <label>Warranty</label>
+                <textarea name="sales_warranty" id="sales_warranty"><?php echo $data['warranty']; ?></textarea>
+            </div>
+            </div>
              <?php 
-      $levels = array();
-      if(count($user_levels)>0){
-      foreach($user_levels as $key => $arr){
-         $levels[$arr->level_id] = $arr->level_name;
       
-      }
-      if($this->session->userdata['user_id'] != $data['user_id']
-            & 
-            ($me['level_id'] <=2 | $me['level_id'] == 5 | $me['level_id'] == 8)){
-               
-                        ?>
-                                <div class="form-group">
-                                <label>User Level</label>
-                                    <?php echo form_dropdown(
-                                                  array( 'id' => 'level_id', 'name' => 'level_id', 'class' => 'form-control', 'options' => $levels )
-                                                 )
-                                    ?>             
-                                </div>
-                                <div class="form-group">
-                    
-                                </div>
-                                <div class="form-group">
-                    
-                                </div>
-                                <div class="form-group">
-                    
-                                </div>
-            <?php
-                     
-           
-                } 
-                }
             ?>
           <?php echo form_input(array('type' => 'hidden', 'name' => 'user_id', 'id' => 'user_id', 'value' => $this->input->get('user_id'))); ?>
         
@@ -228,12 +270,38 @@
 </div>
  
 <script>
+setTimeout(function(){
+$('#level_id').change(function(){
+  if($('#level_id option:selected').val()==2){
+    $('#hide_dealer').show();
+    $('#hide_salesman').hide()
+  
+  }else{
+    $('#hide_dealer').hide();
+    if($('#level_id option:selected').val()==3){
+        $('#hide_salesman').show()
+    }
+  }
+});
+
+ if($('#level_id option:selected').val()==2){
+    $('#hide_dealer').show();
+    $('#hide_salesman').hide()
+  
+  }else{
+    $('#hide_dealer').hide();
+    if($('#level_id option:selected').val()==3){
+        $('#hide_salesman').show()
+    }
+}
+}, 2500)
 CKEDITOR.editorConfig = function( config ) {
 config.enterMode = CKEDITOR.ENTER_BR // pressing the ENTER Key puts the <br/> tag
 config.shiftEnterMode = CKEDITOR.ENTER_P; //pressing the SHIFT + ENTER Keys puts the <p> tag
 };
 CKEDITOR.replace('presentation_slide');
-
+CKEDITOR.replace('warranty');
+CKEDITOR.replace('sales_warranty');
 $('#postal_code').click(function(){
 								      $('#postal_code').autocomplete({
 											    minLength: 1,
@@ -299,7 +367,9 @@ $('#city').click(function(){
 											    .appendTo( ul );
 											    };
 								});	
-</script>		
+</script>
+  <?php 
+      if(!empty($array['email'])){ ?>
 <script type="text/template" id="qq-template-gallery">
         <div class="qq-uploader-selector qq-uploader qq-gallery" qq-drop-area-text="Drop files here">
             <div class="qq-total-progress-bar-container-selector qq-total-progress-bar-container">
@@ -424,3 +494,11 @@ $('#city').click(function(){
         // don't wait for the window to load  
         //window.onload = createUploader;     
     </script>  
+<?php } 
+
+if($this->input->get('alert') == 1){
+?>
+<script>
+alert('user was added and notified of their new subscription');
+</script>
+<?php } ?>

@@ -273,7 +273,7 @@ class Main extends CI_Controller {
 				
                 $token = $this->user_model->insertToken($userInfo->user_id);                        
                 $qstring = $this->base64url_encode($token);                  
-                $url = site_url() . 'main/reset_password/'  . $qstring .  '/?redirect=' . base64_encode('/main/reset_password/token/' . $qstring . '?ajax_set=' . $_REQUEST['ajax_set']);
+                $url = site_url() . 'main/reset_password/token/'  . $qstring .  '/?redirect=' . base64_encode('/main/reset_password/token/' . $qstring . '?ajax_set=' . $_REQUEST['ajax_set']);
                 $link = '<a href="' . $url . '">' . $url . '</a>'; 
                 
                 $message = '';                     

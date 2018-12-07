@@ -7,7 +7,7 @@
               
                 <div class="form-group">
                         <label>Name, Company Name or Email</label>
-                        <?php echo form_input(array('name'=>'company_name', 'id'=> 'company_name', 'placeholder'=>'Model Number', 'class'=>'form-control name', 'value'=> set_value('company_name', $array['company_name']))); ?>
+                        <?php echo form_input(array('name'=>'company_name', 'autocomplete' => 'off', 'id'=> 'company_name', 'placeholder'=>'Name, Company Name or Email', 'class'=>'form-control name', 'value'=> set_value('company_name', $array['company_name']))); ?>
                        
                         <?php echo form_error('company_name');?>
                 </div>

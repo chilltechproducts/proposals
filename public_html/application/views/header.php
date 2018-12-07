@@ -31,7 +31,7 @@
         <script src="<?php echo base_url('/public/js/fine-uploader.js'); ?>" type="text/javascript"></script>
          
          
-        <link rel="stylesheet" href="/public/css/main.css">
+        <link rel="stylesheet" href="public/css/main.css">
         
          <link rel="stylesheet" href="/public/css/colorbox.css">
          <link rel="stylesheet" href="/public/css/masked.css">
@@ -51,7 +51,7 @@
 		<script>
 
 </script>
-       <script src="/public/js/main.js"></script>
+       <script src="/java/main/?_<?php echo time(); ?>"></script>
    
     </head>
   

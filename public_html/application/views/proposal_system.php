@@ -1,6 +1,6 @@
 <div class="container">
 <h3>Chill Tech Order Proposal System</h3>
-<p class="avatar_box"><?php if(!empty($this->session->userdata['avatar'])){ ?><img src="<?php echo $this->session->userdata['avatar']; ?>" /><?php } if(!empty($this->session->userdata['user_id'])){ ?>Welcome, <?php echo $me['first_name']?$me['first_name']  . '  ' .  $me['last_name']:$me['email']; }else{ ?><a class="button login" href="javascript:;" onclick="login_form();">Login</a><?php } ?></p>
+<p class="avatar_box"><?php if(!empty($me['avatar'])){ ?><img src="<?php echo $me['avatar']; ?>" /><?php } if(!empty($this->session->userdata['user_id'])){ ?>Welcome, <?php echo $me['first_name']?$me['first_name']  . '  ' .  $me['last_name']:$me['email']; }else{ ?><a class="button login" href="javascript:;" onclick="login_form();">Login</a><?php } ?></p>
 
 <img src="/public/images/ch1ll-tech-logo-blank-background_2.png" class="inline right" />
 
@@ -18,6 +18,7 @@
       <a href="javascript:;" onclick="ajax_page('/main/presentation/?ajax_set=1');">Presentation</a>
       <button class="btn btn-secondary dropdown-toggle" type="button"  id="dropdownMenuButton3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="sr-only">Toggle Dropright</span></button>
         <div class="dropdown-menu"  aria-labelledby="dropdownMenuButton3">
+                <a href="javascript:;" onclick="last_proposal();" class="dropdown-item">Last Proposal</a>
                 <a href="javascript:;" onclick="ajax_page('/main/find_proposal/?ajax_set=1');" class="dropdown-item">Find Proposal</a>
                 <a href="javascript:;" onclick="ajax_page('/main/create_proposal/?ajax_set=1');" class="dropdown-item">Create Proposal</a>
         </div>        
@@ -61,11 +62,13 @@
                     <p>Admininstrator</p>
                     <a href="" class="dropdown-item">Dealers Reports / List</a>
                     <a href="" class="dropdown-item">Subscriptions</a>
+                    <a href="javascript:;" onclick="load_profile(); setTimeout(function(){$('#level_id').val('2'); $('#hide_salesman').hide(); $('#hide_dealer').show();  }, 2000);" class="dropdown-item">Add Dealer</a>
               
           <?php } ?>
           <?php if($me['level_info']['level_id'] == 2 | $me['level_info']['level_id'] == 1){ ?>
                     <p>Dealer</p>
                     <a href="javascript:;" onclick="sales_staff();" class="dropdown-item">Sales Staff List</a>
+                    <a href="javascript:;" onclick="load_profile();setTimeout(function(){$('#level_id').val('5'); $('#hide_dealer').hide(); $('#hide_salesman').show(); }, 2000);" class="dropdown-item">Add Sales Person</a>
                     <a href="" class="dropdown-item">Account / Billing</a>
                     <a href="" class="dropdown-item">Current Proposals</a>
                     <a href="" class="dropdown-item">Analytics / Reports</a>
